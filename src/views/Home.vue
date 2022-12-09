@@ -561,7 +561,10 @@ export default {
     },
     // 显示提现弹框
     showTixianPayler() {
-      this.$refs['payLayer'].isShowPayLayer=true
+
+      window.Java.loadAd({"mPlacementId":"p638ee1a5b89e8","adType":2,"returnScale":2})
+
+      // this.$refs['payLayer'].isShowPayLayer=true
     },
     // 选择价格
     selectPriceFn(index) {
