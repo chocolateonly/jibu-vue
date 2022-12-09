@@ -430,6 +430,8 @@ export default {
   methods: {
     setBaseData(data){
       console.log('~~~h5设置基础数据~~~',data)
+      localStorage.setItem('base_data',data)
+      this.$layer.msg(data)
       this.$store.dispatch('getBaseData',JSON.parse(data))
     },
     // 获取当前登录的用户信息
