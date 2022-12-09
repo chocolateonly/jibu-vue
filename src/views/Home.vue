@@ -75,7 +75,7 @@
         </div>
 
 
-        <div class="bigButton">观看视频领150元</div>
+        <div class="bigButton" @click="vxTixianFn">观看视频领150元</div>
 
         <div class="feedback">
           <img class="feedbackIcon" src="//fasthuyitool.jidiandian.cn/web_static_assets/sign_static_quick4/index/index_feelback.png" alt />
@@ -561,10 +561,8 @@ export default {
     },
     // 显示提现弹框
     showTixianPayler() {
-
-      window.Java.loadAd({"mPlacementId":"p638ee1a5b89e8","adType":2,"returnScale":2})
-
-      // this.$refs['payLayer'].isShowPayLayer=true
+      window.Android.test()
+      this.$refs['payLayer'].isShowPayLayer=true
     },
     // 选择价格
     selectPriceFn(index) {
