@@ -14,8 +14,7 @@ export default new Vuex.Store({
 
   },
   actions: {
-     getBaseData(){
-       const data = this.utils.webDataToApp('getBaseJson', {})
+     getBaseData(data){
        this.base_data = data
        console.log('~~~base_data~~~',data)
      }

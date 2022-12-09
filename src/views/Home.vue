@@ -362,7 +362,7 @@ export default {
       showWchatLayer:false,  // 微信提现弹框控制器
       showLoadingLayer:false, // loading 加载标识
       addedBonusModalLayer:false, // 百分百可提现弹框
-      showXinrenHongbaoLayer:false, // 新人红包弹框控制器
+      showXinrenHongbaoLayer:true, // 新人红包弹框控制器
       tixianSuccessLayer:false,
       xinrenConfig: {
         clickNum:1, // 点击关闭的次数（第一次点关闭显示提现框，第二次点击真关闭）
@@ -410,6 +410,10 @@ export default {
     window.onAdDismiss = this.onAdDismiss
     window.onRewardVerify = this.onRewardVerify
 
+    //获取基本信息
+    this.utils.webDataToApp('getBaseJson', {})
+    window.setBaseData = this.setBaseData
+
     // 获取当前登录的用户信息 
     this.getLoginUserInfo()
   },
@@ -424,6 +428,10 @@ export default {
     clearInterval(this.persionTimer)
   },
   methods: {
+    setBaseData(data){
+      console.log('~~~h5设置基础数据~~~',data)
+      this.$store.dispatch('getBaseData',JSON.parse(data))
+    },
     // 获取当前登录的用户信息
     async getLoginUserInfo() {
       let resData = await commonApi.getLoginUserInfo(this.$store.state.base_data)
