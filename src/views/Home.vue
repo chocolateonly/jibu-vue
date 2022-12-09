@@ -362,7 +362,7 @@ export default {
       showWchatLayer:false,  // 微信提现弹框控制器
       showLoadingLayer:false, // loading 加载标识
       addedBonusModalLayer:false, // 百分百可提现弹框
-      showXinrenHongbaoLayer:true, // 新人红包弹框控制器
+      showXinrenHongbaoLayer:false, // 新人红包弹框控制器
       tixianSuccessLayer:false,
       xinrenConfig: {
         clickNum:1, // 点击关闭的次数（第一次点关闭显示提现框，第二次点击真关闭）
