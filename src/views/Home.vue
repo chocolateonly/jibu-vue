@@ -462,7 +462,11 @@ export default {
 
     // 播放视频或显示信息流方法
     playVideoOrInsertAdFn() {
-      this.utils.webDataToApp('laodAd',this.appParms)
+      this.utils.webDataToApp('laodAd', {
+        mPlacementId:'p638ee1a5b89e8',
+        adType:2,
+        returnScale:2
+      })
     },
 
     // 新人看视频翻倍红包
@@ -561,7 +565,6 @@ export default {
     },
     // 显示提现弹框
     showTixianPayler() {
-      window.Android.test()
       this.$refs['payLayer'].isShowPayLayer=true
     },
     // 选择价格
