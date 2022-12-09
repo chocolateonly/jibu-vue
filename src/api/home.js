@@ -27,6 +27,11 @@ const homeApi = {
     // 签到完成后，获取奖励
     qiandao(data) {
         return http.get('/step_counting/sign_in_record')
-    }
+    },
+    // 勋章
+    xunzhang(data) {
+        return http.get('/step_counting/medal')
+    },
+
 }
 export default homeApi

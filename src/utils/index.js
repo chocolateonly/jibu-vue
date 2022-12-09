@@ -12,7 +12,6 @@ export default {
     },
     // 将web数据出给app
     webDataToApp (func, params = {}) {
-        console.log('~~~this.phonePlatform~~~',this.phonePlatform())
         if (this.phonePlatform() === 'iOS') {
             params.functionName = func
             window.webkit.messageHandlers.appObserver.postMessage(params)

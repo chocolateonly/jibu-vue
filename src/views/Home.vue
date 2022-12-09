@@ -1,6 +1,5 @@
 <template>
   <div class="indexbox">
-    <button @click="scan()">点击</button>
 
     <section class="wrapper">
       <div class="bannerBox">
@@ -425,10 +424,6 @@ export default {
     clearInterval(this.persionTimer)
   },
   methods: {
-    scan() {
-      console.log('~~~安卓定义好的方法~~~',window.Android)
-      window.Android.test()
-    },
     // 获取当前登录的用户信息
     async getLoginUserInfo() {
       let resData = await commonApi.getLoginUserInfo()
@@ -468,11 +463,7 @@ export default {
 
     // 播放视频或显示信息流方法
     playVideoOrInsertAdFn() {
-      this.utils.webDataToApp('laodAd', {
-        mPlacementId:'p638ee1a5b89e8',
-        adType:2,
-        returnScale:2
-      })
+      this.utils.webDataToApp('laodAd',this.appParms)
     },
 
     // 新人看视频翻倍红包

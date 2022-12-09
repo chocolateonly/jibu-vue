@@ -27,3 +27,7 @@ yarn run lint
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
+
+
+新人红包 背景图
+微信通知logo
