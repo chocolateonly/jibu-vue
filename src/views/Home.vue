@@ -426,11 +426,11 @@ export default {
   methods: {
     // 获取当前登录的用户信息
     async getLoginUserInfo() {
-      let resData = await commonApi.getLoginUserInfo()
+      let resData = await commonApi.getLoginUserInfo(this.$store.state.base_data)
     },
     // 获取新人基本数据
     async getNewUserInfo() {
-       let resData = await homeApi.getNewUserInfo()
+       let resData = await homeApi.getNewUserInfo(this.$store.state.base_data)
        this.xinrenConfig.newUserInfoData = resData.data
        this.xinrenConfig.xinrenPrice = resData.data.reward
        this.tixianData.priceList = resData.data.list

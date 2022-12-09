@@ -13,6 +13,9 @@ export default {
           transitionName:'vux-pop-in'
       }
   },
+  created() {
+    this.$store.dispatch('getBaseData')
+  },
   watch: {//使用watch 监听$router的变化
     $route(to, from) {
       //如果to索引大于from索引,判断为前进状态,反之则为后退状态
