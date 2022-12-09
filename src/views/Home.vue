@@ -1,5 +1,7 @@
 <template>
   <div class="indexbox">
+    <button @click="scan()">点击</button>
+
     <section class="wrapper">
       <div class="bannerBox">
         <img src="../assets/images/bnhg15.png" class="imgFooter"/>
@@ -423,6 +425,10 @@ export default {
     clearInterval(this.persionTimer)
   },
   methods: {
+    scan: function(arr) {
+      console.log('~~~安卓定义好的方法~~~',window.Android)
+      window.Android.test()
+    },
     // 获取当前登录的用户信息
     async getLoginUserInfo() {
       let resData = await commonApi.getLoginUserInfo()
