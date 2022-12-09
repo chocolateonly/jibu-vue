@@ -425,7 +425,7 @@ export default {
     clearInterval(this.persionTimer)
   },
   methods: {
-    scan: function(arr) {
+    scan() {
       console.log('~~~安卓定义好的方法~~~',window.Android)
       window.Android.test()
     },
