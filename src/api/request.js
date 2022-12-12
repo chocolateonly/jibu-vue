@@ -9,17 +9,16 @@ const service = axios.create({
 service.interceptors.request.use(
   (config) => {
     // JWT鉴权处理
-    // if (config.headers) {
-      console.log('~~~config~~~',config)
-
+    if (config.headers) {
       const useObj = JSON.parse(localStorage.getItem('base_data'))
         config.headers['Authorization'] = useObj.Authorization
         config.headers['userId'] = useObj.userId
         config.headers['productId'] = useObj.productId
         config.headers['channel'] = useObj.channel
         config.headers['versions'] = useObj.versions
-      // }
-    return config
+      }
+      console.log('~~~config~~~',config.headers)
+      return config
   },
   (error) => {
     console.log(error) // for debug
@@ -41,7 +40,7 @@ service.interceptors.response.use(
     const badMessage = error.message || error
     const statusCode = parseInt(badMessage.toString().replace('Request failed with status code', ''))
     let tips = { statusCode, message: badMessage }
-    if (statusCode === 400) {
+    if (statusCode === 400||statusCode === 500) {
       tips.message = '请求参数错误！'
     }
     showError(tips)
@@ -56,6 +55,7 @@ function showError(error) {
     // to re-login
   } else {
     console.log(error)
+    this.$layer.message(error.message)
   }
 }
 
