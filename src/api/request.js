@@ -10,12 +10,11 @@ service.interceptors.request.use(
   (config) => {
     // JWT鉴权处理
     if (config.headers) {
-        // config.headers['token'] = store.state.user.token
-        // config.headers['Authorization'] = store.state.user.token
-        config.headers['userId'] = '482069'
-        config.headers['productId'] = '10012'
-        config.headers['channel'] = 'other'
-        config.headers['versions'] = '1.0.0'
+        config.headers['Authorization'] = this.$store.state.base_data.Authorization
+        config.headers['userId'] = this.$store.state.base_data.userId
+        config.headers['productId'] = this.$store.state.base_data.productId
+        config.headers['channel'] = this.$store.state.base_data.channel
+        config.headers['versions'] = this.$store.state.base_data.versions
       }
     return config
   },

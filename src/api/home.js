@@ -12,7 +12,7 @@ const homeApi = {
         //     method: 'get',
         //     parmas
         // })
-     return http.get('/step_counting/new_user')
+     return http.get('/step_counting/new_user',{param: parmas})
     },
 
     // 新人翻倍红包
