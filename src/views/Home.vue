@@ -530,7 +530,7 @@ export default {
           this.appParms = {
             mPlacementId:'p638ee1a5b89e8',
             adType:2,
-            returnScale:2
+            returnScale:3
           }
           this.playVideoOrInsertAdFn()
 
