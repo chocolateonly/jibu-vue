@@ -18,7 +18,14 @@ export default {
                 params.functionName = func
                 window.webkit.messageHandlers.appObserver.postMessage(params)
             } else {
-                window.Android[func](JSON.stringify(params))
+                switch (func) {
+                    //获取基础信息
+                    case 'getBaseJson':window.Android.getBaseJson(params)
+                        break;
+
+                    default:window.Android[func](JSON.stringify(params))
+
+                }
             }
         }catch (e){
             console.log('报错-调用android方法：',JSON.stringify(e))
