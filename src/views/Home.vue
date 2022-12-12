@@ -411,7 +411,7 @@ export default {
     window.onRewardVerify = this.onRewardVerify
 
     //获取基本信息
-        console.log('~~~获取基本信息~~~',获取基本信息)
+        console.log('~~~获取基本信息~~~')
     window.Android.getBaseJson()
     // this.utils.webDataToApp('getBaseJson', {})
     window.setBaseData = this.setBaseData
