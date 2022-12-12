@@ -16,8 +16,7 @@ export default {
   created() {
     //获取基本信息
     this.utils.webDataToApp('getBaseJson', {})
-    window.setBaseData = this.setBaseData
-
+    window.setBaseData =data=>this.setBaseData(data)
   },
   methods:{
     setBaseData(data){
