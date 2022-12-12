@@ -18,7 +18,7 @@ export default {
                 params.functionName = func
                 window.webkit.messageHandlers.appObserver.postMessage(params)
             } else {
-                window.android[func](JSON.stringify(params))
+                window.Android[func](JSON.stringify(params))
             }
         }catch (e){
             console.log('报错-调用android方法：',JSON.stringify(e))
