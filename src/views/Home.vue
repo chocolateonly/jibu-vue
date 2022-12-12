@@ -515,12 +515,22 @@ export default {
     showNewUserLayer() {
       // 显示新人红包
       this.showXinrenHongbaoLayer = true
+
+      // 显示信息流
+      this.appParms = {
+        mPlacementId:'p638ee19b87519',
+        adType:2,
+        returnScale:3
+      }
+      this.playVideoOrInsertAdFn()
+
       this.timerNum = setInterval(()=>{
         this.xinrenConfig.timeNum --
         if(this.xinrenConfig.timeNum<=0) {
           this.xinrenConfig.timeNum = 0
           this.showXinrenHongbaoLayer = false
           this.showWchatLayer = true
+          this.utils.webDataToApp('setAtNativeAdViewGONE',{})
           clearInterval(this.timerNum)
           clearTimeout(this.xinrenTimer)
 
