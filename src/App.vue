@@ -14,6 +14,16 @@ export default {
     }
   },
   created() {
+    //获取基本信息
+    this.utils.webDataToApp('getBaseJson', {})
+    window.setBaseData =data=>this.setBaseData(data)
+  },
+  methods:{
+    setBaseData(data){
+      this.test = data
+      localStorage.setItem('base_data',data)
+      this.$store.dispatch('getBaseData',JSON.parse(data))
+    },
   },
   watch: {//使用watch 监听$router的变化
     $route(to, from) {

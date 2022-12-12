@@ -410,9 +410,6 @@ export default {
     // 关闭广告
     window.onAdDismiss = this.onAdDismiss
     window.onRewardVerify = this.onRewardVerify
-    //获取基本信息
-    this.utils.webDataToApp('getBaseJson', {})
-    window.setBaseData =data=>this.setBaseData(data)
 
     // 获取当前登录的用户信息
     this.getLoginUserInfo()
@@ -428,20 +425,13 @@ export default {
     clearInterval(this.persionTimer)
   },
   methods: {
-    setBaseData(data){
-      this.test = data
-      console.log('~~~h5设置基础数据~~~',data)
-      localStorage.setItem('base_data',data)
-      this.$layer.msg(data)
-      this.$store.dispatch('getBaseData',JSON.parse(data))
-    },
     // 获取当前登录的用户信息
     async getLoginUserInfo() {
-      let resData = await commonApi.getLoginUserInfo(this.$store.state.base_data)
+      let resData = await commonApi.getLoginUserInfo()
     },
     // 获取新人基本数据
     async getNewUserInfo() {
-      let resData = await homeApi.getNewUserInfo(this.$store.state.base_data)
+      let resData = await homeApi.getNewUserInfo()
       this.xinrenConfig.newUserInfoData = resData.data
       this.xinrenConfig.xinrenPrice = resData.data.reward
       this.tixianData.priceList = resData.data.list

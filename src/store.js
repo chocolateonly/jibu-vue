@@ -15,12 +15,13 @@ export default new Vuex.Store({
       }
   },
   mutations: {
-
+       setBaseData(state,data){
+           state.base_data = data
+       },
   },
   actions: {
-     getBaseData(data){
-       this.base_data = data
-       console.log('~~~base_data~~~',data)
+     getBaseData(context,data){
+       context.commit('setBaseData',data)
      }
   }
 })

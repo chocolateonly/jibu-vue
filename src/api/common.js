@@ -7,7 +7,7 @@ const commonApi = {
      * @param {接口参数} parmas 
      */
     getLoginUserInfo(parmas) {
-     return http.get('/step_counting/wechat_user', {param: parmas})
+     return http.get('/step_counting/wechat_user')
     },
 
 }

@@ -18,13 +18,6 @@ export default {
                 params.functionName = func
                 window.webkit.messageHandlers.appObserver.postMessage(params)
             } else {
-                // switch (func) {
-                //     //获取基础信息
-                //     case 'getBaseJson':window.Android.getBaseJson()
-                //         break;
-                //
-                //     default:window.Android[func](JSON.stringify(params))
-                // }
                 if(Object.keys(params).length==0){
                     window.Android[func]()
                 }else{
@@ -32,9 +25,7 @@ export default {
                 }
             }
         }catch (e){
-            console.log('报错-调用android方法：',JSON.stringify(e))
+            console.log('报错-调用Android方法：',JSON.stringify(e))
         }
-
-
     },
 }
