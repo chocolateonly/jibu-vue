@@ -227,7 +227,7 @@
           <img class="closeIcon" @click="tixianFn('close')" src="//img.ibestfanli.com/sign_static_quick/closeIcon.png"/>
           <div class="contentbox">
             <div class="flex column-center">
-              <img class="wechatIco"/>
+              <img class="wechatIco" src="../assets/images/icon_weixinzhifu.png"/>
               <span class="wechatTitle">微信通知</span>
             </div>
             <div class="wechatBody">
@@ -254,9 +254,9 @@
             </div>
           </div>
           <!-- 信息流 -->
-          <div style="border:1px solid #fff; margin-top:30px; height:150px">
+<!--          <div style="border:1px solid #fff; margin-top:30px; height:150px">
             信息流
-          </div>
+          </div>-->
         </div>
       </div>
     </layer>
@@ -495,17 +495,15 @@ export default {
 
     // 点击翻倍红包按钮
     fanbeiHongBaoFn() {
+      this.utils.webDataToApp('setAtNativeAdViewGONE',{})
       // 跳转到看视频,看完视频后金额翻倍
       // 加载播放视频loading
-      this.$refs['loadingVideoLayer'].showModalFn()
       this.appParms = {
         mPlacementId:'p638ee3b03599f',
-        adType:1,
-        returnScale:10
+        adType:1
       }
-      // 假如看过视频,则翻倍红包
-      this.xinrenConfig.isViewVideo = true
-      this.newUserDoubleHongbao()
+      this.$refs['loadingVideoLayer'].showModalFn()
+
     },
 
     // 点击微信提现显示提现方法
@@ -595,6 +593,8 @@ export default {
     // 提现方法
     tixianFn(flag) {
       if(flag === 'close') {
+        this.utils.webDataToApp('setAtNativeAdViewGONE',{})
+
         // 说明点击了直接关闭微信弹框
         // this.newUserDoubleHongbao()
         if(this.xinrenConfig.clickNum === 1) {
@@ -625,6 +625,11 @@ export default {
     // 奖励激励
     onRewardVerify(params) {
       console.log('调用了奖励激励：'+params)
+
+
+      // 看过翻倍红包的激励视频,则翻倍红包
+      this.xinrenConfig.isViewVideo = true
+      this.newUserDoubleHongbao()
     }
     // #End Region
 
