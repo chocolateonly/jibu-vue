@@ -12,19 +12,23 @@ export default {
     },
     // 将web数据出给app
     webDataToApp (func, params = {}) {
-        console.log('调用android方法：',func,JSON.stringify(params),window)
+        console.log('调用Android方法：',func,JSON.stringify(params),window)
         try {
             if (this.phonePlatform() === 'iOS') {
                 params.functionName = func
                 window.webkit.messageHandlers.appObserver.postMessage(params)
             } else {
-                switch (func) {
-                    //获取基础信息
-                    case 'getBaseJson':window.Android.getBaseJson(params)
-                        break;
-
-                    default:window.Android[func](JSON.stringify(params))
-
+                // switch (func) {
+                //     //获取基础信息
+                //     case 'getBaseJson':window.Android.getBaseJson()
+                //         break;
+                //
+                //     default:window.Android[func](JSON.stringify(params))
+                // }
+                if(Object.keys(params).length==0){
+                    window.Android[func]()
+                }else{
+                    window.Android[func](JSON.stringify(params))
                 }
             }
         }catch (e){
