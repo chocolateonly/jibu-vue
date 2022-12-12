@@ -6,7 +6,7 @@ const homeApi = {
      * 获取新人红包信息
      * @param {接口参数} parmas 
      */
-    getNewUserInfo(parmas) {
+    getNewUserInfo() {
         // return http({
         //     url: '/step_counting/new_user',
         //     method: 'get',
