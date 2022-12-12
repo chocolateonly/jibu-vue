@@ -7,7 +7,11 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
       base_data:{
-
+          userId:'',
+          productId:'',
+          channel:'',
+          versions:'',
+          Authorization:''
       }
   },
   mutations: {

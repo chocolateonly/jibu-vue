@@ -20,7 +20,7 @@ export default {
                 window.Android[func](JSON.stringify(params))
             }
         }catch (e){
-            console.log(JSON.stringify(e))
+            console.log('调用android方法：',JSON.stringify(e))
         }
 
 
