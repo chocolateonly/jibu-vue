@@ -4,7 +4,6 @@ import http from './request.js';
 const homeApi = {
     /**
      * 获取新人红包信息
-     * @param {接口参数} parmas 
      */
     getNewUserInfo() {
         // return http({

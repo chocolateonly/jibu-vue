@@ -11,11 +11,13 @@ service.interceptors.request.use(
     // JWT鉴权处理
     // if (config.headers) {
       console.log('~~~config~~~',config)
-        config.headers['Authorization'] = this.$store.state.base_data.Authorization
-        config.headers['userId'] = this.$store.state.base_data.userId
-        config.headers['productId'] = this.$store.state.base_data.productId
-        config.headers['channel'] = this.$store.state.base_data.channel
-        config.headers['versions'] = this.$store.state.base_data.versions
+
+      const useObj = JSON.parse(localStorage.getItem('base_data'))
+        config.headers['Authorization'] = useObj.Authorization
+        config.headers['userId'] = useObj.userId
+        config.headers['productId'] = useObj.productId
+        config.headers['channel'] = useObj.channel
+        config.headers['versions'] = useObj.versions
       // }
     return config
   },
