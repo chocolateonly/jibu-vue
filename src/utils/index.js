@@ -12,12 +12,17 @@ export default {
     },
     // 将web数据出给app
     webDataToApp (func, params = {}) {
-        if (this.phonePlatform() === 'iOS') {
-            params.functionName = func
-            window.webkit.messageHandlers.appObserver.postMessage(params)
-        } else {
-            window.Android[func](JSON.stringify(params))
+        try {
+            if (this.phonePlatform() === 'iOS') {
+                params.functionName = func
+                window.webkit.messageHandlers.appObserver.postMessage(params)
+            } else {
+                window.Android[func](JSON.stringify(params))
+            }
+        }catch (e){
+            console.log(e)
         }
+
 
     },
 }
