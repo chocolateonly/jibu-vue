@@ -14,7 +14,18 @@ export default {
       }
   },
   created() {
-    this.$store.dispatch('getBaseData')
+    //获取基本信息
+    this.utils.webDataToApp('getBaseJson', {})
+    window.setBaseData = this.setBaseData
+
+  },
+  methods:{
+    setBaseData(data){
+      console.log('~~~h5设置基础数据~~~',data)
+      localStorage.setItem('base_data',data)
+      this.$layer.msg(data)
+      this.$store.dispatch('getBaseData',JSON.parse(data))
+    },
   },
   watch: {//使用watch 监听$router的变化
     $route(to, from) {

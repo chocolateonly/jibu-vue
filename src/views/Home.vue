@@ -410,10 +410,6 @@ export default {
     window.onAdDismiss = this.onAdDismiss
     window.onRewardVerify = this.onRewardVerify
 
-    //获取基本信息
-    this.utils.webDataToApp('getBaseJson', {})
-    window.setBaseData = this.setBaseData
-
     // 获取当前登录的用户信息 
     this.getLoginUserInfo()
   },
@@ -428,12 +424,6 @@ export default {
     clearInterval(this.persionTimer)
   },
   methods: {
-    setBaseData(data){
-      console.log('~~~h5设置基础数据~~~',data)
-      localStorage.setItem('base_data',data)
-      this.$layer.msg(data)
-      this.$store.dispatch('getBaseData',JSON.parse(data))
-    },
     // 获取当前登录的用户信息
     async getLoginUserInfo() {
       let resData = await commonApi.getLoginUserInfo(this.$store.state.base_data)
@@ -1242,7 +1232,8 @@ export default {
   .openRedPacketMain {
     width: 100%;
     height: 950px;
-    background: url(//fasthuyitool.jidiandian.cn/web_static_assets/sign_static_quick4/fiveMoney/balanceEnvelopeBg.png) no-repeat;
+    //background: url(//fasthuyitool.jidiandian.cn/web_static_assets/sign_static_quick4/fiveMoney/balanceEnvelopeBg.png) no-repeat;
+    background: url('../assets/images/xinrenhongbao.gif') no-repeat;
     background-size: 100% 100%;
     border-radius: 0.38rem;
     display: -webkit-box;
