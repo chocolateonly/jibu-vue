@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <transition :name="transitionName">   
+    <transition :name="transitionName">
       <router-view class="router-view"/>
     </transition>
   </div>
@@ -9,15 +9,12 @@
 export default {
   name: 'App',
   data(){
-      return {
-          transitionName:'vux-pop-in'
-      }
+    return {
+      transitionName:'vux-pop-in'
+    }
   },
   created() {
-
-  },
-  methods:{
-
+    this.$store.dispatch('getBaseData')
   },
   watch: {//使用watch 监听$router的变化
     $route(to, from) {
@@ -46,42 +43,42 @@ export default {
   position: relative;
 
   .router-view{
-  width: 100%;
-  position: absolute;
-  -webkit-transition: all .3s cubic-bezier(.55,0,.1,1);
-  -moz-transition: all .3s cubic-bezier(.55,0,.1,1);
-  -ms-transition: all .3s cubic-bezier(.55,0,.1,1);
-  -o-transition: all .3s cubic-bezier(.55,0,.1,1);
-  transition: all .3s cubic-bezier(.55,0,.1,1);
-  height:100%;
- }
+    width: 100%;
+    position: absolute;
+    -webkit-transition: all .3s cubic-bezier(.55,0,.1,1);
+    -moz-transition: all .3s cubic-bezier(.55,0,.1,1);
+    -ms-transition: all .3s cubic-bezier(.55,0,.1,1);
+    -o-transition: all .3s cubic-bezier(.55,0,.1,1);
+    transition: all .3s cubic-bezier(.55,0,.1,1);
+    height:100%;
+  }
 
   .vux-pop-out-enter-active,
   .vux-pop-out-leave-active,
   .vux-pop-in-enter-active,
   .vux-pop-in-leave-active {
-  will-change: transform;
-  transition: all .5s;
-  height: 100%;
-  position: absolute;
-  backface-visibility: hidden;
-  perspective: 1000;
+    will-change: transform;
+    transition: all .5s;
+    height: 100%;
+    position: absolute;
+    backface-visibility: hidden;
+    perspective: 1000;
   }
   .vux-pop-out-enter {
-  opacity: 0;
-  transform: translate3d(-30%, 0, 0);
+    opacity: 0;
+    transform: translate3d(-30%, 0, 0);
   }
   .vux-pop-out-leave-active {
-  opacity: 0;
-  transform: translate3d(30%, 0, 0);
+    opacity: 0;
+    transform: translate3d(30%, 0, 0);
   }
   .vux-pop-in-enter {
-  opacity: 0;
-  transform: translate3d(30%, 0, 0);
+    opacity: 0;
+    transform: translate3d(30%, 0, 0);
   }
   .vux-pop-in-leave-active {
-  opacity: 0;
-  transform: translate3d(-30%, 0, 0);
+    opacity: 0;
+    transform: translate3d(-30%, 0, 0);
   }
 }
 
