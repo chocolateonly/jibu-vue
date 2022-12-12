@@ -1,6 +1,6 @@
 <template>
   <div class="indexbox">
-
+    获取的基础数据：{{test}}
     <section class="wrapper">
       <div class="bannerBox">
         <img src="../assets/images/bnhg15.png" class="imgFooter"/>
@@ -390,8 +390,10 @@ export default {
         checkIndex:0, // 当前价格选中的索引
         price:0, // 当前余额
         priceList: []
+      },
+      test:{
+
       }
-      
     }
   },
   components: {
@@ -409,7 +411,9 @@ export default {
     // 关闭广告
     window.onAdDismiss = this.onAdDismiss
     window.onRewardVerify = this.onRewardVerify
-
+    //获取基本信息
+    this.utils.webDataToApp('getBaseJson', {})
+    window.setBaseData =data=>this.setBaseData(data)
     // 获取当前登录的用户信息 
     this.getLoginUserInfo()
   },
@@ -424,6 +428,13 @@ export default {
     clearInterval(this.persionTimer)
   },
   methods: {
+    setBaseData(data){
+      this.test = data
+      console.log('~~~h5设置基础数据~~~',data)
+      localStorage.setItem('base_data',data)
+      this.$layer.msg(data)
+      this.$store.dispatch('getBaseData',JSON.parse(data))
+    },
     // 获取当前登录的用户信息
     async getLoginUserInfo() {
       let resData = await commonApi.getLoginUserInfo(this.$store.state.base_data)
