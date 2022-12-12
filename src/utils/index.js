@@ -12,6 +12,7 @@ export default {
     },
     // 将web数据出给app
     webDataToApp (func, params = {}) {
+        console.log('调用android方法：',func,JSON.stringify(params))
         try {
             if (this.phonePlatform() === 'iOS') {
                 params.functionName = func
@@ -20,7 +21,7 @@ export default {
                 window.Android[func](JSON.stringify(params))
             }
         }catch (e){
-            console.log('调用android方法：',JSON.stringify(e))
+            console.log('报错-调用android方法：',JSON.stringify(e))
         }
 
 
