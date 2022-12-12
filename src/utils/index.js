@@ -9,10 +9,14 @@ export default {
         if (isiOS) {
           return 'iOS'
         }
+        return ''
     },
     // 将web数据出给app
     webDataToApp (func, params = {}) {
-        console.log('调用Android方法：',func,JSON.stringify(params),window)
+        console.log('调用Android方法：',func,window)
+        if (this.phonePlatform() == ''){
+            return;
+        }
         try {
             if (this.phonePlatform() === 'iOS') {
                 params.functionName = func

@@ -10,12 +10,23 @@ service.interceptors.request.use(
   (config) => {
     // JWT鉴权处理
     if (config.headers) {
-      const useObj = JSON.parse(localStorage.getItem('base_data'))
+        // config.headers['token'] = store.state.user.token
+        // config.headers['Authorization'] = store.state.user.token
+        //{"userId":"4055029","productId":"10012","channel":"other","versions":"1.0.0",
+        // "Authorization":"eyJhbGciOiJIUzI1NiJ9.eyJ1aWQiOjQwNTUwMjksImV4cCI6MTY3MjAzNDY1OH0.Cv5ipbB8uj4WV9gWIs8RoAK_Vf6MO8l_Rnas11uQRqk"}
+        config.headers['userId'] = '4055029'
+        config.headers['productId'] = '10012'
+        config.headers['channel'] = 'other'
+        config.headers['versions'] = '1.0.0'
+
+        if(localStorage.getItem('base_data')){
+        const useObj = JSON.parse(localStorage.getItem('base_data'))
         config.headers['Authorization'] = useObj.Authorization
         config.headers['userId'] = useObj.userId
         config.headers['productId'] = useObj.productId
         config.headers['channel'] = useObj.channel
         config.headers['versions'] = useObj.versions
+        }
       }
       console.log('~~~config~~~',config.headers)
       return config
@@ -55,7 +66,7 @@ function showError(error) {
     // to re-login
   } else {
     console.log(error)
-    this.$layer.message(error.message)
+    // this.$layer.msg(error.message)
   }
 }
 

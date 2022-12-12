@@ -427,10 +427,17 @@ export default {
   methods: {
     // 获取当前登录的用户信息
     async getLoginUserInfo() {
+      try{
       let resData = await commonApi.getLoginUserInfo()
+
+      }catch (e) {
+
+      }
     },
     // 获取新人基本数据
     async getNewUserInfo() {
+      try{
+
       let resData = await homeApi.getNewUserInfo()
       this.xinrenConfig.newUserInfoData = resData.data
       this.xinrenConfig.xinrenPrice = resData.data.reward
@@ -445,6 +452,10 @@ export default {
       if(resData.data.new_user_state) {
         // 说明是个新用户,弹出新人红包
         this.showNewUserLayer()
+      }
+
+      }catch (e) {
+
       }
     },
 
@@ -464,7 +475,7 @@ export default {
 
     // 播放视频或显示信息流方法
     playVideoOrInsertAdFn() {
-      this.utils.webDataToApp('laodAd',this.appParms)
+      this.utils.webDataToApp('loadAd',this.appParms)
     },
 
     // 新人看视频翻倍红包
