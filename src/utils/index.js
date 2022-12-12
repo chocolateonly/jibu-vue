@@ -20,7 +20,7 @@ export default {
                 window.Android[func](JSON.stringify(params))
             }
         }catch (e){
-            console.log(e)
+            console.log(JSON.stringify(e))
         }
 
 
