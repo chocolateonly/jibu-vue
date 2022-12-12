@@ -411,7 +411,9 @@ export default {
     window.onRewardVerify = this.onRewardVerify
 
     //获取基本信息
-    this.utils.webDataToApp('getBaseJson', {})
+        console.log('~~~获取基本信息~~~',获取基本信息)
+    window.Android.getBaseJson()
+    // this.utils.webDataToApp('getBaseJson', {})
     window.setBaseData = this.setBaseData
 
     // 获取当前登录的用户信息
