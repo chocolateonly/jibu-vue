@@ -414,6 +414,27 @@ export default {
     //获取基本信息
     this.utils.webDataToApp('getBaseJson', {})
     window.setBaseData =data=>this.setBaseData(data)
+
+    /**
+     * h5接收消息，根据端内通知完成相关操作
+     * 实现原理：h5注册window事件，bridge调用window事件后，h5在window事件中完成操作
+     */
+    window.receiveMessage = (msg) => {
+      console.log('~~~msg~~~',msg)
+
+      if (typeof msg === 'string') {
+        const data = JSON.parse(msg)
+        const { type } = data
+        // if (+type = ?) { // 约定不同type，h5可以实现不同操作
+        //   // ...
+        // } else {
+        //   Toast.info('返回数据格式错误')
+        // }
+      } else {
+        // Toast.info('返回数据必须string类型')
+      }
+    }
+
     // 获取当前登录的用户信息 
     this.getLoginUserInfo()
   },
