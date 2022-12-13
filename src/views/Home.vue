@@ -364,7 +364,7 @@ export default {
       showLoadingLayer:false, // loading 加载标识
       addedBonusModalLayer:false, // 百分百可提现弹框
       showXinrenHongbaoLayer:false, // 新人红包弹框控制器
-      tixianSuccessLayer:false,
+      tixianSuccessLayer:true,
       xinrenConfig: {
         clickNum:1, // 点击关闭的次数（第一次点关闭显示提现框，第二次点击真关闭）
         timeNum:3, // 新人红包领取倒计时
@@ -485,8 +485,8 @@ export default {
     vxTixianFn(type) {
       if(type=='isVxTixian'){
         //mock:提现成功
-        this.tixianSuccessLayer = true
-        return;
+        // this.tixianSuccessLayer = true
+        // return;
         this.appParms={
         mPlacementId:'p638ee3ba07f0c',
         adType:1
