@@ -75,7 +75,7 @@
         </div>
 
 
-        <div class="bigButton" @click="vxTixianFn">观看视频领150元</div>
+        <div class="bigButton" @click="vxTixianFn('isVxTixian')">观看视频领150元</div>
 
         <div class="feedback">
           <img class="feedbackIcon" src="//fasthuyitool.jidiandian.cn/web_static_assets/sign_static_quick4/index/index_feelback.png" alt />
@@ -428,8 +428,8 @@ export default {
     // 获取当前登录的用户信息
     async getLoginUserInfo() {
       try{
-      let resData = await commonApi.getLoginUserInfo()
-
+        let resData = await commonApi.getLoginUserInfo()
+        this.tixianData.price = resData.data.reward
       }catch (e) {
 
       }
@@ -460,7 +460,13 @@ export default {
     },
 
     // 点击微信提现按钮
-    vxTixianFn() {
+    vxTixianFn(type) {
+      if(type=='isVxTixian'){
+      this.appParms={
+        mPlacementId:'p638ee3ba07f0c',
+        adType:1
+      }
+      }
       // 加载播放视频loading
       this.$refs['loadingVideoLayer'].showModalFn()
     },
@@ -516,11 +522,11 @@ export default {
       // 显示新人红包
       this.showXinrenHongbaoLayer = true
 
-      // 显示信息流
+      // 显示信息流 多乐计步-新人红包信息流
       this.appParms = {
         mPlacementId:'p638ee19b87519',
         adType:2,
-        returnScale:3
+        returnScale:2
       }
       this.playVideoOrInsertAdFn()
 
@@ -538,7 +544,7 @@ export default {
           this.appParms = {
             mPlacementId:'p638ee1a5b89e8',
             adType:2,
-            returnScale:3
+            returnScale:2
           }
           this.playVideoOrInsertAdFn()
 
@@ -582,6 +588,8 @@ export default {
     },
     // 显示提现弹框
     showTixianPayler() {
+      this.getLoginUserInfo()
+
       this.$refs['payLayer'].isShowPayLayer=true
     },
     // 选择价格
@@ -632,14 +640,38 @@ export default {
     onAdDismiss(params) {
       console.log('调用了关闭广告：'+params)
     },
+    // 点击广告
+    onAdClicked(params) {
+      console.log('调用了点击广告：'+params)
+    },
+    // 加载广告失败
+    onAdLoadFail(params) {
+      console.log('加载广告失败：'+params)
+    },
+    // 加载广告成功
+    onAdLoadSuccess(params) {
+      console.log('加载广告成功：'+params)
+    },
+    // 加载广告超时
+    onAdLoadTimeout(params) {
+      console.log('加载广告超时：'+params)
+    },
+    // 查看广告
+    onAdShow(params) {
+      console.log('查看广告：'+params)
+    },
     // 奖励激励
     onRewardVerify(params) {
       console.log('调用了奖励激励：'+params)
-
-
+      //微信提现 激励视频
+      if(this.appParms.mPlacementId=='p638ee3ba07f0c'){
+         this.tixianSuccessLayer = true
+      }else{
       // 看过翻倍红包的激励视频,则翻倍红包
       this.xinrenConfig.isViewVideo = true
       this.newUserDoubleHongbao()
+
+      }
     }
     // #End Region
 
@@ -1436,7 +1468,7 @@ export default {
     height:220px;
     width:220px;
     top:680px;
-    border:1px solid #fff;
+    //border:1px solid #fff;
   }
   .addedBonusModal .content {
     width:100%;
