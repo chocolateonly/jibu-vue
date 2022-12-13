@@ -322,7 +322,7 @@
           建议您重新尝试
         </div>
         <div class="FingerMain">
-          <div class="button3" @click="tixianSuccessLayer=false">我知道了</div>
+          <div class="button3" @click="tixianSuccessLayer=false;tixianData.status=true">我知道了</div>
         </div>
       </div>
     </layer>
@@ -430,6 +430,13 @@ export default {
     // 关闭广告
     window.onAdDismiss = this.onAdDismiss
     window.onRewardVerify = this.onRewardVerify
+    window.onAdClicked = this.onAdClicked
+    window.onAdLoadFail = this.onAdLoadFail
+    window.onAdLoadSuccess = this.onAdLoadSuccess
+    window.onAdLoadTimeout = this.onAdLoadTimeout
+    window.onAdShow = this.onAdShow
+    window.OnVxChatWithdrawalSuccess = this.OnVxChatWithdrawalSuccess
+    window.OnVxChatWithdrawalFail = this.OnVxChatWithdrawalFail
 
     // 获取当前登录的用户信息
     this.getLoginUserInfo()
@@ -483,7 +490,7 @@ export default {
 
       }
     },
-    //继续提现 多乐计步-提现后继续提现激励视频
+    //继续提现 多乐计步-提现后继续提现激励视频 todo:激励视频看完的逻辑
     continueTixian(){
       this.appParms={
         mPlacementId:'p638ee3ca69bc2',
@@ -658,9 +665,8 @@ export default {
 
       //视频解锁
       if(type=='isVideoUnlock'){
-        //todo:
         this.appParms={
-          mPlacementId: 'isVideoUnlock',
+          mPlacementId: 'p638ef0b19d95f',
           adType:1
         }
         this.addedBonusModalLayer = true
@@ -695,6 +701,22 @@ export default {
     },
 
     // #Region 以下是app的回调相关方法
+    //微信提现成功返回
+    OnVxChatWithdrawalSuccess(){
+      //提现成功 信息流
+      this.appParms={
+        mPlacementId:'p638ee1ece33ff',
+        adType:2,
+        returnScale:2
+      }
+      this.tixianSuccessLayer = true
+      this.tixianData.status = true
+    },
+    //微信提现失败返回
+    OnVxChatWithdrawalFail(){
+      this.tixianSuccessLayer = true
+      this.tixianData.status = false
+    },
     // 关闭广告
     onAdDismiss(params) {
       console.log('调用了关闭广告：'+params)
@@ -705,8 +727,7 @@ export default {
       }
 
       //视频解锁 激励视频关闭
-      //todo
-      if(this.appParms.mPlacementId=='isVideoUnlock'){
+      if(this.appParms.mPlacementId=='p638ef0b19d95f'){
           this.againLayer = true
       }
     },
@@ -735,12 +756,13 @@ export default {
       console.log('调用了奖励激励：'+params)
       //微信提现 激励视频
       if(this.appParms.mPlacementId=='p638ee3ba07f0c'){
-        this.appParms={
-          mPlacementId:'p638ee1ece33ff',
-          adType:2,
-          returnScale:2
-        }
-         this.tixianSuccessLayer = true
+         //微信去提现
+         this.utils.webDataToApp('setVxChatWithdrawal',{
+           uid:this.$store.state.base_data.userId,
+           product_id:this.$store.state.base_data.productId,
+           withdraw_id:this.tixianData[this.tixianData.checkIndex].id,
+           desc:''
+         })
       }else{
       // 看过翻倍红包的激励视频,则翻倍红包
       this.xinrenConfig.isViewVideo = true

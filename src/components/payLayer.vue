@@ -23,37 +23,27 @@
           <div class="videogg">
 <!--            视频解锁  明日再来 立即提现-->
               <img v-if="true" src="//img.ibestfanli.com/sign_static_quick3/balance_five_unlock.png" class="bannerIcon" @click="showAddedBonuseModal"/>
-              <img v-else-if="false" src="//img.ibestfanli.com/sign_static_quick3/balance_five_unlock.png" class="bannerIcon"/>
-              <img v-else src="//img.ibestfanli.com/sign_static_quick3/balance_five_unlock.png" class="bannerIcon"/>
+              <img v-else-if="false" src="../assets/images/txtc_btn_mingrizailai.png" class="bannerIcon"/>
+              <img v-else src="../assets/images/txtc_btn_lijitixian.png" class="bannerIcon"/>
           </div>
           <div class="flex-sb">
             <div class="tit">选择提现金额</div>
             <div class="guize" @click="ruleLayer=true">活动规则></div>
           </div>
           <div class="tabPrice flex">
+
             <div class="itemPrice"
-            :class="[item.user_reward ==='随机金额'?'fiveMoney':item.user_reward ==='0.3'?'pointThreeMoney':'',item.checked?'on':'']" 
+            :class="[item.sign ==='最高5元'?'fiveMoney':item.user_reward ==='0.3'?'pointThreeMoney':'',item.checked?'on':'']"
             v-for="(item,index) in data.priceList" 
             :key="item.id"
             @click="selectPriceFn(index)"
             >
               <span :class="[Number(item.user_reward)?'money':'']">{{item.user_reward}}</span>
               <span class="priceUnit" v-if="item.unit">{{item.unit}}</span>
+
+              <div class="rondom-hour" v-if="item.sign ==='最高5元'&&item.user_reward!='随机金额'">24时后过期</div>
             </div>
 
-            <!-- <div class="itemPrice on pointThreeMoney">
-              <span class="money">0.3</span>
-              <span class="priceUnit">元</span>
-            </div>
-            <div class="itemPrice">
-              <span class="money">150</span>
-              <span class="priceUnit">元</span>
-            </div>
-
-            <div class="itemPrice">
-              <span class="money">150</span>
-              <span class="priceUnit">元</span>
-            </div> -->
           </div>
           <div class="FingerMain">
             <!-- <div class="FingerTip">
@@ -61,9 +51,10 @@
             </div> -->
             <div class="FingerButton" v-if="data.priceList.length>0">
               <div class="button1" @click="vxTixianBtnFn" v-if="(data.priceList[data.checkIndex].user_reward === 0.3)">微信提现</div>
-              <!-- <div class="button2">支付宝提现</div> -->
               <div class="button3" v-if="(data.priceList[data.checkIndex].user_reward === 150 || data.priceList[data.checkIndex].user_reward === 200)">立即赚钱</div>
               <div class="button4" v-if="data.priceList[data.checkIndex].user_reward === '随机金额'">看视频领5元</div>
+               <div class="button2" v-else >支付宝提现</div>
+
               <!-- <div class="button5">看视频领5元</div> -->
               <div class="circle" style="bottom: -0.2rem; right: -0.12rem;">
                 <i class="circle1"></i>
@@ -265,6 +256,11 @@ export default {
         font-weight: 600;
         color: #333;
         position: relative;
+        .rondom-hour{
+         position: absolute;
+          bottom: 0px;
+          font-size: 15px;
+        }
         &.fiveMoney {
           &:after {
             content: "";

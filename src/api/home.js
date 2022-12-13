@@ -13,6 +13,12 @@ const homeApi = {
         // })
      return http.get('/step_counting/new_user')
     },
+    /**
+     * 提现展示
+     */
+    getWithdrawOptions() {
+     return http.get('/step_counting/withdraw')
+    },
 
     // 新人翻倍红包
     setNewUserHongBao(data) {
