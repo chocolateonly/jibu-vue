@@ -22,8 +22,8 @@
           
           <div class="videogg">
 <!--            视频解锁  明日再来 立即提现-->
-              <img v-if="true" src="//img.ibestfanli.com/sign_static_quick3/balance_five_unlock.png" class="bannerIcon" @click="showAddedBonuseModal"/>
-              <img v-else-if="false" src="../assets/images/txtc_btn_mingrizailai.png" class="bannerIcon"/>
+              <img v-if="data.lock_status==1" src="//img.ibestfanli.com/sign_static_quick3/balance_five_unlock.png" class="bannerIcon" @click="showAddedBonuseModal"/>
+              <img v-else-if="data.lock_status==2" src="../assets/images/txtc_btn_mingrizailai.png" class="bannerIcon" @click="openAgainLayer"/>
               <img v-else src="../assets/images/txtc_btn_lijitixian.png" class="bannerIcon"/>
           </div>
           <div class="flex-sb">
@@ -52,8 +52,8 @@
             <div class="FingerButton" v-if="data.priceList.length>0">
               <div class="button1" @click="vxTixianBtnFn" v-if="(data.priceList[data.checkIndex].user_reward === 0.3)">微信提现</div>
               <div class="button3" v-if="(data.priceList[data.checkIndex].user_reward === 150 || data.priceList[data.checkIndex].user_reward === 200)">立即赚钱</div>
-              <div class="button4" v-if="data.priceList[data.checkIndex].user_reward === '随机金额'">看视频领5元</div>
-               <div class="button2" v-else >支付宝提现</div>
+              <div class="button4" v-if="data.priceList[data.checkIndex].user_reward === '随机金额'" @click="showAddedBonuseModal">看视频领5元</div>
+               <div class="button2" v-else @click="zfbTixianBtnFn">支付宝提现</div>
 
               <!-- <div class="button5">看视频领5元</div> -->
               <div class="circle" style="bottom: -0.2rem; right: -0.12rem;">
@@ -85,7 +85,7 @@
                 </div>
               </div>
             </div>
-            <div class="videoButton"> 去完成 </div>
+            <div class="videoButton" @click="viewTixian"> 去完成 </div>
           </div>
         </div>
       </div>
@@ -161,7 +161,18 @@ export default {
     },
     //视频解锁
     showAddedBonuseModal(){
-      this.$emit('showAddedBonuseModal','isVideoUnlock')
+        this.$emit('showAddedBonuseModal','isVideoUnlock')
+    },
+    //明日再来
+    openAgainLayer(){
+      this.$emit('openAgainLayer')
+    },
+    viewTixian(){
+      this.$emit('viewTixian')
+    },
+    //支付宝提现
+    zfbTixianBtnFn(){
+      this.$emit('zfbTixianFn','isZfbTixian')
     }
   }
 }
@@ -838,54 +849,6 @@ export default {
         transform:translateZ(0) translateY(0);
         z-index:99999
     }
-}
-
-.withdrawRuleMain {
-  width: 90%;
-  height: 700px;
-  margin: 0 auto;
-  background: #fff;
-  border-radius: 10px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 0 10px;
-  box-sizing: border-box;
-  position: relative;
-  .title {
-    font-size:100px;
-    line-height: 100px;
-    font-weight: 600;
-    color: #333;
-    text-align: center;
-    margin:20px 0;
-  }
-  .tip {
-    height: 450px;
-    overflow: auto;
-    padding: 20px;
-
-    p {
-      font-size: 98px;
-      line-height: 98px;
-      font-weight: 400;
-      color: #666;
-    }
-  }
-  .button {
-    background: url(//fasthuyitool.jidiandian.cn/web_static_assets/sign_static_quick4/fiveMoney/rule_button.png) no-repeat center;
-    background-size: contain;
-    width: 350px;
-    height: 100px;
-    line-height: 110px;
-    font-size: 20px;
-    font-weight: 500;
-    color: #fff;
-    text-align: center;
-    margin: 0 auto;
-    cursor: pointer;
-  }
-
 }
 
 </style>

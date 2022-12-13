@@ -268,6 +268,9 @@
                @showAddedBonuseModal = "showAddedBonuseModal"
                @showTixianTypeModal = "showTixianTypeModal"
                @vxTixianFn = "vxTixianFn"
+               @openAgainLayer="openAgainLayer"
+               @viewTixian="viewTixian"
+               @zfbTixianFn="zfbTixianFn"
     ></pay-layer>
 
     <!-- 百分百可提现 -->
@@ -338,15 +341,14 @@
           <div class="tip">
             <p>明日5元生效到账，记得来领取哦！</p>
           </div>
-<!--          todo：插屏广告 -->
-          <div class="button" @click="againLayer=false">我知道了</div>
+          <div class="button" @click="closeAgainLayer">我知道了</div>
         </div>
       </div>
     </layer>
 
     <pay-type-layer ref="payTypeModal"></pay-type-layer>
     <qian-dao-layer ref="qianDaoModal" @viewVideoAndQiandao="viewVideoAndQiandao"></qian-dao-layer>
-    <video-step-layer ref="videoStepLayer"></video-step-layer>
+    <video-step-layer ref="videoStepLayer" @viewTixian="viewTixian"></video-step-layer>
     <piao-fu-jin-bi-layer ref="piaoFuJinBiLayer"></piao-fu-jin-bi-layer>
     <!-- 看视频加载loading -->
     <loading-video-layer ref="loadingVideoLayer" @playVideoFn="playVideoOrInsertAdFn"></loading-video-layer>
@@ -411,6 +413,7 @@ export default {
         priceList: [],
         tixian_price:150, //要提现金额
         status:true,//提现状态 成功 失败
+        lock_status:1 //todo 视频解锁状态 1 未解锁 2 已解锁小于 3 已解锁大于两天
       },
       againLayer:false //明日再来提示 弹窗
     }
@@ -446,6 +449,8 @@ export default {
     this.personRun()
     // 获取新人红包信息
     this.getNewUserInfo()
+    //todo api 获取视频状态
+
   },
   destroyed () {
     clearInterval(this.ggRoll.interval)
@@ -461,24 +466,32 @@ export default {
 
       }
     },
+    //获取提现档
+    async getWithdrawList() {
+      try{
+        let resData = await homeApi.getWithdrawOptions()
+        this.tixianData.priceList = resData.data.list
+        resData.data.list.forEach((item,index) => {
+          if(item.checked) {
+            this.tixianData.checkIndex = index
+            if(item.user_reward=='随机金额'){
+              this.tixianData.tixian_price = Math.round(Math.random()*5*100)/100
+            }else{
+              this.tixianData.tixian_price = item.user_reward
+            }
+          }
+        })
+      }catch (e) {
+
+      }
+    },
     // 获取新人基本数据
     async getNewUserInfo() {
       try{
-
       let resData = await homeApi.getNewUserInfo()
       this.xinrenConfig.newUserInfoData = resData.data
       this.xinrenConfig.xinrenPrice = resData.data.reward
-      this.tixianData.priceList = resData.data.list
-      resData.data.list.forEach((item,index) => {
-        if(item.checked) {
-          this.tixianData.checkIndex = index
-          if(item.user_reward=='随机金额'){
-            this.tixianData.tixian_price = Math.round(Math.random()*5*100)/100
-          }else{
-            this.tixianData.tixian_price = item.user_reward
-          }
-        }
-      })
+      this.getWithdrawList()
 
       this.ecpm = resData.data.state
       if(resData.data.new_user_state) {
@@ -558,7 +571,6 @@ export default {
         adType:1
       }
       this.$refs['loadingVideoLayer'].showModalFn()
-
     },
 
     // 点击微信提现显示提现方法
@@ -665,11 +677,22 @@ export default {
 
       //视频解锁
       if(type=='isVideoUnlock'){
-        this.appParms={
-          mPlacementId: 'p638ef0b19d95f',
-          adType:1
+        //明日再来
+        if(this.tixianData.lock_status==2){
+           this.openAgainLayer()
         }
-        this.addedBonusModalLayer = true
+        //立即提现
+        else if(this.tixianData.lock_status==3){
+             this.$refs['videoStepLayer'].showModalFn()
+        }
+        else {
+          this.appParms = {
+            mPlacementId: 'p638ef0b19d95f',
+            adType: 1
+          }
+          this.addedBonusModalLayer = true
+
+        }
       }
 
     },
@@ -690,6 +713,35 @@ export default {
         }
       }
     },
+    //打开明日提现弹窗
+    openAgainLayer(){
+      this.againLayer = true
+    },
+    //关闭明日提现5元弹窗
+    closeAgainLayer(){
+      this.appParms={
+        mPlacementId: 'p638ef6ffbb627',
+        adType: 3,
+      }
+      this.playVideoOrInsertAdFn()
+    },
+    //支付宝提现
+    zfbTixianFn(){
+         //TODO
+    },
+    //观看提现 看完要更新提现档
+    viewTixian(){
+      if(this.tixianData.priceList[this.tixianData.checkIndex].sign=='最高5元'&&this.tixianData.priceList[this.tixianData.checkIndex].user_reward!='随机金额'){
+        //支付宝提现
+        return this.zfbTixianFn()
+      }
+      this.appParms={
+        mPlacementId: 'p638ef0c28007c',
+        adType:1
+      }
+     this.playVideoOrInsertAdFn()
+    },
+
     // 格式化金额
     priceFormatter: function (num) {
       return num.toFixed(2)
@@ -720,6 +772,12 @@ export default {
     // 关闭广告
     onAdDismiss(params) {
       console.log('调用了关闭广告：'+params)
+
+      //明日再来弹窗关闭
+      if(this.appParms.mPlacementId=='p638ef6ffbb627'){
+        this.againLayer = false
+      }
+
       //关闭 多乐计步-提现后继续提现激励视频 多乐计步-关闭提现成功弹窗插屏
       if(this.appParms.mPlacementId=='p638ee3ca69bc2'||
           this.appParms.mPlacementId=='p638ef5a6f0a1b'){
@@ -728,7 +786,8 @@ export default {
 
       //视频解锁 激励视频关闭
       if(this.appParms.mPlacementId=='p638ef0b19d95f'){
-          this.againLayer = true
+        //todo api 获取视频状态
+          this.openAgainLayer()
       }
     },
     // 点击广告
@@ -738,6 +797,7 @@ export default {
     // 加载广告失败
     onAdLoadFail(params) {
       console.log('加载广告失败：'+params)
+      this.onAdDismiss(params)
     },
     // 加载广告成功
     onAdLoadSuccess(params) {
@@ -746,6 +806,7 @@ export default {
     // 加载广告超时
     onAdLoadTimeout(params) {
       console.log('加载广告超时：'+params)
+      this.onAdDismiss(params)
     },
     // 查看广告
     onAdShow(params) {
@@ -763,11 +824,17 @@ export default {
            withdraw_id:this.tixianData[this.tixianData.checkIndex].id,
            desc:''
          })
-      }else{
+      }
+
+      if(this.appParms.mPlacementId=='p638ee3b03599f'){
       // 看过翻倍红包的激励视频,则翻倍红包
       this.xinrenConfig.isViewVideo = true
       this.newUserDoubleHongbao()
+      }
 
+      // 观看提现-激励视频 更新提现档 以及 todo 视频解锁状态
+      if(this.appParms.mPlacementId=='p638ef0c28007c'){
+        this.getWithdrawList()
       }
     }
     // #End Region

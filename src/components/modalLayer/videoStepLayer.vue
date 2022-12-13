@@ -28,7 +28,7 @@
                     </div>
                     
                 </div>
-                <div class="button">观看提现</div>
+                <div class="button" @click="viewTixian">观看提现</div>
             </div>
             
         </div>
@@ -48,10 +48,14 @@ export default {
   },
   methods: {
     showModalFn() {
+      //todo api:获取立即提现看视频进度
         this.isShowVideoStepModal = true
     },
     hideModalFn() {
         this.isShowVideoStepModal = false
+    },
+    viewTixian(){
+      this.$emit('viewTixian')
     }
   }
 }
