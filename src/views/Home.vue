@@ -286,22 +286,24 @@
     max-width:100%;"
            className="tixianSuccessModal"
     >
-      <div class="tixianSuccessBox" v-if="true">
+      <img class="closeIcon" @click="closeTiXianSuccessBox" src="//img.ibestfanli.com/sign_static_quick/closeIcon.png"/>
+      <div class="tixianSuccessBox" v-if="tixianData.status">
         <div class="msgText">提现成功！</div>
         <div class="flex column-center tixianBody">
           <div></div>
           <div>
-            <span class="price">0.30</span>
+            <span class="price">{{tixianData.tixian_price}}</span>
             <span class="unit">元</span>
           </div>
         </div>
 
         <div class="FingerMain">
-          <div class="FingerTip">
+          <div class="FingerTip" v-if="tixianData.price==0||(tixianData.tixian_price>tixianData.price)">
+<!--            余额不足-->
             <img src="//img.ibestfanli.com/sign_static_quick3/balance_tip.png" class="tipIcon">
           </div>
-          <div class="FingerButton">
-            <div class="button3">继续领取</div>
+          <div class="FingerButton" @click="continueTixian">
+            <div class="button3">继续提现</div>
             <div class="circle" style="bottom: -0.2rem; right: -0.12rem;">
               <i class="circle1"></i>
               <i class="circle2"></i>
@@ -319,7 +321,7 @@
           建议您重新尝试
         </div>
         <div class="FingerMain">
-          <div class="button3">我知道了</div>
+          <div class="button3" @click="tixianSuccessLayer=false">我知道了</div>
         </div>
       </div>
     </layer>
@@ -388,7 +390,9 @@ export default {
       tixianData: {
         checkIndex:0, // 当前价格选中的索引
         price:0, // 当前余额
-        priceList: []
+        priceList: [],
+        tixian_price:150, //要提现金额
+        status:true,//提现状态 成功 失败
       },
       test:{
 
@@ -445,6 +449,11 @@ export default {
       resData.data.list.forEach((item,index) => {
         if(item.checked) {
           this.tixianData.checkIndex = index
+          if(item.user_reward=='随机金额'){
+            this.tixianData.tixian_price = Math.round(Math.random()*5*100)/100
+          }else{
+            this.tixianData.tixian_price = item.user_reward
+          }
         }
       })
 
@@ -458,11 +467,27 @@ export default {
 
       }
     },
-
+    //继续提现 多乐计步-提现后继续提现激励视频
+    continueTixian(){
+      this.appParms={
+        mPlacementId:'p638ee3ca69bc2',
+        adType:1
+      }
+    },
+    //关闭提现成功弹窗 - 多乐计步-关闭提现成功弹窗插屏
+    closeTiXianSuccessBox(){
+      this.appParms={
+        mPlacementId:'p638ef5a6f0a1b',
+        adType:3
+      }
+    },
     // 点击微信提现按钮
     vxTixianFn(type) {
       if(type=='isVxTixian'){
-      this.appParms={
+        //mock:提现成功
+        this.tixianSuccessLayer = true
+        return;
+        this.appParms={
         mPlacementId:'p638ee3ba07f0c',
         adType:1
       }
@@ -599,8 +624,14 @@ export default {
         item.checked = false
         if(num === index) {
           item.checked = true
+          if(item.user_reward=='随机金额'){
+            this.tixianData.tixian_price = Math.round(Math.random()*5*100)/100
+          }else{
+            this.tixianData.tixian_price = item.user_reward
+          }
         }
       })
+
     },
     // 显示百分百可提现弹框
     showAddedBonuseModal() {
@@ -665,6 +696,11 @@ export default {
       console.log('调用了奖励激励：'+params)
       //微信提现 激励视频
       if(this.appParms.mPlacementId=='p638ee3ba07f0c'){
+        this.appParms={
+          mPlacementId:'p638ee1ece33ff',
+          adType:2,
+          returnScale:2
+        }
          this.tixianSuccessLayer = true
       }else{
       // 看过翻倍红包的激励视频,则翻倍红包
@@ -1489,6 +1525,13 @@ export default {
 
   /* 提现成功弹框 */
   .tixianSuccessModal {
+    .closeIcon {
+      position: absolute;
+      height: 70px;
+      width: 70px;
+      top: -10vw;
+      right: 40px;
+    }
     .tixianSuccessBox,.tixianErrorBox {
       background:#fff;
       padding:30px;
