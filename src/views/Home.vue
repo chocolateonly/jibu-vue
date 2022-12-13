@@ -473,6 +473,7 @@ export default {
         mPlacementId:'p638ee3ca69bc2',
         adType:1
       }
+      this.playVideoOrInsertAdFn()
     },
     //关闭提现成功弹窗 - 多乐计步-关闭提现成功弹窗插屏
     closeTiXianSuccessBox(){
@@ -480,6 +481,7 @@ export default {
         mPlacementId:'p638ef5a6f0a1b',
         adType:3
       }
+      this.playVideoOrInsertAdFn()
     },
     // 点击微信提现按钮
     vxTixianFn(type) {
@@ -670,6 +672,11 @@ export default {
     // 关闭广告
     onAdDismiss(params) {
       console.log('调用了关闭广告：'+params)
+      //关闭 多乐计步-提现后继续提现激励视频 多乐计步-关闭提现成功弹窗插屏
+      if(this.appParms.mPlacementId=='p638ee3ca69bc2'||
+          this.appParms.mPlacementId=='p638ef5a6f0a1b'){
+          this.tixianSuccessLayer = false
+      }
     },
     // 点击广告
     onAdClicked(params) {
