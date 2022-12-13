@@ -21,7 +21,10 @@
           </div>
           
           <div class="videogg">
-              <img src="//img.ibestfanli.com/sign_static_quick3/balance_five_unlock.png" class="bannerIcon"/>
+<!--            视频解锁  明日再来 立即提现-->
+              <img v-if="true" src="//img.ibestfanli.com/sign_static_quick3/balance_five_unlock.png" class="bannerIcon" @click="showAddedBonuseModal"/>
+              <img v-else-if="false" src="//img.ibestfanli.com/sign_static_quick3/balance_five_unlock.png" class="bannerIcon"/>
+              <img v-else src="//img.ibestfanli.com/sign_static_quick3/balance_five_unlock.png" class="bannerIcon"/>
           </div>
           <div class="flex-sb">
             <div class="tit">选择提现金额</div>
@@ -108,11 +111,18 @@
       <div class="withdrawRuleMain">
         <div class="title">活动规则</div>
         <div class="tip">
+          <p>一、参与对象：同一终端设备、同一微信号、或同一用户ID等均视为同一用户。</p>
+          <p>二、本APP提供现金提现功能，可按照规则提取到微信、支付宝账户。</p>
+          <p>三、活动及提现规则：</p>
           <p>1.新人专享福利：任一新人用户可享受一次新人专享福利0.3元，金额可直接申请提现。</p>
-          <p>2.最高5元的随机金额福利：用户完成页面指定观看视频次数，APP综合用户行为及参与情况，为用户随机提供最高5元的金额福利，具体提现金额以当日页面随机获得的金额为准。任一用户仅可享受一次该福利。</p>
-          <p>3.抽奖活动提现：完成页面指定观看视频次数可获得抽奖机会，用户理解结果是否中奖情况为随机。抽中金额在0.1元-20元间随机提供，抽中可立即提现或将抽中金额累积到下一次抽奖中一同提现。</p>
-          <p>4.大额150元金额提现：观看软件指定视频后，用户可随机获得金额奖励，累计奖励的金额在软件账户余额中展示，用户可进行查看。随着用户使用本APP时长的增加，用户获得的随机金额奖励可能减少。</p>
-        </div>
+          <p>
+            2.最高5元的随机金额福利：用户完成页面指定观看视频次数，APP综合用户行为及参与情况，为用户随机提供最高5元的金额福利，具体提现金额以当日页面随机获得的金额为准。任一用户仅可享受一次该福利。</p>
+          <p>
+            3.抽奖活动提现：完成页面指定观看视频次数可获得抽奖机会，用户理解结果是否中奖情况为随机。抽中金额在0.1元-20元间随机提供，抽中可立即提现或将抽中金额累积到下一次抽奖中一同提现。</p>
+          <p>
+            4.大额150元金额提现：观看软件指定视频后，用户可随机获得金额奖励，累计奖励的金额在软件账户余额中展示，用户可进行查看。随着用户使用本APP时长的增加，用户获得的随机金额奖励可能减少。</p>
+
+      </div>
         <div class="button" @click="ruleLayer=false">我知道了</div>
       </div>
     </div>
@@ -157,6 +167,10 @@ export default {
     // 点击微信提现按钮
     vxTixianBtnFn() {
       this.$emit('vxTixianFn','isVxTixian')
+    },
+    //视频解锁
+    showAddedBonuseModal(){
+      this.$emit('showAddedBonuseModal','isVideoUnlock')
     }
   }
 }

@@ -50,6 +50,7 @@
           <img src="//img.ibestfanli.com/sign_static_quick/withdrawType_fingerIcon.png" class="redFingerIcon"/>
           <!-- <img src="../assets/images/icon_shouzhi.png" class="redFingerIcon"/> -->
         </div>
+<!--        领红包倒计时-->
         <div class="fixedRed" v-if="false">
           <div class="fixedIcon">
             <img src="//img.ibestfanli.com/sign_static_quick/header_redIcon2.png" class="redIcon">
@@ -195,7 +196,7 @@
       </div>
     </layer>
 
-    <!--红包弹框-->
+    <!--红包弹框 无套路 无门槛-->
     <layer v-model="showHongbaoLayer" styles="background-color:transparent;width:100%;
     max-width:100%;"
            className="xinrenModal"
@@ -326,6 +327,23 @@
       </div>
     </layer>
 
+    <!--明日再来-->
+    <layer v-model="againLayer" styles="background-color:transparent;width:100%;
+    max-width:100%;"
+           className="modal withdrawRuleBacground "
+    >
+      <div class="modal-content ">
+        <div class="withdrawRuleMain">
+          <div class="title">明日提现5元</div>
+          <div class="tip">
+            <p>明日5元生效到账，记得来领取哦！</p>
+          </div>
+<!--          todo：插屏广告 -->
+          <div class="button" @click="againLayer=false">我知道了</div>
+        </div>
+      </div>
+    </layer>
+
     <pay-type-layer ref="payTypeModal"></pay-type-layer>
     <qian-dao-layer ref="qianDaoModal" @viewVideoAndQiandao="viewVideoAndQiandao"></qian-dao-layer>
     <video-step-layer ref="videoStepLayer"></video-step-layer>
@@ -394,9 +412,7 @@ export default {
         tixian_price:150, //要提现金额
         status:true,//提现状态 成功 失败
       },
-      test:{
-
-      }
+      againLayer:false //明日再来提示 弹窗
     }
   },
   components: {
@@ -635,10 +651,21 @@ export default {
 
     },
     // 显示百分百可提现弹框
-    showAddedBonuseModal() {
+    showAddedBonuseModal(type) {
       if(!this.xinrenConfig.isNewFlag) {
         this.addedBonusModalLayer = true
       }
+
+      //视频解锁
+      if(type=='isVideoUnlock'){
+        //todo:
+        this.appParms={
+          mPlacementId: 'isVideoUnlock',
+          adType:1
+        }
+        this.addedBonusModalLayer = true
+      }
+
     },
     // 提现方法
     tixianFn(flag) {
@@ -675,6 +702,12 @@ export default {
       if(this.appParms.mPlacementId=='p638ee3ca69bc2'||
           this.appParms.mPlacementId=='p638ef5a6f0a1b'){
           this.tixianSuccessLayer = false
+      }
+
+      //视频解锁 激励视频关闭
+      //todo
+      if(this.appParms.mPlacementId=='isVideoUnlock'){
+          this.againLayer = true
       }
     },
     // 点击广告
