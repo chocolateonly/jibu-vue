@@ -364,7 +364,7 @@ export default {
       showLoadingLayer:false, // loading 加载标识
       addedBonusModalLayer:false, // 百分百可提现弹框
       showXinrenHongbaoLayer:false, // 新人红包弹框控制器
-      tixianSuccessLayer:true,
+      tixianSuccessLayer:false,
       xinrenConfig: {
         clickNum:1, // 点击关闭的次数（第一次点关闭显示提现框，第二次点击真关闭）
         timeNum:3, // 新人红包领取倒计时
@@ -477,6 +477,7 @@ export default {
     },
     //关闭提现成功弹窗 - 多乐计步-关闭提现成功弹窗插屏
     closeTiXianSuccessBox(){
+      this.utils.webDataToApp('setAtNativeAdViewGONE',{})
       this.appParms={
         mPlacementId:'p638ef5a6f0a1b',
         adType:3
@@ -486,9 +487,7 @@ export default {
     // 点击微信提现按钮
     vxTixianFn(type) {
       if(type=='isVxTixian'){
-        //mock:提现成功
-        // this.tixianSuccessLayer = true
-        // return;
+        this.utils.webDataToApp('setAtNativeAdViewGONE',{})
         this.appParms={
         mPlacementId:'p638ee3ba07f0c',
         adType:1

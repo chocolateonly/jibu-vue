@@ -1,4 +1,5 @@
 <template>
+  <div>
     <layer v-model="isShowPayLayer" styles="background-color:transparent;width:100%;
     max-width:100%;"
     skin="footer"
@@ -96,26 +97,27 @@
       </div>
 
 
-<!--      活动规则-->
-      <layer v-model="ruleLayer" styles="background-color:transparent;width:100%;
-    max-width:100%;"
-             className="modal withdrawRuleBacground "
-      >
-      <div class="modal-content ">
-        <div class="withdrawRuleMain">
-          <div class="title">活动规则</div>
-          <div class="tip">
-            <p>1.新人专享福利：任一新人用户可享受一次新人专享福利0.3元，金额可直接申请提现。</p>
-            <p>2.最高5元的随机金额福利：用户完成页面指定观看视频次数，APP综合用户行为及参与情况，为用户随机提供最高5元的金额福利，具体提现金额以当日页面随机获得的金额为准。任一用户仅可享受一次该福利。</p>
-            <p>3.抽奖活动提现：完成页面指定观看视频次数可获得抽奖机会，用户理解结果是否中奖情况为随机。抽中金额在0.1元-20元间随机提供，抽中可立即提现或将抽中金额累积到下一次抽奖中一同提现。</p>
-            <p>4.大额150元金额提现：观看软件指定视频后，用户可随机获得金额奖励，累计奖励的金额在软件账户余额中展示，用户可进行查看。随着用户使用本APP时长的增加，用户获得的随机金额奖励可能减少。</p>
-          </div>
-          <div class="button" @click="ruleLayer=false">我知道了</div>
-        </div>
-      </div>
-      </layer>
-
     </layer>
+
+  <!--      活动规则-->
+  <layer v-model="ruleLayer" styles="background-color:transparent;width:100%;
+    max-width:100%;"
+         className="modal withdrawRuleBacground "
+  >
+    <div class="modal-content ">
+      <div class="withdrawRuleMain">
+        <div class="title">活动规则</div>
+        <div class="tip">
+          <p>1.新人专享福利：任一新人用户可享受一次新人专享福利0.3元，金额可直接申请提现。</p>
+          <p>2.最高5元的随机金额福利：用户完成页面指定观看视频次数，APP综合用户行为及参与情况，为用户随机提供最高5元的金额福利，具体提现金额以当日页面随机获得的金额为准。任一用户仅可享受一次该福利。</p>
+          <p>3.抽奖活动提现：完成页面指定观看视频次数可获得抽奖机会，用户理解结果是否中奖情况为随机。抽中金额在0.1元-20元间随机提供，抽中可立即提现或将抽中金额累积到下一次抽奖中一同提现。</p>
+          <p>4.大额150元金额提现：观看软件指定视频后，用户可随机获得金额奖励，累计奖励的金额在软件账户余额中展示，用户可进行查看。随着用户使用本APP时长的增加，用户获得的随机金额奖励可能减少。</p>
+        </div>
+        <div class="button" @click="ruleLayer=false">我知道了</div>
+      </div>
+    </div>
+  </layer>
+  </div>
 </template>
 
 <script>
@@ -829,8 +831,8 @@ export default {
 }
 
 .withdrawRuleMain {
-  width: 60%;
-  height: 600px;
+  width: 90%;
+  height: 700px;
   margin: 0 auto;
   background: #fff;
   border-radius: 10px;
@@ -841,7 +843,8 @@ export default {
   box-sizing: border-box;
   position: relative;
   .title {
-    font-size:24px;
+    font-size:100px;
+    line-height: 100px;
     font-weight: 600;
     color: #333;
     text-align: center;
@@ -853,7 +856,8 @@ export default {
     padding: 20px;
 
     p {
-      font-size: 18px;
+      font-size: 98px;
+      line-height: 98px;
       font-weight: 400;
       color: #666;
     }
@@ -862,9 +866,9 @@ export default {
     background: url(//fasthuyitool.jidiandian.cn/web_static_assets/sign_static_quick4/fiveMoney/rule_button.png) no-repeat center;
     background-size: contain;
     width: 350px;
-    height: 80px;
-    line-height: 90px;
-    font-size: 18px;
+    height: 100px;
+    line-height: 110px;
+    font-size: 20px;
     font-weight: 500;
     color: #fff;
     text-align: center;
