@@ -4,7 +4,10 @@
         className="loadingModal"
         >
         <div class="loadingBox">
-        <div></div>
+        <div>
+<!--          0.3的新人红包奖励图片展示-->
+          <div v-if="type=='isNew'"></div>
+        </div>
         <div>
             <div class="footerTip">
             <div class="bar">
@@ -23,10 +26,12 @@ export default {
         return {
             showLoadingLayer:false,
             process:0, // 百分比进度
+            type:''
         }
     },
     methods: {
-        showModalFn() {
+        showModalFn(type) {
+            this.type = type
             this.showLoadingLayer = true
             // 显示进度比
             this.timer = setInterval(()=>{

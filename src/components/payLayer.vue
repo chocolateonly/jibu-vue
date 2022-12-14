@@ -73,20 +73,20 @@
               <div class="contentLeft">
                 <img src="//img.ibestfanli.com/sign_static_quick3/failToDrawModal_red.png" class="red">
                 <div class="content">
-                  <div class="contentTip">看5个视频可立即提现</div>
+                  <div class="contentTip">看{{$store.state.video_progress.video_task}}个视频可立即提现</div>
                   <div class="contentPlan">
                     <div class="bar">
-                      <div class="length" style="width: 20%;"></div>
+                      <div class="length" :style="{width:$store.state.video_progress.video_nums/$store.state.video_progress.video_task +'%'}"></div>
                   </div>
                   <div class="num">
-                    <span>1</span>
+                    <span>{{$store.state.video_progress.video_nums}}</span>
                     <span>/</span>
-                    <span>5</span>
+                    <span>{{$store.state.video_progress.video_task}}</span>
                   </div>
                 </div>
               </div>
             </div>
-            <div class="videoButton" @click="viewTixian"> 去完成 </div>
+            <div class="videoButton" @click="viewProgressToFinish"> 去完成 </div>
           </div>
         </div>
       </div>
@@ -158,7 +158,7 @@ export default {
     },
     // 点击微信提现按钮
     vxTixianBtnFn() {
-      this.$emit('vxTixianFn','isVxTixian')
+      this.$emit('vxTixianFn')
     },
     //视频解锁
     showAddedBonuseModal(){
@@ -168,8 +168,8 @@ export default {
     openAgainLayer(){
       this.$emit('openAgainLayer')
     },
-    viewTixian(){
-      this.$emit('viewTixian')
+    viewProgressToFinish(){
+      this.$emit('viewProgressToFinish')
     },
     //支付宝提现
     zfbTixianBtnFn(){
