@@ -362,6 +362,15 @@
     <tip-qian-dao-layer ref="tipQianDaoLayer"></tip-qian-dao-layer>
 <!--    支付宝获取现金提示框-->
     <aliy-layer ref="aliyLayer" @zfbTixian="zfbTixian"></aliy-layer>
+<!--    获取红包现金-->
+    <money-layer />
+<!--    获取红包现金翻倍-->
+    <money-double-layer />
+<!--    马上答题-->
+    <question-layer />
+<!--    答题-->
+    <question-content-layer />
+
   </div>
 </template>
 
@@ -377,6 +386,11 @@ import piaoFuJinBiLayer from '@/components/modalLayer/piaofujinbiLayer.vue'
 import loadingVideoLayer from '@/components/modalLayer/loadingVideoLayer.vue'
 import tipQianDaoLayer from '@/components/modalLayer/tipqiandaoLayer.vue'
 import aliyLayer from '@/components/modalLayer/aliyLayer.vue'
+import moneyLayer from "@/components/modalLayer/moneyLayer";
+import moneyDoubleLayer from "@/components/modalLayer/moneyDoubleLayer";
+import questionLayer from "@/components/modalLayer/questionLayer";
+import questionContentLayer from "@/components/modalLayer/questionContentLayer";
+import raffleLayer from "@/components/modalLayer/raffleLayer";
 export default {
   name: "home",
   data() {
@@ -435,7 +449,12 @@ export default {
     piaoFuJinBiLayer,
     loadingVideoLayer,
     tipQianDaoLayer,
-    aliyLayer
+    aliyLayer,
+    moneyLayer,
+    moneyDoubleLayer,
+    questionLayer,
+    questionContentLayer,
+    raffleLayer
   },
   created() {
     //App调用此页面的方法
@@ -815,7 +834,8 @@ export default {
         mPlacementId: 'p638ee3d3a3b75', //视频任务-弹窗开红包激励视频
         adType: 1
       }
-      this.playVideoOrInsertAdFn()
+      // 加载播放视频loading
+      this.$refs['loadingVideoLayer'].showModalFn('getMoney')
     },
     // 格式化金额
     priceFormatter: function (num) {
@@ -952,9 +972,21 @@ export default {
           this.showHongbaoLayer=false;
           this.getNewUserInfo()
           this.getWithdrawList()
-          this.$store.dispatch('getVideoProgress')
+          this.$store.dispatch('getVideoProgress',{
+            callback:()=>{
+              //判断奇偶
+              if(this.$store.state.video_progress.video_nums%2==0){
+                //去答题
+
+              }else{
+                //获得金额
+
+              }
+            }
+          })
           //去提现
-          this.showTixianPayler()
+          // this.showTixianPayler()
+
       }
 
     }

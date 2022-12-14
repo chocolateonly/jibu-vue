@@ -38,13 +38,15 @@ export default new Vuex.Store({
             context.commit('setBaseData', data)
         },
         getVideoProgress(context, data) {
-            context.dispatch('getVideoNum')
+            context.dispatch('getVideoNum',data)
             context.dispatch('getWithdraw')
         },
         async getVideoNum(context, data) {
             try {
                 let resData = await homeApi.getVideoProgress()
                 context.commit('setVideoProgress', resData.data)
+                //用于判断奇偶
+                if(data.callback) data.callback()
             } catch (e) {
 
             }

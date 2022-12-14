@@ -14,6 +14,7 @@
                 <div class="length" :style="'width:'+process+'%;'"></div>
             </div>
             </div>
+            <div class="loadingText" v-if="type=='getMoney'">恭喜获得现金奖励,视频之后马上获得</div>
             <div class="loadingText">进账中,视频之后马上获得</div>
         </div>
         </div>
