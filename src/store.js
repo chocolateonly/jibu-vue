@@ -37,9 +37,9 @@ export default new Vuex.Store({
         getBaseData(context, data) {
             context.commit('setBaseData', data)
         },
-        async getVideoProgress(context, data) {
-           await this.getVideoNum()
-           await this.getWithdraw()
+        getVideoProgress(context, data) {
+            context.dispatch('getVideoNum')
+            context.dispatch('getWithdraw')
         },
         async getVideoNum(context, data) {
             try {

@@ -48,7 +48,8 @@ export default {
   },
   methods: {
     showModalFn() {
-      //todo api:获取立即提现看视频进度
+      //api:获取立即提现看视频进度
+        this.$store.dispatch('getVideoProgress')
         this.isShowVideoStepModal = true
     },
     hideModalFn() {

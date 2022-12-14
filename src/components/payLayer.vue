@@ -52,7 +52,7 @@
             <div class="FingerButton" v-if="data.priceList.length>0">
               <div class="button1" v-if="data.priceList[data.checkIndex].sign ==='额外奖励'" @click="otherBtnFn">微信提现</div>
               <div class="button1" @click="vxTixianBtnFn" v-if="(data.priceList[data.checkIndex].user_reward === 0.3)">微信提现</div>
-              <div class="button3" v-if="(data.priceList[data.checkIndex].user_reward === 150 || data.priceList[data.checkIndex].user_reward === 200)">立即赚钱</div>
+              <div class="button3" v-if="(data.priceList[data.checkIndex].user_reward === 150 || data.priceList[data.checkIndex].user_reward === 200)" @click="receiveMoney">立即赚钱</div>
               <div class="button4" v-if="data.priceList[data.checkIndex].user_reward === '随机金额'" @click="showAddedBonuseModal">看视频领5元</div>
                <div class="button2" v-if="data.priceList[data.checkIndex].sign ==='最高5元'&&data.priceList[data.checkIndex].user_reward!='随机金额'" @click="zfbTixianBtnFn">支付宝提现</div>
 
@@ -182,6 +182,10 @@ export default {
       }else{
          this.vxTixianBtnFn()
       }
+    },
+    //立即赚钱
+    receiveMoney(){
+      this.$emit('receiveMoney')
     }
   }
 }

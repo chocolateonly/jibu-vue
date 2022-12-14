@@ -271,6 +271,7 @@
                @openAgainLayer="openAgainLayer"
                @viewTixian="viewTixian"
                @zfbTixianFn="zfbTixianFn"
+               @receiveMoney="receiveMoney"
     ></pay-layer>
 
     <!-- 百分百可提现 -->
@@ -460,6 +461,10 @@ export default {
     this.getNewUserInfo()
     //获取视频解锁进度及状态
     this.$store.dispatch('getVideoProgress')
+
+    //mock
+    // this.zfbTixianFn()
+
   },
   destroyed () {
     clearInterval(this.ggRoll.interval)
@@ -541,7 +546,15 @@ export default {
       // 加载播放视频loading
       this.$refs['loadingVideoLayer'].showModalFn()
     },
-
+    //立即赚钱
+    receiveMoney(){
+      this.appParms={
+        mPlacementId: 'p638ee45965a5e',
+        adType: 1
+      }
+      // 加载播放视频loading
+      this.$refs['loadingVideoLayer'].showModalFn()
+    },
     // 点击签到奖励
     viewVideoAndQiandao() {
       // 加载播放视频loading
@@ -746,7 +759,7 @@ export default {
       this.utils.webDataToApp('setAlipayWithdrawal',{
         uid:this.$store.state.base_data.userId,
         product_id:this.$store.state.base_data.productId,
-        withdraw_id:this.tixianData[this.tixianData.checkIndex].id,
+        withdraw_id:this.tixianData.priceList[this.tixianData.checkIndex].id,
         desc:''
       })
 
@@ -864,7 +877,7 @@ export default {
          this.utils.webDataToApp('setVxChatWithdrawal',{
            uid:this.$store.state.base_data.userId,
            product_id:this.$store.state.base_data.productId,
-           withdraw_id:this.tixianData[this.tixianData.checkIndex].id,
+           withdraw_id:this.tixianData.priceList[this.tixianData.checkIndex].id,
            desc:''
          })
       }
@@ -873,6 +886,10 @@ export default {
       // 看过翻倍红包的激励视频,则翻倍红包
       this.xinrenConfig.isViewVideo = true
       this.newUserDoubleHongbao()
+      }
+      //立即赚钱
+      if(this.appParms.mPlacementId=='p638ee45965a5e'){
+          this.getNewUserInfo()
       }
 
       // 观看提现-激励视频 更新提现档 以及  视频解锁状态
