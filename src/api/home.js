@@ -37,6 +37,10 @@ const homeApi = {
     xunzhang(data) {
         return http.get('/step_counting/medal')
     },
+    //获取视频解锁进度
+    getVideoProgress(){
+        return http.get('/step_counting/video_task/video_state')
+    }
 
 }
 export default homeApi

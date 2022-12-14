@@ -20,11 +20,11 @@
             </div>
           </div>
           
-          <div class="videogg">
+          <div class="videogg" v-if="$store.state.video_progress.lock_status!=4">
 <!--            视频解锁  明日再来 立即提现-->
-              <img v-if="data.lock_status==1" src="//img.ibestfanli.com/sign_static_quick3/balance_five_unlock.png" class="bannerIcon" @click="showAddedBonuseModal"/>
-              <img v-else-if="data.lock_status==2" src="../assets/images/txtc_btn_mingrizailai.png" class="bannerIcon" @click="openAgainLayer"/>
-              <img v-else src="../assets/images/txtc_btn_lijitixian.png" class="bannerIcon"/>
+              <img v-if="$store.state.video_progress.lock_status==1" src="//img.ibestfanli.com/sign_static_quick3/balance_five_unlock.png" class="bannerIcon" @click="showAddedBonuseModal"/>
+              <img v-else-if="$store.state.video_progress.lock_status==2" src="../assets/images/txtc_btn_mingrizailai.png" class="bannerIcon" @click="openAgainLayer"/>
+              <img v-else-if="$store.state.video_progress.lock_status==3" src="../assets/images/txtc_btn_lijitixian.png" class="bannerIcon" @click="showAddedBonuseModal"/>
           </div>
           <div class="flex-sb">
             <div class="tit">选择提现金额</div>
@@ -41,7 +41,7 @@
               <span :class="[Number(item.user_reward)?'money':'']">{{item.user_reward}}</span>
               <span class="priceUnit" v-if="item.unit">{{item.unit}}</span>
 
-              <div class="rondom-hour" v-if="item.sign ==='最高5元'&&item.user_reward!='随机金额'">24时后过期</div>
+              <div class="rondom-hour" v-if="item.sign ==='最高5元'&&item.user_reward!='随机金额'">{{$store.state.video_progress.time}}时后过期</div>
             </div>
 
           </div>
@@ -50,10 +50,11 @@
               <img src="//img.ibestfanli.com/sign_static_quick3/balance_tip.png" class="tipIcon">
             </div> -->
             <div class="FingerButton" v-if="data.priceList.length>0">
+              <div class="button1" v-if="data.priceList[data.checkIndex].sign ==='额外奖励'" @click="otherBtnFn">微信提现</div>
               <div class="button1" @click="vxTixianBtnFn" v-if="(data.priceList[data.checkIndex].user_reward === 0.3)">微信提现</div>
               <div class="button3" v-if="(data.priceList[data.checkIndex].user_reward === 150 || data.priceList[data.checkIndex].user_reward === 200)">立即赚钱</div>
               <div class="button4" v-if="data.priceList[data.checkIndex].user_reward === '随机金额'" @click="showAddedBonuseModal">看视频领5元</div>
-               <div class="button2" v-else @click="zfbTixianBtnFn">支付宝提现</div>
+               <div class="button2" v-if="data.priceList[data.checkIndex].sign ==='最高5元'&&data.priceList[data.checkIndex].user_reward!='随机金额'" @click="zfbTixianBtnFn">支付宝提现</div>
 
               <!-- <div class="button5">看视频领5元</div> -->
               <div class="circle" style="bottom: -0.2rem; right: -0.12rem;">
@@ -173,6 +174,14 @@ export default {
     //支付宝提现
     zfbTixianBtnFn(){
       this.$emit('zfbTixianFn','isZfbTixian')
+    },
+    //额外奖励
+    otherBtnFn(){
+      if(Number(this.data.priceList[this.data.checkIndex].user_reward)<0.3){
+        this.$layer.msg('余额不足0.3元，继续赚钱吧')
+      }else{
+         this.vxTixianBtnFn()
+      }
     }
   }
 }

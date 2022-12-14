@@ -277,9 +277,10 @@
     <layer v-model="addedBonusModalLayer" styles="background-color:transparent;width:100%;
     max-width:100%;"
            className="addedBonusModal"
+           @click="closeBonus"
     >
       <div class="content">
-        <img class="close" src="//img.ibestfanli.com/sign_static_quick3/addedBonusModalClose.png" @click="addedBonusModalLayer=false">
+        <img class="close" src="//img.ibestfanli.com/sign_static_quick3/addedBonusModalClose.png">
         <div id="btn" class="btn">
         </div>
       </div>
@@ -345,15 +346,20 @@
         </div>
       </div>
     </layer>
-
+<!--提现档框-->
     <pay-type-layer ref="payTypeModal"></pay-type-layer>
+<!--    签到-->
     <qian-dao-layer ref="qianDaoModal" @viewVideoAndQiandao="viewVideoAndQiandao"></qian-dao-layer>
+<!--    观看视频进度-->
     <video-step-layer ref="videoStepLayer" @viewTixian="viewTixian"></video-step-layer>
+<!--    漂浮金币-->
     <piao-fu-jin-bi-layer ref="piaoFuJinBiLayer"></piao-fu-jin-bi-layer>
     <!-- 看视频加载loading -->
     <loading-video-layer ref="loadingVideoLayer" @playVideoFn="playVideoOrInsertAdFn"></loading-video-layer>
     <!-- 第二天签到提示 -->
     <tip-qian-dao-layer ref="tipQianDaoLayer"></tip-qian-dao-layer>
+<!--    支付宝获取现金提示框-->
+    <aliy-layer ref="aliyLayer" @zfbTixian="zfbTixian"></aliy-layer>
   </div>
 </template>
 
@@ -368,6 +374,7 @@ import videoStepLayer from '@/components/modalLayer/videoStepLayer.vue'
 import piaoFuJinBiLayer from '@/components/modalLayer/piaofujinbiLayer.vue'
 import loadingVideoLayer from '@/components/modalLayer/loadingVideoLayer.vue'
 import tipQianDaoLayer from '@/components/modalLayer/tipqiandaoLayer.vue'
+import aliyLayer from '@/components/modalLayer/aliyLayer.vue'
 export default {
   name: "home",
   data() {
@@ -413,7 +420,6 @@ export default {
         priceList: [],
         tixian_price:150, //要提现金额
         status:true,//提现状态 成功 失败
-        lock_status:1 //todo 视频解锁状态 1 未解锁 2 已解锁小于 3 已解锁大于两天
       },
       againLayer:false //明日再来提示 弹窗
     }
@@ -426,7 +432,8 @@ export default {
     videoStepLayer,
     piaoFuJinBiLayer,
     loadingVideoLayer,
-    tipQianDaoLayer
+    tipQianDaoLayer,
+    aliyLayer
   },
   created() {
     //App调用此页面的方法
@@ -440,6 +447,8 @@ export default {
     window.onAdShow = this.onAdShow
     window.OnVxChatWithdrawalSuccess = this.OnVxChatWithdrawalSuccess
     window.OnVxChatWithdrawalFail = this.OnVxChatWithdrawalFail
+    window.OnAlipayWithdrawalSuccess = this.OnAlipayWithdrawalSuccess
+    window.OnAlipayWithdrawalFail = this.OnAlipayWithdrawalFail
 
     // 获取当前登录的用户信息
     this.getLoginUserInfo()
@@ -449,8 +458,8 @@ export default {
     this.personRun()
     // 获取新人红包信息
     this.getNewUserInfo()
-    //todo api 获取视频状态
-
+    //获取视频解锁进度及状态
+    this.$store.dispatch('getVideoProgress')
   },
   destroyed () {
     clearInterval(this.ggRoll.interval)
@@ -599,7 +608,7 @@ export default {
           this.showWchatLayer = true
           this.utils.webDataToApp('setAtNativeAdViewGONE',{})
           clearInterval(this.timerNum)
-          clearTimeout(this.xinrenTimer)
+          // clearTimeout(this.xinrenTimer)
 
           // 显示信息流
           this.appParms = {
@@ -669,6 +678,14 @@ export default {
       })
 
     },
+    //关闭百分百提现弹窗
+    closeBonus(){
+      this.appParms = {
+        mPlacementId: 'p638ef0b19d95f',
+        adType: 1
+      }
+      this.$refs['loadingVideoLayer'].showModalFn()
+    },
     // 显示百分百可提现弹框
     showAddedBonuseModal(type) {
       if(!this.xinrenConfig.isNewFlag) {
@@ -678,18 +695,14 @@ export default {
       //视频解锁
       if(type=='isVideoUnlock'){
         //明日再来
-        if(this.tixianData.lock_status==2){
+        if(this.$store.state.video_progress.lock_status==2){
            this.openAgainLayer()
         }
         //立即提现
-        else if(this.tixianData.lock_status==3){
+        else if(this.$store.state.video_progress.lock_status==3){
              this.$refs['videoStepLayer'].showModalFn()
         }
         else {
-          this.appParms = {
-            mPlacementId: 'p638ef0b19d95f',
-            adType: 1
-          }
           this.addedBonusModalLayer = true
 
         }
@@ -727,11 +740,21 @@ export default {
     },
     //支付宝提现
     zfbTixianFn(){
-         //TODO
+       this.$refs['aliyLayer'].showModalFn()
+    },
+    zfbTixian(){
+      this.utils.webDataToApp('setAlipayWithdrawal',{
+        uid:this.$store.state.base_data.userId,
+        product_id:this.$store.state.base_data.productId,
+        withdraw_id:this.tixianData[this.tixianData.checkIndex].id,
+        desc:''
+      })
+
     },
     //观看提现 看完要更新提现档
     viewTixian(){
-      if(this.tixianData.priceList[this.tixianData.checkIndex].sign=='最高5元'&&this.tixianData.priceList[this.tixianData.checkIndex].user_reward!='随机金额'){
+      if(this.tixianData.priceList[this.tixianData.checkIndex].sign=='最高5元'&&
+          this.tixianData.priceList[this.tixianData.checkIndex].user_reward!='随机金额'){
         //支付宝提现
         return this.zfbTixianFn()
       }
@@ -761,6 +784,7 @@ export default {
         adType:2,
         returnScale:2
       }
+      this.playVideoOrInsertAdFn()
       this.tixianSuccessLayer = true
       this.tixianData.status = true
     },
@@ -769,6 +793,22 @@ export default {
       this.tixianSuccessLayer = true
       this.tixianData.status = false
     },
+    //支付宝提现成功返回
+    OnAlipayWithdrawalSuccess(){
+      //提现成功 信息流
+      this.appParms={
+        mPlacementId:'p638ee1ece33ff',
+        adType:2,
+        returnScale:2
+      }
+      this.playVideoOrInsertAdFn()
+      this.tixianData.status = true
+    },
+    //支付宝提现失败返回
+    OnAlipayWithdrawalFail(){
+      this.tixianData.status = false
+    },
+
     // 关闭广告
     onAdDismiss(params) {
       console.log('调用了关闭广告：'+params)
@@ -786,8 +826,11 @@ export default {
 
       //视频解锁 激励视频关闭
       if(this.appParms.mPlacementId=='p638ef0b19d95f'){
-        //todo api 获取视频状态
-          this.openAgainLayer()
+        this.addedBonusModalLayer=false
+        //获取视频解锁进度及状态
+        this.$store.dispatch('getVideoProgress')
+
+        this.openAgainLayer()
       }
     },
     // 点击广告
@@ -832,8 +875,10 @@ export default {
       this.newUserDoubleHongbao()
       }
 
-      // 观看提现-激励视频 更新提现档 以及 todo 视频解锁状态
+      // 观看提现-激励视频 更新提现档 以及  视频解锁状态
       if(this.appParms.mPlacementId=='p638ef0c28007c'){
+        //获取视频解锁进度及状态
+        this.$store.dispatch('getVideoProgress')
         this.getWithdrawList()
       }
     }
