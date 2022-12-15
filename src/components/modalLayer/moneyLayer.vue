@@ -6,7 +6,7 @@
 <!--    恭喜获得-->
     <img class="congrua" src="../../assets/images/xzlqhb_biaoti.png" alt="">
     <div class="content">
-      <img class="close" src="../../assets/images/icon_close_yell.png" @click="addedBonusModalLayer=false">
+      <img class="close" src="../../assets/images/icon_close_yell.png" @click="closeMoneyPackageLayer">
 
       <div class="top-box">
       <div class="title">
@@ -15,13 +15,13 @@
       </div>
 
       <div class="price">
-        <animate-number  from="0" :to="package.price" :key="package.price" duration="4500" :formatter="priceFormatter">
+        <animate-number  from="0" :to="$store.state.video_lock.reward" :key="$store.state.video_lock.reward" duration="4500" :formatter="priceFormatter">
         </animate-number>
         <span class="priceAfter">翻1～3倍</span>
       </div>
       </div>
 
-      <div id="btn" class="btn">
+      <div id="btn" class="btn" @click="openDoublePackageLayer">
         点击翻倍红包
       </div>
     </div>
@@ -52,6 +52,14 @@ export default {
     priceFormatter: function (num) {
       return num.toFixed(2)
     },
+    closeMoneyPackageLayer(){
+      this.hideModalFn()
+      this.$emit('closeMoneyPackageLayer')
+    },
+    openDoublePackageLayer(){
+      this.hideModalFn()
+      this.$emit('openDoublePackageLayer')
+    }
   }
 }
 </script>

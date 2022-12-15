@@ -22,6 +22,7 @@ export default new Vuex.Store({
         video_lock:{
             total:3, //需要解锁数
             complete_num:0,  //视频解锁进度
+            reward:'', //奖励金额
         }
     },
     mutations: {
@@ -38,6 +39,9 @@ export default new Vuex.Store({
         },
         setVideoLockInfo(state,data){
             state.video_lock.complete_num = data.complete_num
+        },
+        setVideoReward(state,data){
+            state.video_lock.reward = data.reward
         }
     },
     actions: {
@@ -47,6 +51,23 @@ export default new Vuex.Store({
         getVideoProgress(context, data) {
             context.dispatch('getVideoNum',data)
             context.dispatch('getWithdraw')
+        },
+        async addVideoProgress(context,data){
+            try {
+                let resData = await homeApi.addVideoProgress()
+                context.commit('setVideoReward',resData.data)
+                context.dispatch('getVideoProgress',data)
+            }catch (e) {
+
+            }
+        },
+        async getVideoProgressDouble(context,data){
+            try {
+                let resData = await homeApi.setVideoProgressDouble({state:data.state})
+                context.commit('setVideoReward',resData.data)
+            }catch (e) {
+
+            }
         },
         async getVideoNum(context, data) {
             try {

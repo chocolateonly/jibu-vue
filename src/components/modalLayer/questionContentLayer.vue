@@ -16,12 +16,12 @@
         </div>
 
         <div class="question">
-          本平台可提现现金金额是多少？
+          {{ question.title }}
         </div>
 
         <div class="answer">
-          <div class="answer-item">是</div>
-          <div class="answer-item">否</div>
+<!--          todo： 答案只返回了一个-->
+          <div class="answer-item" @click="answer">{{question.answer}}</div>
         </div>
 
       </div>
@@ -39,8 +39,8 @@ export default {
     return {
       addedBonusModalLayer:false,
       question:{
-        question:16.66,
-        aw:false
+        title:'',
+        answer:''
       }
     }
   },
@@ -52,6 +52,10 @@ export default {
     },
     hideModalFn() {
       this.addedBonusModalLayer = false
+    },
+    answer(){
+      this.hideModalFn()
+      this.$emit('openMoneyPackage')
     },
   }
 }

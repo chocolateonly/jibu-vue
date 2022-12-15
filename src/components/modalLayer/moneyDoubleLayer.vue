@@ -5,7 +5,7 @@
   >
     <img class="congru" src="../../assets/images/xzlqhb_biaoti.png" alt="">
     <div class="content">
-      <img class="close" src="../../assets/images/icon_close_yell.png" @click="addedBonusModalLayer=false">
+      <img class="close" src="../../assets/images/icon_close_yell.png" @click="close">
 
       <div class="top-box">
         <div class="title">
@@ -20,7 +20,7 @@
         </div>
       </div>
 
-      <div id="btn" class="btn">
+      <div id="btn" class="btn" @click="close">
         开心收下
       </div>
     </div>
@@ -51,6 +51,10 @@ export default {
     priceFormatter: function (num) {
       return num.toFixed(2)
     },
+    close(){
+      this.hideModalFn()
+      this.$emit('closeDoublePackageLayer')
+    }
   }
 }
 </script>

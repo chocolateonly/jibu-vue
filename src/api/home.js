@@ -49,7 +49,7 @@ const homeApi = {
         return http.get('/step_counting/video_task/subject')
     },
     //获取视频任务红包展示
-    getVideoProgressDouble(){
+    addVideoProgress(){
         return http.get('/step_counting/video_task')
     },
     //视频任务红包翻倍

@@ -13,13 +13,13 @@
         </div>
 
         <div class="price">
-          <animate-number  from="0" :to="package.price" :key="package.price" duration="4500" :formatter="priceFormatter">
+          <animate-number  from="0" :to="$store.state.video_lock.reward" :key="$store.state.video_lock.reward" duration="4500" :formatter="priceFormatter">
           </animate-number>
           <span class="priceAfter">待翻倍</span>
         </div>
       </div>
       <img class="dt-txt" src="../../assets/images/dati-txt.png" />
-      <div id="btn" class="btn">
+      <div id="btn" class="btn" @click="goAnswer">
         马上挑战
       </div>
       <div class="tip-btn" @click="close">放弃挑战</div>
@@ -50,11 +50,16 @@ export default {
     },
     close(){
       this.hideModalFn()
+      this.$emit('closeQuestionLayer')
     },
     // 格式化金额
     priceFormatter: function (num) {
       return num.toFixed(2)
     },
+    goAnswer(){
+      this.hideModalFn()
+      this.$emit('openQuestionContent')
+    }
   }
 }
 </script>

@@ -363,13 +363,15 @@
 <!--    支付宝获取现金提示框-->
     <aliy-layer ref="aliyLayer" @zfbTixian="zfbTixian"></aliy-layer>
 <!--    获取红包现金-->
-    <money-layer ref="moneyLayer" />
+    <money-layer ref="moneyLayer" @closeMoneyPackageLayer="closeMoneyPackageLayer"
+    @openDoublePackageLayer="openDoublePackageLayer"/>
 <!--    获取红包现金翻倍-->
-    <money-double-layer ref="moneyDoubleLayer" />
+    <money-double-layer ref="moneyDoubleLayer" @closeDoublePackageLayer="closeDoublePackageLayer" />
 <!--    马上答题-->
-    <question-layer ref="questionLayer" />
+    <question-layer ref="questionLayer" @openQuestionContent="openQuestionContent"
+                    @closeQuestionLayer="closeQuestionLayer"/>
 <!--    答题-->
-    <question-content-layer ref="questionContentLayer" />
+    <question-content-layer ref="questionContentLayer" @openMoneyPackage="openMoneyPackage"/>
 
   </div>
 </template>
@@ -484,7 +486,7 @@ export default {
 
     //mockc
     // this.zfbTixianFn()
-    this.$refs['questionContentLayer'].showModalFn()
+    this.$refs['qianDaoModal'].showModalFn()
 
   },
   destroyed () {
@@ -538,13 +540,59 @@ export default {
 
       }
     },
-    //继续提现 多乐计步-提现后继续提现激励视频 todo:激励视频看完的逻辑
+    //去回答问题
+    openQuestionContent(){
+      this.$refs['questionContentLayer'].showModalFn()
+    },
+    //关闭答题
+    closeQuestionLayer(){
+      //插屏广告
+      this.appParms ={
+        mPlacementId: 'p638ef5c161df6',
+        adType: 3
+      }
+      this.playVideoOrInsertAdFn()
+    },
+    //查看红包
+    openMoneyPackage(){
+      this.appParms={
+        mPlacementId: 'p638ee426abcca',
+        adType: 1
+      }
+      this.$refs['loadingVideoLayer'].showModalFn('getMoney')
+
+    },
+    //打开红包现金翻倍
+    openDoublePackageLayer(){
+      this.utils.webDataToApp('setAtNativeAdViewGONE',{})
+      this.appParms={
+        mPlacementId:'p638ee41b803cb',
+        adType:1
+      }
+      this.playVideoOrInsertAdFn()
+    },
+    closeMoneyPackageLayer(){
+      this.utils.webDataToApp('setAtNativeAdViewGONE',{})
+      this.appParms={
+        mPlacementId:'p638ef5c161df6',
+        adType:3
+      }
+      this.playVideoOrInsertAdFn()
+    },
+    //关闭红包现金红包翻倍
+    closeDoublePackageLayer(){
+      this.utils.webDataToApp('setAtNativeAdViewGONE',{})
+      //todo : 红包动效
+
+    },
+    //继续提现 多乐计步-提现后继续提现激励视频
     continueTixian(){
       this.appParms={
         mPlacementId:'p638ee3ca69bc2',
         adType:1
       }
-      this.playVideoOrInsertAdFn()
+      // 加载播放视频loading
+      this.$refs['loadingVideoLayer'].showModalFn('getMoney')
     },
     //关闭提现成功弹窗 - 多乐计步-关闭提现成功弹窗插屏
     closeTiXianSuccessBox(){
@@ -988,29 +1036,51 @@ export default {
         this.$store.dispatch('getVideoLockInfo',{state:1})
         this.getWithdrawList()
       }
-      //更新数据 1 领无门槛红包  2 视频任务进度 3 首页观看视频按钮及视频进度去提现
+      //更新数据 1 领无门槛红包  2 视频任务进度 3 首页观看视频按钮及视频进度去提现 4 继续提现
       if(this.appParms.mPlacementId=='p638ee3d3a3b75'||
           this.appParms.mPlacementId=='p638ee3dc917ab'||
-          this.appParms.mPlacementId=='p638ee3eb90b46'
+          this.appParms.mPlacementId=='p638ee3eb90b46'||
+          this.appParms.mPlacementId=='p638ee3ca69bc2'
       ){
           this.showHongbaoLayer=false;
-          this.getNewUserInfo()
           this.getWithdrawList()
-          this.$store.dispatch('getVideoProgress',{
+          this.$store.dispatch('addVideoProgress',{
             callback:()=>{
+              this.getNewUserInfo()
+
               //判断奇偶
               if(this.$store.state.video_progress.video_nums%2==0){
                 //去答题
-
+                this.$refs['questionLayer'].showModalFn()
               }else{
                 //获得金额
-
+                this.appParms = {
+                  mPlacementId: 'p638ee22d967ba',
+                  adType: 2,
+                  returnScale: 2
+                }
+                this.playVideoOrInsertAdFn()
+                this.$refs['moneyLayer'].showModalFn()
               }
             }
           })
-          //去提现
-          // this.showTixianPayler()
-
+      }
+      //视频任务红包翻倍
+      if(this.appParms.mPlacementId=='p638ee426abcca'||
+         this.appParms.mPlacementId=='p638ee41b803cb'){
+          this.$store.dispatch('getVideoProgressDouble',{
+            state:1,
+            callback:()=>{
+              this.getNewUserInfo()
+              this.appParms = {
+                mPlacementId: 'p638ee239d518c',
+                adType: 2,
+                returnScale: 2
+              }
+              this.playVideoOrInsertAdFn()
+              this.$refs['moneyDoubleLayer'].showModalFn()
+            }
+          })
       }
 
     }
