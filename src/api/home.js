@@ -19,7 +19,10 @@ const homeApi = {
     getWithdrawOptions() {
      return http.get('/step_counting/withdraw')
     },
-
+    //随机金额 - 展示/触发视频任务 state 0展示看了多少视频，1触发一次看视频
+    getVideoLockInfo(data){
+      return http.post('/step_counting/withdraw',data)
+    },
     // 新人翻倍红包
     setNewUserHongBao(data) {
         return http.post('/step_counting/new_user',data)
@@ -40,7 +43,11 @@ const homeApi = {
     //获取视频解锁进度
     getVideoProgress(){
         return http.get('/step_counting/video_task/video_state')
-    }
+    },
+    //获取视频任务答题
+    getVideoLockQuestion(){
+        return http.get('/step_counting/video_task/subject')
+    },
 
 }
 export default homeApi

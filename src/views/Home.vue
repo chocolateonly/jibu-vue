@@ -363,13 +363,13 @@
 <!--    支付宝获取现金提示框-->
     <aliy-layer ref="aliyLayer" @zfbTixian="zfbTixian"></aliy-layer>
 <!--    获取红包现金-->
-    <money-layer />
+    <money-layer ref="moneylayer" />
 <!--    获取红包现金翻倍-->
-    <money-double-layer />
+<!--    <money-double-layer ref="moneyDoubleLayer" />-->
 <!--    马上答题-->
-    <question-layer />
+<!--    <question-layer ref="questionLayer" />-->
 <!--    答题-->
-    <question-content-layer />
+<!--    <question-content-layer ref="questionContentlayer" />-->
 
   </div>
 </template>
@@ -484,6 +484,7 @@ export default {
 
     //mock
     // this.zfbTixianFn()
+    this.$refs['moneylayer'].showModalFn()
 
   },
   destroyed () {
@@ -804,8 +805,7 @@ export default {
     },
     //观看提现 看完要更新提现档
     viewTixian(){
-      if(this.tixianData.priceList[this.tixianData.checkIndex].sign=='最高5元'&&
-          this.tixianData.priceList[this.tixianData.checkIndex].user_reward!='随机金额'){
+      if(this.$store.state.video_lock.complete_num==this.$store.state.video_lock.total){
         //支付宝提现
         return this.zfbTixianFn()
       }
@@ -984,7 +984,8 @@ export default {
       // 观看提现-激励视频 更新提现档 以及  视频解锁状态
       if(this.appParms.mPlacementId=='p638ef0c28007c'){
         //获取视频解锁进度及状态
-        this.$store.dispatch('getVideoProgress')
+        this.$store.dispatch('getWithdraw')
+        this.$store.dispatch('getVideoLockInfo',{state:1})
         this.getWithdrawList()
       }
       //更新数据 1 领无门槛红包  2 视频任务进度 3 首页观看视频按钮及视频进度去提现

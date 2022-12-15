@@ -1,5 +1,7 @@
 <template>
-
+  <div>
+    <img src="../../assets/images/dtxxtc_beijing.png" />
+  </div>
 </template>
 
 <script>

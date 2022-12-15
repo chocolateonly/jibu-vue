@@ -3,9 +3,25 @@
     max-width:100%;"
          className="addedBonusModal"
   >
+    <img src="../../assets/images/xzlqhb_biaoti.png" alt="">
     <div class="content">
-      <img class="close" src="//img.ibestfanli.com/sign_static_quick3/addedBonusModalClose.png" @click="addedBonusModalLayer=false">
+      <img class="close" src="../../assets/images/icon_close_yell.png" @click="addedBonusModalLayer=false">
+
+      <div class="top-box">
+      <div class="title">
+        <img class="t-left-img" src="../../assets/images/dtxxtc_icon_hongbao.png" alt="">
+        <span>现金红包</span>
+      </div>
+
+      <div class="price">
+        <animate-number  from="0" :to="package.price" :key="package.price" duration="4500" :formatter="priceFormatter">
+        </animate-number>
+        <span class="priceAfter">翻1～3倍</span>
+      </div>
+      </div>
+
       <div id="btn" class="btn">
+        点击翻倍红包
       </div>
     </div>
   </layer>
@@ -16,7 +32,11 @@ export default {
   name: "moneyLayer",
   data(){
     return {
-      addedBonusModalLayer:false
+      addedBonusModalLayer:false,
+      package:{
+        price:16.66,
+        isDouble:false
+      }
     }
   },
   methods:{
@@ -27,6 +47,10 @@ export default {
     hideModalFn() {
       this.addedBonusModalLayer = false
     },
+    // 格式化金额
+    priceFormatter: function (num) {
+      return num.toFixed(2)
+    },
   }
 }
 </script>
@@ -36,27 +60,63 @@ export default {
   position:absolute;
   left:50%;
   transform:translate(-50%);
-  height:220px;
-  width:220px;
-  top:680px;
-  //border:1px solid #fff;
+  line-height: 12vw;
+  width: 50vw;
+  bottom:200px;
+  background: url("../../assets/images/btn_tanchuang-Y-1.png") no-repeat;
+  background-size: contain;
+  color:#64120F;
+  font-size: 40px;
+  text-align: center;
 }
 .addedBonusModal .content {
-  width:100%;
-  height:80vh;
+  width:80%;
+  height:60vh;
   margin:0 auto;
   position:relative;
-  background:url(//img.ibestfanli.com/sign_static_quick3/addedBonusModalBg.png?v=1)  no-repeat;
+  background:url('../../assets/images/hdhbtc_tanchuanghongbao.png')  no-repeat;
   background-size:contain;
   background-position: center;
+  .top-box{
+    padding-top: 14.333vw;
+    padding-right: 5vw;
+  }
+  .t-left-img{
+    vertical-align: middle;
+  }
+  .title{
+    font-size: 40px;
+    font-weight: bold;
+    color: #64291C;
+  };
 }
 .addedBonusModal .content>.close {
   z-index:10;
   position:absolute;
-  top:280px;
+  top:9.667vw;
   right:100px;
-  width:70px;
-  height:70px;
+  width:50px;
+  height:50px;
 }
-
+.price {
+  position: relative;
+  display: inline-block;
+  margin:80px 0 60px 0;
+  font-weight:600;
+  color:#ED4734;
+  font-size:90px;
+  .pricebefoter {
+    font-size:45px;
+  }
+  .priceAfter {
+    position: absolute;
+    font-size:28px;
+    background:rgba(101, 226 ,52,.2);
+    color:#fff;
+    padding:8px 12px;
+    border-radius:20px 10px 15px 0;
+    top:-8vw;
+    right:-14vw;
+  }
+}
 </style>

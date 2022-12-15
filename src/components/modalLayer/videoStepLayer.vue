@@ -7,10 +7,11 @@
         <div class="videoStepModal withdrawTypeMain">
             <img class="closeIcon"  @click="hideModalFn" src="//img.ibestfanli.com/sign_static_quick3/failToDrawModal_closeIcon.png"/>
             <div class="contentbox">
+              <img src="../../assets/images/gksprwtc_beijing.png" alt="">
                 <div class="stepBody">
-                    <div class="li1" v-for="(item,index) in 4" :key="index">
+                    <div class="li1" v-for="(item,index) in $store.state.video_lock.total" :key="index">
                         <div class="liItem">
-                            <div class="node" :class="[currVideoNum === item?'on':item<currVideoNum?'off':'']">
+                            <div class="node" :class="[$store.state.video_lock.complete_num >= item?'on':item<$store.state.video_lock.complete_num?'off':'']">
                                 <div class="num">{{item}}</div>
                                 <div>观看第{{item}}个视频</div>
                             </div>
@@ -19,8 +20,8 @@
                     </div>
                     <div class="li1">
                         <div>
-                            <div class="node">
-                                <img src="//img.ibestfanli.com/sign_static_quick4/index_wechatIcon.png" class="oksrc"/>
+                            <div class="node" :class="$store.state.video_lock.complete_num==$store.state.video_lock.total?'on':''" style="font-size: 5vw;">
+                                <img src="../../assets/images/gksprwtc_icon_weixinzhifu.png" class="oksrc"/>
                                 <div>最高提现5元</div>
                             </div>
                             <div class="borderLeft"></div>
@@ -43,13 +44,12 @@ export default {
   data() {
     return {
         isShowVideoStepModal:false,
-        currVideoNum:3
     }
   },
   methods: {
-    showModalFn() {
-      //api:获取立即提现看视频进度
-        this.$store.dispatch('getVideoProgress')
+    async showModalFn() {
+      //获取视频解锁进度
+        this.$store.dispatch('getVideoLockInfo',{state:0})
         this.isShowVideoStepModal = true
     },
     hideModalFn() {
@@ -71,7 +71,7 @@ export default {
 
   .videoStepModal {
         position: relative;
-        padding:0 50px;
+        padding: 0 9.667vw;
         .closeIcon {
             position: absolute;
             height: 70px;
@@ -80,9 +80,9 @@ export default {
             right: 40px;
         }
         .contentbox {
-            background:#fff;
-            padding:40px 50px;
-            border-radius: 20px;
+            border-radius: 6.667vw;
+            background: url("../../assets/images/txcgdz_tanchuangbeijing.png") no-repeat;
+            background-size:cover;
             .stepBody {
                 width:280px;
                 margin:0 auto;
@@ -123,7 +123,7 @@ export default {
                     align-items: center;
                     color:#999;
                     position: absolute;
-                    border-radius: 50%;
+                    border-radius: 10px;
                     left: 0;
                     top: 11.225px;
                     transform: translate(-50%, -50%);
@@ -134,11 +134,12 @@ export default {
                     color: #999999;
                     text-align:left;
                     .oksrc {
-                        width:40px;
-                        height:40px;
+                        width:50px;
+                        height:50px;
                         position: absolute;
-                        left:-20px;
+                        left:-25px;
                         top:-10px;
+                      z-index: 99;
                     }
                 }
 

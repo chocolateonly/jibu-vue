@@ -1,5 +1,7 @@
 <template>
-
+<div>
+  <img src="../../assets/images/dthb_tanchuanghongbao.png" />
+</div>
 </template>
 
 <script>
