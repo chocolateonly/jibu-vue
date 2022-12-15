@@ -3,7 +3,8 @@
     max-width:100%;"
          className="addedBonusModal"
   >
-    <img src="../../assets/images/xzlqhb_biaoti.png" alt="">
+<!--    恭喜获得-->
+    <img class="congrua" src="../../assets/images/xzlqhb_biaoti.png" alt="">
     <div class="content">
       <img class="close" src="../../assets/images/icon_close_yell.png" @click="addedBonusModalLayer=false">
 
@@ -70,8 +71,8 @@ export default {
   text-align: center;
 }
 .addedBonusModal .content {
-  width:80%;
-  height:60vh;
+  width:700px;
+  height:800px;
   margin:0 auto;
   position:relative;
   background:url('../../assets/images/hdhbtc_tanchuanghongbao.png')  no-repeat;
@@ -93,8 +94,8 @@ export default {
 .addedBonusModal .content>.close {
   z-index:10;
   position:absolute;
-  top:9.667vw;
-  right:100px;
+  top: 6.667vw;
+  right: 17.333vw;
   width:50px;
   height:50px;
 }
@@ -110,13 +111,16 @@ export default {
   }
   .priceAfter {
     position: absolute;
-    font-size:28px;
+    font-size:22px;
     background:rgba(101, 226 ,52,.2);
     color:#fff;
     padding:8px 12px;
     border-radius:20px 10px 15px 0;
     top:-8vw;
-    right:-14vw;
+    right:-12vw;
+  }
+  .congrua{
+    width: 400px;
   }
 }
 </style>

@@ -363,13 +363,13 @@
 <!--    支付宝获取现金提示框-->
     <aliy-layer ref="aliyLayer" @zfbTixian="zfbTixian"></aliy-layer>
 <!--    获取红包现金-->
-    <money-layer ref="moneylayer" />
+    <money-layer ref="moneyLayer" />
 <!--    获取红包现金翻倍-->
-<!--    <money-double-layer ref="moneyDoubleLayer" />-->
+    <money-double-layer ref="moneyDoubleLayer" />
 <!--    马上答题-->
-<!--    <question-layer ref="questionLayer" />-->
+    <question-layer ref="questionLayer" />
 <!--    答题-->
-<!--    <question-content-layer ref="questionContentlayer" />-->
+    <question-content-layer ref="questionContentLayer" />
 
   </div>
 </template>
@@ -482,9 +482,9 @@ export default {
     //获取视频解锁进度及状态
     this.$store.dispatch('getVideoProgress')
 
-    //mock
+    //mockc
     // this.zfbTixianFn()
-    this.$refs['moneylayer'].showModalFn()
+    this.$refs['questionContentLayer'].showModalFn()
 
   },
   destroyed () {

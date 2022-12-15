@@ -48,6 +48,14 @@ const homeApi = {
     getVideoLockQuestion(){
         return http.get('/step_counting/video_task/subject')
     },
+    //获取视频任务红包展示
+    getVideoProgressDouble(){
+        return http.get('/step_counting/video_task')
+    },
+    //视频任务红包翻倍
+    setVideoProgressDouble(data){
+        return http.post('/step_counting/video_task',data)
+    },
 
 }
 export default homeApi
