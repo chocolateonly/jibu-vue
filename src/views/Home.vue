@@ -575,7 +575,7 @@ export default {
     //立即赚钱
     receiveMoney(){
       this.appParms={
-        mPlacementId: 'p638ee45965a5e',
+        mPlacementId: 'p6399488176bea',
         adType: 1
       }
       // 加载播放视频loading
@@ -754,14 +754,26 @@ export default {
         this.utils.webDataToApp('setAtNativeAdViewGONE',{})
 
         // 说明点击了直接关闭微信弹框
-        // this.newUserDoubleHongbao()
         if(this.xinrenConfig.clickNum === 1) {
           // 显示提现弹窗
           this.xinrenConfig.clickNum +=1
           this.showTixianPayler()
         } else {
           // 关闭弹框
-          this.showWchatLayer = false
+          if(this.xinrenConfig.isViewVideo){
+            //翻倍
+            this.appParms={
+              mPlacementId: 'p638ef3868dfbe',
+              adType: 3
+            }
+          }else{
+            //不翻倍
+            this.appParms={
+              mPlacementId: 'p638ef37c27027',
+              adType: 3
+            }
+          }
+          this.playVideoOrInsertAdFn()
         }
       }
     },
@@ -886,6 +898,10 @@ export default {
       console.log('调用了关闭广告：'+params)
 
 
+      //新人红包微信提现关闭 新人红包微信提现翻倍关闭
+      if(this.appParms.mPlacementId=='p638ef3868dfbe'||this.appParms.mPlacementId=='p638ef37c27027'){
+        this.showWchatLayer = false
+      }
       //无门槛红包弹窗关闭
       if(this.appParms.mPlacementId=='p638ef5b19b098'){
         this.showHongbaoLayer = false
@@ -950,11 +966,18 @@ export default {
 
       if(this.appParms.mPlacementId=='p638ee3b03599f'){
       // 看过翻倍红包的激励视频,则翻倍红包
+        this.utils.webDataToApp('setAtNativeAdViewGONE',{})
+        this.appParms ={
+          mPlacementId: 'p638ee1ae400e5',
+          adType: 2,
+          returnScale: 2
+        }
+      this.playVideoOrInsertAdFn()
       this.xinrenConfig.isViewVideo = true
       this.newUserDoubleHongbao()
       }
       //立即赚钱
-      if(this.appParms.mPlacementId=='p638ee45965a5e'){
+      if(this.appParms.mPlacementId=='p6399488176bea'){
           this.getNewUserInfo()
       }
 
