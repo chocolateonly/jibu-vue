@@ -23,7 +23,8 @@ export default new Vuex.Store({
             total:3, //需要解锁数
             complete_num:0,  //视频解锁进度
             reward:'', //奖励金额
-        }
+        },
+        reward_money:0 ,//抽奖金额
     },
     mutations: {
         setBaseData(state, data) {
@@ -42,6 +43,9 @@ export default new Vuex.Store({
         },
         setVideoReward(state,data){
             state.video_lock.reward = data.reward
+        },
+        setRewardInfo(state,data){
+            state.reward_money = data
         }
     },
     actions: {

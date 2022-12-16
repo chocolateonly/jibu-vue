@@ -12,7 +12,7 @@ export default {
         return ''
     },
     // 将web数据出给app
-    webDataToApp (func, params = {}) {
+    webDataToApp (func, params ) {
         console.log('调用Android方法：',func,window)
         if (this.phonePlatform() == ''){
             return;

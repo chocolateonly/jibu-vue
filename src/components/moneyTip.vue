@@ -3,12 +3,12 @@
   <!--恭喜获得0.2元-->
   <div  class="congrua">
     <img src="../assets/images/xzlqhb_biaoti.png" alt="">
-    <i>{{money}}元</i>
+    <i>{{$store.state.reward_money}}元</i>
   </div>
 
   <div class="content">
       <div class="package">
-        <div class="package-num">{{ money }}元</div>
+        <div class="package-num">{{ $store.state.reward_money }}元</div>
       </div>
     <canvas class="canvas" id="pag"></canvas>
 
@@ -22,7 +22,7 @@ export default {
   name: "moneyTip",
   data(){
     return {
-      money:0.2
+      money:0
     }
   },
   mounted() {

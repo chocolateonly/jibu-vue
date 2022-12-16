@@ -56,12 +56,14 @@ const homeApi = {
     setVideoProgressDouble(data){
         return http.post('/step_counting/video_task',data)
     },
-    //视频任务抽奖
+    //抽奖结果
+    getRaffleRes(){
+        return http.get('/step_counting/video_task/luck_draw')
+    },
+    //提现抽奖
     getRaffleOptions(){
         return http.get('/step_counting/video_task/turntable')
     },
-    //提现抽奖
-
 
 }
 export default homeApi

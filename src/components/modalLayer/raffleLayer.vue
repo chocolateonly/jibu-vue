@@ -6,7 +6,7 @@
     <!--    恭喜获得-->
     <img class="congrua" src="../../assets/images/cjjm_biaoti.png" alt="">
     <div class="content">
-      <img class="close" src="../../assets/images/cjjm_icon_guanbi.png" @click="closeMoneyPackageLayer">
+      <img class="close" src="../../assets/images/cjjm_icon_guanbi.png" @click="closeLayer">
       <div class="top-box" v-if="options.length>0">
 
         <div class="option-item" v-for="(item,index) in 9" :key="index" :class="item==5?'center':index==selected?'selected':''">
@@ -17,10 +17,10 @@
 
     </div>
 
-    <div id="btn" class="btn" @click="openDoublePackageLayer">
+    <div id="btn" class="btn" @click="openLayer">
       点击抽奖
     </div>
-    <div class="tip">抽奖金额100%提现，微信支付宝秒到账</div>
+    <div class="tip" v-if="false">抽奖金额100%提现，微信支付宝秒到账</div>
 
   </layer>
 </template>
@@ -45,21 +45,24 @@ export default {
 
       this.addedBonusModalLayer = true
 
+      this.timer = setInterval(()=>{
+        const index = Math.floor(Math.random()*9)
+        this.selected = index==4?5:index;
+      },700)
+
     },
     hideModalFn() {
+      clearInterval(this.timer)
       this.addedBonusModalLayer = false
     },
-    // 格式化金额
-    priceFormatter: function (num) {
-      return num.toFixed(2)
-    },
-    closeMoneyPackageLayer(){
+    closeLayer(){
       this.hideModalFn()
-      this.$emit('closeMoneyPackageLayer')
     },
-    openDoublePackageLayer(){
+   async openLayer(){
       this.hideModalFn()
-      this.$emit('openDoublePackageLayer')
+      let resData = await homeApi.getRaffleRes()
+      this.$store.commit('setRewardInfo',resData.data.withdrawal_num)
+      this.$emit('openRaffleMoneyLayer')
     }
   }
 }

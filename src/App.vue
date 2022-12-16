@@ -15,8 +15,8 @@ export default {
   },
   created() {
     //获取基本信息
-    // this.utils.webDataToApp('getBaseJson', {})
-    // window.setBaseData =this.setBaseData
+    this.utils.webDataToApp('getBaseJson', {})
+    window.setBaseData =this.setBaseData
   },
   mounted() {
    // this.pag()

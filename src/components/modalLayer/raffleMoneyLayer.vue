@@ -5,10 +5,10 @@
   >
     <money-tip />
 
-    <div id="btn" class="btn" @click="openDoublePackageLayer">
+    <div id="btn" class="btn" @click="openLayer">
       立即提现
     </div>
-    <div class="tip" v-if="false">收下，暂时不提现</div>
+    <div class="tip" @click="closeLayer">收下，暂时不提现</div>
 
   </layer>
 </template>
@@ -39,17 +39,13 @@ export default {
     hideModalFn() {
       this.addedBonusModalLayer = false
     },
-    // 格式化金额
-    priceFormatter: function (num) {
-      return num.toFixed(2)
-    },
-    closeMoneyPackageLayer(){
+    closeLayer(){
       this.hideModalFn()
-      this.$emit('closeMoneyPackageLayer')
+      this.$emit('closeRaffleMoneyLayer')
     },
-    openDoublePackageLayer(){
+    openLayer(){
       this.hideModalFn()
-      this.$emit('openDoublePackageLayer')
+      this.$emit('fromRaffleMoneyToTixian')
     }
   }
 }

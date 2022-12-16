@@ -373,9 +373,12 @@
 <!--    答题-->
     <question-content-layer ref="questionContentLayer" @openMoneyPackage="openMoneyPackage"/>
 <!--提现抽奖-->
-    <raffle-layer ref="raffleLayer" />
+    <raffle-layer ref="raffleLayer" @openRaffleMoneyLayer="openRaffleMoneyLayer" />
 <!--    抽奖结果-->
-    <raffle-money-layer ref="raffleMoneyLayer" />
+    <raffle-money-layer ref="raffleMoneyLayer" @closeRaffleMoneyLayer="closeRaffleMoneyLayer"
+    @fromRaffleMoneyToTixian="fromRaffleMoneyToTixian"/>
+<!--    红包金额展示-->
+    <raffle-res-layer  ref="raffleResLayer" @showRaffleResVideo="showRaffleResVideo" @hideRaffleResVideo="hideRaffleResVideo"/>
   </div>
 </template>
 
@@ -397,6 +400,7 @@ import questionLayer from "@/components/modalLayer/questionLayer";
 import questionContentLayer from "@/components/modalLayer/questionContentLayer";
 import raffleLayer from "@/components/modalLayer/raffleLayer";
 import raffleMoneyLayer from "@/components/modalLayer/raffleMoneyLayer";
+import raffleResLayer from "@/components/modalLayer/raffleResLayer";
 export default {
   name: "home",
   data() {
@@ -462,6 +466,7 @@ export default {
     questionContentLayer,
     raffleLayer,
     raffleMoneyLayer,
+    raffleResLayer,
 
   },
   computed:{
@@ -508,13 +513,67 @@ export default {
     this.$store.dispatch('getVideoProgress')
 
     //todo mock
-    this.$refs['raffleLayer'].showModalFn()
+    // this.$refs['raffleResLayer'].showModalFn()
   },
   destroyed () {
     clearInterval(this.ggRoll.interval)
     clearInterval(this.persionTimer)
   },
   methods: {
+    //显示红包金额
+    openRaffleMoneyLayer(){
+      if(this.$store.state.reward_money<0.3){
+        //遗憾未中奖  不足0.3
+        this.$refs['raffleResLayer'].showModalFn()
+      }else{
+        this.$refs['raffleMoneyLayer'].showModalFn()
+      }
+    },
+    //关闭红包金额
+    closeRaffleMoneyLayer(){
+      this.appParms={
+        mPlacementId: 'p638ef5efc55df',
+        adType: 3
+      }
+      this.playVideoOrInsertAdFn()
+    },
+    //红包金额-立即提现
+    fromRaffleMoneyToTixian(){
+      if(this.$store.state.reward_money<0.3){
+        //微信不能提现
+        this.$refs['raffleResLayer'].showModalFn()
+      }else{
+         this.appParms={
+           mPlacementId: 'p638ee431c8037',
+           adType: 1
+         }
+         this.playVideoOrInsertAdFn()
+      }
+    },
+    //红包金额-提现提示-激励视频
+    showRaffleResVideo(){
+      if(this.$store.state.reward_money==0){
+        this.appParms={
+          mPlacementId: 'p638ee474e3500',
+          adType: 1
+        }
+      }else{
+        //不足0.3
+        this.appParms={
+          mPlacementId: 'p638ee464b8c7c',
+          adType: 1
+        }
+      }
+      this.playVideoOrInsertAdFn()
+    },
+    //
+    hideRaffleResVideo(){
+      this.appParms={
+        mPlacementId: 'p638ef63d5aa3b',
+        adType: 3
+      }
+      this.playVideoOrInsertAdFn()
+    },
     // 获取当前登录的用户信息
     async getLoginUserInfo() {
       try{
@@ -1102,6 +1161,10 @@ export default {
               this.$refs['moneyDoubleLayer'].showModalFn()
             }
           })
+      }
+      //红包金额去提现
+      if(this.appParms.mPlacementId=='p638ee431c8037'){
+        this.showTixianPayler()
       }
 
     }
