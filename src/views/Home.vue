@@ -358,7 +358,7 @@
     <piao-fu-jin-bi-layer ref="piaoFuJinBiLayer"></piao-fu-jin-bi-layer>
     <!-- 看视频加载loading -->
     <loading-video-layer ref="loadingVideoLayer" @playVideoFn="playVideoOrInsertAdFn"></loading-video-layer>
-    <!-- 第二天签到提示 -->
+    <!-- 第二天签到提示 连续签到7天得50元-->
     <tip-qian-dao-layer ref="tipQianDaoLayer"></tip-qian-dao-layer>
 <!--    支付宝获取现金提示框-->
     <aliy-layer ref="aliyLayer" @zfbTixian="zfbTixian"></aliy-layer>
@@ -372,7 +372,8 @@
                     @closeQuestionLayer="closeQuestionLayer"/>
 <!--    答题-->
     <question-content-layer ref="questionContentLayer" @openMoneyPackage="openMoneyPackage"/>
-
+<!--提现抽奖-->
+    <raffle-layer ref="raffleLayer" />
   </div>
 </template>
 
@@ -393,6 +394,7 @@ import moneyDoubleLayer from "@/components/modalLayer/moneyDoubleLayer";
 import questionLayer from "@/components/modalLayer/questionLayer";
 import questionContentLayer from "@/components/modalLayer/questionContentLayer";
 import raffleLayer from "@/components/modalLayer/raffleLayer";
+
 export default {
   name: "home",
   data() {
@@ -484,10 +486,8 @@ export default {
     //获取视频解锁进度及状态
     this.$store.dispatch('getVideoProgress')
 
-    //mockc
-    // this.zfbTixianFn()
-    this.$refs['qianDaoModal'].showModalFn()
-
+    //mock
+    this.$refs['raffleLayer'].showModalFn()
   },
   destroyed () {
     clearInterval(this.ggRoll.interval)

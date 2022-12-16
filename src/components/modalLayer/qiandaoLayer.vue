@@ -1,5 +1,7 @@
 <template>
-     <layer v-model="qiandaoPayLayer" styles="background-color:transparent;width:100%;
+  <div>
+
+  <layer v-model="qiandaoPayLayer" styles="background-color:transparent;width:100%;
     max-width:100%;"
     className="qiandaoModal"
     >
@@ -8,7 +10,7 @@
                 <img class="close" @click="hideModalFn" src="//img.ibestfanli.com/sign_static_quick3/reward_modal_close.png" alt="关闭">
                 <div class="content">
                     <div class="top">
-                        <div class="rule flex column-center">
+                        <div class="rule flex column-center" @click="showRule">
                             <span>签到规则</span>
                             <img class="question" src="//img.ibestfanli.com/sign_static_quick3/question_icon.png" alt="问号">
                         </div>
@@ -112,6 +114,25 @@
             </div>
      </div>
     </layer>
+      <!--      规则-->
+      <layer v-model="ruleLayer" styles="background-color:transparent;width:100%;
+    max-width:100%;"
+             className="modal withdrawRuleBacground "
+      >
+        <div class="modal-content ">
+          <div class="withdrawRuleMain">
+            <div class="title">签到规则</div>
+            <div class="tip">
+              <p>1、点击签到按钮观看视频完成签到</p>
+              <p>2、完成签到可获得随机红包奖励，金额以获得奖励页面为准；</p>
+              <p>3、获得奖励金额累计进账户余额，非独立提现模块，提现相关操作以余额提现页面为准；</p>
+              <p>4、禁止通过一切作弊手段获得奖励。</p>
+            </div>
+            <div class="button" @click="ruleLayer=false">我知道了</div>
+          </div>
+        </div>
+      </layer>
+    </div>
 </template>
 
 <script>
@@ -124,6 +145,7 @@ export default {
     return {
         qiandaoPayLayer:false,
         qiandaoInfo:null, // 签到数据
+        ruleLayer:false
     }
   },
   methods: {
@@ -133,6 +155,9 @@ export default {
     },
     hideModalFn() {
         this.qiandaoPayLayer = false
+    },
+    showRule(){
+      this.ruleLayer = true
     },
     // 获取签到状态数据
     async getQiandaoInfo() {

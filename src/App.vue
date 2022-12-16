@@ -18,7 +18,17 @@ export default {
     this.utils.webDataToApp('getBaseJson', {})
     window.setBaseData =data=>this.setBaseData(data)
   },
+  mounted() {
+   // this.pag()
+  },
   methods:{
+    //pag 使用示例
+    //  pag(){
+    //   this.utils.onPag('./like.pag')
+    //   setTimeout(()=>{
+    //     this.utils.hidePag()
+    //   },2000)
+    // },
     setBaseData(data){
       this.test = data
       localStorage.setItem('base_data',data)

@@ -82,7 +82,7 @@ ul,li,dl,dt,dd {
     box-sizing: border-box;
     position: relative;
     .title {
-        font-size:100px;
+        font-size:60px;
         line-height: 100px;
         font-weight: 600;
         color: #333;
@@ -106,8 +106,8 @@ ul,li,dl,dt,dd {
         background-size: contain;
         width: 350px;
         height: 100px;
-        line-height: 110px;
-        font-size: 20px;
+        line-height: 12.667vw;
+        font-size: 4.667vw;
         font-weight: 500;
         color: #fff;
         text-align: center;

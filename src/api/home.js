@@ -56,6 +56,10 @@ const homeApi = {
     setVideoProgressDouble(data){
         return http.post('/step_counting/video_task',data)
     },
+    //视频任务抽奖
+    getRaffleOptions(){
+        return http.get('/step_counting/video_task/luck_draw')
+    },
 
 }
 export default homeApi

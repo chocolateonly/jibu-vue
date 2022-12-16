@@ -32,4 +32,29 @@ export default {
             console.log('报错-调用Android方法：',JSON.stringify(e))
         }
     },
+    async onPag(url) {
+        try {
+        document.getElementById('pag').style['display'] = 'block'
+            // 实例化 PAG
+        const PAG = await window.libpag.PAGInit();
+        // 获取 PAG 素材数据
+        const buffer = await fetch(url).then((response) => response.arrayBuffer());
+        // 加载 PAG 素材为 PAGFile 对象
+        const pagFile = await PAG.PAGFile.load(buffer);
+        // 将画布尺寸设置为 PAGFile的尺寸
+        const canvas = document.getElementById('pag');
+        canvas.width = pagFile.width();
+        canvas.height = pagFile.height();
+        // 实例化 PAGView 对象
+        const pagView = await PAG.PAGView.init(pagFile, canvas);
+
+        // 播放 PAGView
+        await pagView.play();
+        return pagView
+        }catch (e) {
+        }
+    },
+    hidePag(){
+        document.getElementById('pag').style['display'] = 'none'
+    }
 }
