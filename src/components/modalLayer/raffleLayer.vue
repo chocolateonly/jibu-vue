@@ -7,12 +7,11 @@
     <img class="congrua" src="../../assets/images/cjjm_biaoti.png" alt="">
     <div class="content">
       <img class="close" src="../../assets/images/cjjm_icon_guanbi.png" @click="closeMoneyPackageLayer">
-
-      <div class="top-box">
+      <div class="top-box" v-if="options.length>0">
 
         <div class="option-item" v-for="(item,index) in 9" :key="index" :class="item==5?'center':index==selected?'selected':''">
-           {{options[index]=='center'?'':options[index]}}
-          <span v-if="options[index]!='center'">元</span>
+           {{options[index].value=='center'?'':options[index].value}}
+<!--          <span v-if="options[index].value!='center'">元</span>-->
         </div>
       </div>
 
@@ -35,14 +34,14 @@ export default {
     return {
       addedBonusModalLayer:false,
       selected:0,
-      options:[
-          0.01,0.02,0.3,0.4,'center',0.6,0.7,0.8,0.9
-      ]
+      options:[]
     }
   },
   methods:{
     async showModalFn() {
-      let resData = homeApi.getRaffleOptions()
+      let resData =await homeApi.getRaffleOptions()
+      this.options = resData.data.list
+      this.options.splice(4,0,{value:'center'})
 
       this.addedBonusModalLayer = true
 

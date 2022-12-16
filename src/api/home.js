@@ -58,8 +58,10 @@ const homeApi = {
     },
     //视频任务抽奖
     getRaffleOptions(){
-        return http.get('/step_counting/video_task/luck_draw')
+        return http.get('/step_counting/video_task/turntable')
     },
+    //提现抽奖
+
 
 }
 export default homeApi

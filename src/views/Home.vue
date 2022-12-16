@@ -127,7 +127,7 @@
             </div>
             <div class="footerTip">
               <div class="bar">
-                <div class="length" :style="{width:$store.state.video_progress.video_nums/$store.state.video_progress.video_task +'%'}"></div>
+                <div class="length" :style="{width:($store.state.video_progress.video_nums/$store.state.video_progress.video_task)*100 +'%'}"></div>
               </div>
               <div class="numLength">
                 <span style="color: rgb(234, 71, 51);">{{$store.state.video_progress.video_nums}}</span>
@@ -210,7 +210,7 @@
           </div>
 
           <div class="bar">
-            <div class="length" :style="{width:$store.state.video_progress.video_nums/$store.state.video_progress.video_task +'%'}"></div>
+            <div class="length" :style="{width:($store.state.video_progress.video_nums/$store.state.video_progress.video_task)*100 +'%'}"></div>
             <div class="num">{{$store.state.video_progress.video_nums}}/{{$store.state.video_progress.video_task}}</div>
             <div class="cashWechatIcon">提现</div>
           </div>
@@ -374,6 +374,8 @@
     <question-content-layer ref="questionContentLayer" @openMoneyPackage="openMoneyPackage"/>
 <!--提现抽奖-->
     <raffle-layer ref="raffleLayer" />
+<!--    抽奖结果-->
+    <raffle-money-layer ref="raffleMoneyLayer" />
   </div>
 </template>
 
@@ -394,7 +396,7 @@ import moneyDoubleLayer from "@/components/modalLayer/moneyDoubleLayer";
 import questionLayer from "@/components/modalLayer/questionLayer";
 import questionContentLayer from "@/components/modalLayer/questionContentLayer";
 import raffleLayer from "@/components/modalLayer/raffleLayer";
-
+import raffleMoneyLayer from "@/components/modalLayer/raffleMoneyLayer";
 export default {
   name: "home",
   data() {
@@ -458,7 +460,26 @@ export default {
     moneyDoubleLayer,
     questionLayer,
     questionContentLayer,
-    raffleLayer
+    raffleLayer,
+    raffleMoneyLayer,
+
+  },
+  computed:{
+    video_nums(){
+      return this.$store.state.video_progress.video_nums
+    }
+  },
+  watch:{
+    //提现抽奖
+    video_nums:{
+      deep:true,
+      handler(val, oldVal){
+        if(this.$store.state.video_progress.video_nums&&(this.$store.state.video_progress.video_nums==this.$store.state.video_progress.video_task)){
+          this.$router.replace('/?type=isRaffle')
+          this.$refs['raffleLayer'].showModalFn()
+        }
+      }
+    }
   },
   created() {
     //App调用此页面的方法
@@ -486,7 +507,7 @@ export default {
     //获取视频解锁进度及状态
     this.$store.dispatch('getVideoProgress')
 
-    //mock
+    //todo mock
     this.$refs['raffleLayer'].showModalFn()
   },
   destroyed () {

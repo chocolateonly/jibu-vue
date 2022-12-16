@@ -76,7 +76,7 @@
                   <div class="contentTip">看{{$store.state.video_progress.video_task}}个视频可立即提现</div>
                   <div class="contentPlan">
                     <div class="bar">
-                      <div class="length" :style="{width:$store.state.video_progress.video_nums/$store.state.video_progress.video_task +'%'}"></div>
+                      <div class="length" :style="{width:($store.state.video_progress.video_nums/$store.state.video_progress.video_task)*100 +'%'}"></div>
                   </div>
                   <div class="num">
                     <span>{{$store.state.video_progress.video_nums}}</span>

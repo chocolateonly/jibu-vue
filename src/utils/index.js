@@ -34,7 +34,6 @@ export default {
     },
     async onPag(url) {
         try {
-        document.getElementById('pag').style['display'] = 'block'
             // 实例化 PAG
         const PAG = await window.libpag.PAGInit();
         // 获取 PAG 素材数据
@@ -49,8 +48,10 @@ export default {
         const pagView = await PAG.PAGView.init(pagFile, canvas);
 
         // 播放 PAGView
+        document.getElementById('pag').style['display'] = 'block'
+        //持续播放循环
+        pagView.setRepeatCount(0)
         await pagView.play();
-        return pagView
         }catch (e) {
         }
     },
