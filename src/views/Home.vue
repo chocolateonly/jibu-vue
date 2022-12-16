@@ -281,8 +281,7 @@
            @click="closeBonus"
     >
       <div class="content">
-<!--        todo:点击方便调试-->
-        <img class="close" src="//img.ibestfanli.com/sign_static_quick3/addedBonusModalClose.png" @click="addedBonusModalLayer=false">
+        <img class="close" src="//img.ibestfanli.com/sign_static_quick3/addedBonusModalClose.png" >
         <div id="btn" class="btn">
         </div>
       </div>
@@ -517,7 +516,7 @@ export default {
     this.$store.dispatch('getVideoProgress')
 
     //todo mock
-    this.$refs['tipQianDaoLayer'].showModal()
+    // this.$refs['tipQianDaoLayer'].showModal()
   },
   destroyed () {
     clearInterval(this.ggRoll.interval)
@@ -605,7 +604,7 @@ export default {
     closeMoneyPackageLayer(){
       this.utils.webDataToApp('setAtNativeAdViewGONE',{})
       this.appParms={
-        mPlacementId:'p638ef5c161df6',
+        mPlacementId:'p638ef5cd435bf',
         adType:3
       }
       this.playVideoOrInsertAdFn()
