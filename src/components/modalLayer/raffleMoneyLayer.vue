@@ -3,7 +3,7 @@
     max-width:100%;"
          className="addedBonusModal"
   >
-    <money-tip />
+    <money-tip ref="moneyTip" />
 
     <div id="btn" class="btn" @click="openLayer">
       立即提现
@@ -28,6 +28,9 @@ export default {
         0.01,0.02,0.3,0.4,'center',0.6,0.7,0.8,0.9
       ]
     }
+  },
+  mounted() {
+    this.$refs['moneyTip'].showModal()
   },
   methods:{
     async showModalFn() {

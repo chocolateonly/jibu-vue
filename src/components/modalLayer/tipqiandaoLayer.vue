@@ -6,13 +6,17 @@
     <div class="xinrenhongbao modal-content ">
         <!-- 再次签到提示 -->
         <div class="wchartModal">
-            <img class="closeIcon"  src="//img.ibestfanli.com/sign_static_quick/closeIcon.png"/>
+            <img class="closeIcon" @click="close" src="//img.ibestfanli.com/sign_static_quick/closeIcon.png"/>
             <div class="contentbox">
               <div class="flex-center">
                 <span class="wechatTitle">连续签到7天得150元</span>
               </div>
+              <div class="content-tip">
+<!--                todo:等图-->
+
+              </div>
               <div class="wechatBody">
-                <div class="fbBtn" >我知道了</div>
+                <div class="fbBtn" @click="close">我知道了</div>
               </div>
             </div>
           </div>
@@ -25,7 +29,16 @@ export default {
         return {
             rePqiandaoPayLayer:false
         }
+    },
+  methods:{
+    showModal(){
+      this.rePqiandaoPayLayer = true
+    },
+    close(){
+      this.rePqiandaoPayLayer = false
+       this.$emit('closeTipQiandaoLayer')
     }
+  }
 }
 </script>
 <style lang="scss" scoped>
@@ -106,7 +119,8 @@ export default {
                 line-height:90px;
                 margin:30px auto;
                 border-radius:20px;
-                background:#09BF5F;
+                background:url(//fasthuyitool.jidiandian.cn/web_static_assets/sign_static_quick4/fiveMoney/rule_button.png) no-repeat center;
+                background-size: contain;
                 font-size:30px;
                 color:#fff;
             }

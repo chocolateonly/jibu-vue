@@ -351,7 +351,7 @@
 <!--提现档框-->
     <pay-type-layer ref="payTypeModal"></pay-type-layer>
 <!--    签到-->
-    <qian-dao-layer ref="qianDaoModal" @viewVideoAndQiandao="viewVideoAndQiandao"></qian-dao-layer>
+    <qian-dao-layer ref="qianDaoModal" @viewVideoAndQiandao="viewVideoAndQiandao" @closeQiandaoLayer="closeQiandaoLayer"></qian-dao-layer>
 <!--    观看视频进度-->
     <video-step-layer ref="videoStepLayer" @viewTixian="viewTixian"></video-step-layer>
 <!--    漂浮金币-->
@@ -379,6 +379,8 @@
     @fromRaffleMoneyToTixian="fromRaffleMoneyToTixian"/>
 <!--    红包金额展示-->
     <raffle-res-layer  ref="raffleResLayer" @showRaffleResVideo="showRaffleResVideo" @hideRaffleResVideo="hideRaffleResVideo"/>
+<!--    单有 金额提示-->
+    <money-tip ref="moneyTip" @onlyShowCallback="onlyShowCallback"/>
   </div>
 </template>
 
@@ -401,6 +403,7 @@ import questionContentLayer from "@/components/modalLayer/questionContentLayer";
 import raffleLayer from "@/components/modalLayer/raffleLayer";
 import raffleMoneyLayer from "@/components/modalLayer/raffleMoneyLayer";
 import raffleResLayer from "@/components/modalLayer/raffleResLayer";
+import MoneyTip from "@/components/moneyTip";
 export default {
   name: "home",
   data() {
@@ -451,6 +454,7 @@ export default {
     }
   },
   components: {
+    MoneyTip,
     PayLayer,
     TextScroll,
     payTypeLayer,
@@ -513,67 +517,14 @@ export default {
     this.$store.dispatch('getVideoProgress')
 
     //todo mock
-    // this.$refs['raffleResLayer'].showModalFn()
+    this.$refs['tipQianDaoLayer'].showModal()
   },
   destroyed () {
     clearInterval(this.ggRoll.interval)
     clearInterval(this.persionTimer)
   },
   methods: {
-    //显示红包金额
-    openRaffleMoneyLayer(){
-      if(this.$store.state.reward_money<0.3){
-        //遗憾未中奖  不足0.3
-        this.$refs['raffleResLayer'].showModalFn()
-      }else{
-        this.$refs['raffleMoneyLayer'].showModalFn()
-      }
-    },
-    //关闭红包金额
-    closeRaffleMoneyLayer(){
-      this.appParms={
-        mPlacementId: 'p638ef5efc55df',
-        adType: 3
-      }
-      this.playVideoOrInsertAdFn()
-    },
-    //红包金额-立即提现
-    fromRaffleMoneyToTixian(){
-      if(this.$store.state.reward_money<0.3){
-        //微信不能提现
-        this.$refs['raffleResLayer'].showModalFn()
-      }else{
-         this.appParms={
-           mPlacementId: 'p638ee431c8037',
-           adType: 1
-         }
-         this.playVideoOrInsertAdFn()
-      }
-    },
-    //红包金额-提现提示-激励视频
-    showRaffleResVideo(){
-      if(this.$store.state.reward_money==0){
-        this.appParms={
-          mPlacementId: 'p638ee474e3500',
-          adType: 1
-        }
-      }else{
-        //不足0.3
-        this.appParms={
-          mPlacementId: 'p638ee464b8c7c',
-          adType: 1
-        }
-      }
-      this.playVideoOrInsertAdFn()
-    },
-    //
-    hideRaffleResVideo(){
-      this.appParms={
-        mPlacementId: 'p638ef63d5aa3b',
-        adType: 3
-      }
-      this.playVideoOrInsertAdFn()
-    },
+
     // 获取当前登录的用户信息
     async getLoginUserInfo() {
       try{
@@ -662,8 +613,8 @@ export default {
     //关闭红包现金红包翻倍
     closeDoublePackageLayer(){
       this.utils.webDataToApp('setAtNativeAdViewGONE',{})
-      //todo : 红包动效
-
+      this.$store.state.reward_money = this.$store.state.video_lock.reward
+      this.$refs['moneyTip'].showModal('onlyShow')
     },
     //继续提现 多乐计步-提现后继续提现激励视频
     continueTixian(){
@@ -712,10 +663,13 @@ export default {
     },
     // 点击签到奖励
     viewVideoAndQiandao() {
+      this.utils.webDataToApp('setAtNativeAdViewGONE',{})
+      this.appParms ={
+        mPlacementId: 'p638ee4c644efd',
+        adType: 1
+      }
       // 加载播放视频loading
       this.$refs['loadingVideoLayer'].showModalFn()
-      // 看完视频后，重新查看奖励
-      this.$refs['qianDaoModal'].getNewQiaoDaoJianli()
     },
 
     // 播放视频或显示信息流方法
@@ -984,9 +938,96 @@ export default {
 
     // 显示签到框
     showQiandaoHander() {
+      this.appParms={
+        mPlacementId: 'p638ee31d979f2',
+        adType: 2,
+        returnScale: 2
+      }
+      this.playVideoOrInsertAdFn()
       this.$refs['qianDaoModal'].showModalFn()
     },
-
+    //显示红包金额
+    openRaffleMoneyLayer(){
+      if(this.$store.state.reward_money<0.3){
+        //遗憾未中奖  不足0.3
+        this.$refs['raffleResLayer'].showModalFn()
+      }else{
+        this.$refs['raffleMoneyLayer'].showModalFn()
+      }
+    },
+    //关闭红包金额
+    closeRaffleMoneyLayer(){
+      this.appParms={
+        mPlacementId: 'p638ef5efc55df',
+        adType: 3
+      }
+      this.playVideoOrInsertAdFn()
+    },
+    //红包金额-立即提现
+    fromRaffleMoneyToTixian(){
+      if(this.$store.state.reward_money<0.3){
+        //微信不能提现
+        this.$refs['raffleResLayer'].showModalFn()
+      }else{
+        this.appParms={
+          mPlacementId: 'p638ee431c8037',
+          adType: 1
+        }
+        this.playVideoOrInsertAdFn()
+      }
+    },
+    //红包金额-提现提示-激励视频
+    showRaffleResVideo(){
+      if(this.$store.state.reward_money==0){
+        this.appParms={
+          mPlacementId: 'p638ee474e3500',
+          adType: 1
+        }
+      }else{
+        //不足0.3
+        this.appParms={
+          mPlacementId: 'p638ee464b8c7c',
+          adType: 1
+        }
+      }
+      this.playVideoOrInsertAdFn()
+    },
+    //关闭
+    hideRaffleResVideo(){
+      this.appParms={
+        mPlacementId: 'p638ef63d5aa3b',
+        adType: 3
+      }
+      this.playVideoOrInsertAdFn()
+    },
+    //签到完 提示后续可领多少
+    onlyShowCallback(){
+      this.appParms={
+        mPlacementId: 'p638ee328a46c4',
+        adType: 2,
+        returnScale: 2
+      }
+      this.playVideoOrInsertAdFn()
+      this.$refs['tipQianDaoLayer'].showModal()
+    },
+    //关闭签到
+    closeQiandaoLayer(){
+      this.utils.webDataToApp('setAtNativeAdViewGONE',{})
+      this.appParms={
+        mPlacementId: 'p638ef716b548f',
+        adType: 3
+      }
+      this.playVideoOrInsertAdFn()
+    },
+    //签到的提示
+    closeTipQiandaoLayer(){
+      this.utils.webDataToApp('setAtNativeAdViewGONE',{})
+      this.appParms={
+        mPlacementId: 'p638ef71dc03b6',
+        adType: 3
+      }
+      this.playVideoOrInsertAdFn()
+    },
     // #Region 以下是app的回调相关方法
     //微信提现成功返回
     OnVxChatWithdrawalSuccess(){
@@ -1165,6 +1206,17 @@ export default {
       //红包金额去提现
       if(this.appParms.mPlacementId=='p638ee431c8037'){
         this.showTixianPayler()
+      }
+
+      //签到完领奖励  看完视频后，重新查看奖励
+      if(this.appParms.mPlacementId=='p638ee4c644efd'){
+        homeApi.qiandao().then((resData)=>{
+          this.$store.state.reward_money = resData.data.reward
+          this.$refs['moneyTip'].showModal('onlyShow')
+          this.getNewUserInfo()
+        }).catch(err=>{
+          this.$layer.msg(err.message)
+        })
       }
 
     }

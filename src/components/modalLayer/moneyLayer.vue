@@ -34,10 +34,6 @@ export default {
   data(){
     return {
       addedBonusModalLayer:false,
-      package:{
-        price:16.66,
-        isDouble:false
-      }
     }
   },
   methods:{

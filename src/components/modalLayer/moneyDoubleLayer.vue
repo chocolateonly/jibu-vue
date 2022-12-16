@@ -14,7 +14,7 @@
         </div>
 
         <div class="price">
-          <animate-number  from="0" :to="package.price" :key="package.price" duration="4500" :formatter="priceFormatter">
+          <animate-number  from="0" :to="$store.state.video_lock.reward" :key="$store.state.video_lock.reward" duration="4500" :formatter="priceFormatter">
           </animate-number>
           <span class="priceAfter">已翻倍</span>
         </div>
@@ -32,11 +32,7 @@ export default {
   name: "moneyLayer",
   data(){
     return {
-      addedBonusModalLayer:false,
-      package:{
-        price:16.66,
-        isDouble:false
-      }
+      addedBonusModalLayer:false
     }
   },
   methods:{

@@ -34,7 +34,8 @@ export default {
     return {
       addedBonusModalLayer:false,
       selected:0,
-      options:[]
+      options:[],
+      timer:null
     }
   },
   methods:{

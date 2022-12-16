@@ -32,6 +32,10 @@ const homeApi = {
     getQiandaoStatus(data) {
         return http.get('/step_counting/sign_in_record/sign_in_see')
     },
+    //签到每天金额获取
+    getQiandaoOptions(){
+        return http.get('/step_counting/sign_in_record/sign_in_show')
+    },
     // 签到完成后，获取奖励
     qiandao(data) {
         return http.get('/step_counting/sign_in_record')

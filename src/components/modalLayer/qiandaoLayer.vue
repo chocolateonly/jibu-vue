@@ -7,7 +7,7 @@
     >
      <div class="qiandaomodal-content modal-content">
         <div class="signinMain">
-                <img class="close" @click="hideModalFn" src="//img.ibestfanli.com/sign_static_quick3/reward_modal_close.png" alt="关闭">
+                <img class="close" @click="closeQiandaoLayer" src="//img.ibestfanli.com/sign_static_quick3/reward_modal_close.png" alt="关闭">
                 <div class="content">
                     <div class="top">
                         <div class="rule flex column-center" @click="showRule">
@@ -16,29 +16,12 @@
                         </div>
                     </div>
                     <div class="bottom" v-if="qiandaoInfo">
-                        <!-- 一次都没签到的情况 -->
-                        <template v-if="qiandaoInfo.check_in_day<=0">
-                            <div class="item" :key="item" v-for="item in 7">
-                                <template v-if="(item<7)">
-                                    <div class="days">{{item}}天</div>
-                                    <div class="signinRedpack" style="background: url(&quot;//img.ibestfanli.com/sign_static_quick3/redpack.png&quot;);">
-                                        <div class="money" style="color: rgb(255, 255, 255);">3.5<div class="unit">元</div>
-                                        </div>
-                                    </div>
-                                </template>
-                                <template v-else>
-                                    <img class="redpackLight" src="//img.ibestfanli.com/sign_static_quick3/redpack_bg_light.png" alt="红包光">
-                                    <div class="days">7天</div>
-                                    <div class="signinRedpack" style="background: url(&quot;//img.ibestfanli.com/sign_static_quick3/redpack.png&quot;);"></div>
-                                </template>
-                            </div>
-                        </template>
-                        <!-- 签到次数不到7次的情况 -->
-                        <template v-if="qiandaoInfo.check_in_day>0 && qiandaoInfo.check_in_day<7">
+                        <!-- 签到次数 -->
+                        <template >
                             <div class="item off" :key="'a'+index" v-for="(item,index) in qiandaoInfo.check_in_day">
                                 <div class="days">{{item}}天</div>
                                 <div class="signinRedpack" style="background: url(&quot;//img.ibestfanli.com/sign_static_quick3/redpack.png&quot;);">
-                                    <div class="money" style="color: rgb(255, 255, 255);">5.5<div class="unit">元</div>
+                                    <div class="money" style="color: rgb(255, 255, 255);" v-if="index!=6">{{ options[index].reward }}<div class="unit">元</div>
                                     </div>
                                 </div>
                             </div>
@@ -47,24 +30,7 @@
                                 <template v-if="item < (7 - qiandaoInfo.check_in_day)">
                                     <div class="days">{{item+qiandaoInfo.check_in_day}}天</div>
                                     <div class="signinRedpack" style="background: url(&quot;//img.ibestfanli.com/sign_static_quick3/redpack.png&quot;);">
-                                        <div class="money" style="color: rgb(255, 255, 255);">5.5<div class="unit">元</div>
-                                        </div>
-                                    </div>
-                                </template>
-                                <template v-else>
-                                    <img class="redpackLight" src="//img.ibestfanli.com/sign_static_quick3/redpack_bg_light.png" alt="红包光">
-                                    <div class="days">7天</div>
-                                    <div class="signinRedpack" style="background: url(&quot;//img.ibestfanli.com/sign_static_quick3/redpack.png&quot;);"></div>
-                                </template>
-                            </div>
-                        </template>
-                        <!-- 签到到七天的情况 -->
-                        <template v-if="(qiandaoInfo.check_in_day >=7 )">
-                            <div class="item off" :key="item" v-for="item in 7">
-                                <template v-if="(item<7)">
-                                    <div class="days">{{item}}天</div>
-                                    <div class="signinRedpack" style="background: url(&quot;//img.ibestfanli.com/sign_static_quick3/redpack.png&quot;);">
-                                        <div class="money" style="color: rgb(255, 255, 255);">3.5<div class="unit">元</div>
+                                        <div class="money" style="color: rgb(255, 255, 255);"  v-if="index!=6">{{ options[index].reward }}<div class="unit">元</div>
                                         </div>
                                     </div>
                                 </template>
@@ -76,32 +42,6 @@
                             </div>
                         </template>
 
-                        <!-- <div class="item">
-                            <div class="days">4天</div>
-                            <div class="signinRedpack" style="background: url(&quot;//img.ibestfanli.com/sign_static_quick3/redpack.png&quot;);">
-                                <div class="money" style="color: rgb(255, 255, 255);">3.3<div class="unit">元</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="item">
-                            <div class="days">5天</div>
-                            <div class="signinRedpack" style="background: url(&quot;//img.ibestfanli.com/sign_static_quick3/redpack.png&quot;);">
-                                <div class="money" style="color: rgb(255, 255, 255);">2.5<div class="unit">元</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="item">
-                            <div class="days">6天</div>
-                            <div class="signinRedpack" style="background: url(&quot;//img.ibestfanli.com/sign_static_quick3/redpack.png&quot;);">
-                                <div class="money" style="color: rgb(255, 255, 255);">1.5<div class="unit">元</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="item">
-                            <img class="redpackLight" src="//img.ibestfanli.com/sign_static_quick3/redpack_bg_light.png" alt="红包光">
-                            <div class="days">7天</div>
-                            <div class="signinRedpack" style="background: url(&quot;//img.ibestfanli.com/sign_static_quick3/redpack.png&quot;);"></div>
-                        </div> -->
                     </div>
                 </div>
                 <div class="signButton" v-if="qiandaoInfo && qiandaoInfo.state" @click="qiandaoJiangliFn">
@@ -145,12 +85,13 @@ export default {
     return {
         qiandaoPayLayer:false,
         qiandaoInfo:null, // 签到数据
-        ruleLayer:false
+        ruleLayer:false,
+        options:[]
     }
   },
   methods: {
     showModalFn() {
-        this.qiandaoPayLayer =   
+        this.qiandaoPayLayer =   true
         this.getQiandaoInfo()
     },
     hideModalFn() {
@@ -162,25 +103,30 @@ export default {
     // 获取签到状态数据
     async getQiandaoInfo() {
         let resData = await homeApi.getQiandaoStatus()
+        let options = await homeApi.getQiandaoOptions()
+        this.options = options.data.list
         if(resData.message === 'success') {
             this.qiandaoInfo = {
-                check_in_day: 1,
-                state: false
-            } //resData.data
+              check_in_day:resData.data.check_in_day,
+              state:resData.data.state
+            }
+            //     {
+            //     check_in_day: 1,
+            //     // check_in_day: 0,
+            //     // check_in_day: 7,
+            //     state: false
+            // }
         }
     },
     // 点击领取签到奖励
     qiandaoJiangliFn() {
+      this.hideModalFn()
         // 播放激励视频
         this.$emit('viewVideoAndQiandao')
     },
-    // 签到完成后获取最新的奖励
-    async getNewQiaoDaoJianli() {
-        homeApi.qiandao().then((resData)=>{
-            console.log(resData)
-        }).catch(err=>{
-            this.$layer.msg(err.message)
-        })
+    closeQiandaoLayer(){
+          this.hideModalFn()
+         this.$emit('closeQiandaoLayer')
     }
   }
 }

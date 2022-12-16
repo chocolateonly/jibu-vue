@@ -1,5 +1,5 @@
 <template>
-<div>
+<div v-if="isOpen">
   <!--恭喜获得0.2元-->
   <div  class="congrua">
     <img src="../assets/images/xzlqhb_biaoti.png" alt="">
@@ -22,11 +22,33 @@ export default {
   name: "moneyTip",
   data(){
     return {
-      money:0
+      money:0,
+      isOpen:false,
+      timer:null
     }
   },
-  mounted() {
-    this.utils.onPag('./pag/package-sunshine.pag')
+  watch:{
+    isOpen(){
+      if(!this.isOpen){
+        if(this.timer) clearTimeout(this.timer)
+        this.utils.hidePag()
+      }
+    }
+  },
+  methods:{
+    showModal(type){
+      if(type=='onlyShow'){
+        this.timer = setTimeout(()=>{
+          this.isOpen = false
+          this.$emit('onlyShowCallback')
+        },2000)
+      }
+      this.isOpen = true
+      this.utils.onPag('./pag/package-sunshine.pag')
+    },
+  },
+  beforeDestroy() {
+
   }
 }
 </script>
