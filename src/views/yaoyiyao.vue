@@ -57,7 +57,7 @@
     <!-- 奖励部分 -->
     <div class="activityArea activityAreaLong"><div class="activityAreaTitle"><div class="leftLine"></div><span>额外奖励</span><div class="rightLine"></div></div><div class="barAndFont"><span class="shakeOneMore">再摇<strong>2</strong>次，现金立即到账</span><div class="barDiv"><div class="bar " style="width: 0%;"></div></div>
     <div class="barEnvelope" @click="showProgressModal"><img src="//img.ibestfanli.com/shakeEnvelopeActivity/shakeEnvelope/barEnvelope2.png"></div></div></div>
-    <div class="ruleFont ruleFontLong">活动规则 <!-- -->&gt;</div>
+    <div class="ruleFont ruleFontLong" @click="ruleLayer=true">活动规则 <!-- -->&gt;</div>
 
     <!-- 现金币兑换弹框 -->
      <layer v-model="showDuihuanLayer"  styles="background-color:transparent;width:100%;
@@ -141,7 +141,7 @@
               <button class="bottom__paybtn flex-center">
                 <img src="//img.ibestfanli.com/shakeEnvelopeActivity/wechat-icon.png?v=1629280360384" alt="pay">立即提现
               </button>
-              <div class="text-center">
+              <div class="text-center" @click="ruleLayer=true">
                 <span class="bottom__smalllabel">活动规则</span>
               </div>
             </div>
@@ -197,7 +197,24 @@
 
 </layer>
 
+    <!--      活动规则-->
+    <layer v-model="ruleLayer" styles="background-color:transparent;width:100%;
+    max-width:100%;"
+           className="modal withdrawRuleBacground "
+    >
+      <div class="modal-content ">
+        <div class="withdrawRuleMain">
+          <div class="title">活动规则</div>
+          <div class="tip">
+            <p>
+              活动规则一、活动参与对象同一终端设备、同一微信号、或同一用户D等均视为同一用户。二、活动奖品及说明(一)现金100元奖励1.用户参与本活动并完成相应任务后有机会获取随机金额的现金奖励。2.本活动需用户在当前活动周期收集满100元现金方可提现，未收集满100元无法提现；超过当期活动时效现金将清零。3.用户获得的现金可按照本活动提现规则进行提现。在一个活动周期内，每位用户只能参与一次活动。(二)立即到账现金用户有机会收集到可立即提现到微信的现金币，需登录有效的微信账号才可到账。金额随机，具体以相应页面显示的金额为准。三、活动参与方式1.新用户首次进入本活动页面可直接获得随机金额红包，具体红包金额以本产品活动页面显示为准2.用户进入活动页面后，可摇手机或点击【立即领取现金】按钮，摇出红包，获得红包奖励（包括现金币、现金等奖励，下同)，用户完成活动限时任务等方式获得红包奖励。3.现金币和现金奖励将自动存入活动账户，达到一定金额门槛后方能提现，提现将由用户可提现金额中扣除对应金额，具体以页面展示为准。4.活动期间，用户用户所得等现金奖励需在活动开启后71：59：59分内完成提现，预期将会清零，请及时提现。四、提现规则1.用户通过本活动获得的现金奖品，需要通过本活动指定页面进行提现。2.用户前一笔提现申请在本产品未审核完毕的情况下，不接受用户后续的提现申请。3.用户申请提现时须根据提现页面的具体要求填写真实准确有效的申领信息，如因用户拒绝提供真实准确有效的信息或提供的信息错误等所导致的无法提现、提现失败、提现金额进入他人账户等后果均由用户自行负责，本产品无需进行任何赔偿或补偿。4.为防止用户作弊行为，本产品对提现名额有限制，用户可正常参与活动，按本产品提现页面具体要求提交提现申请后，本产品会进行审核，审核无误后由第三方提现服务提供者以微信转账等方式向用户支付提现金额，通常将于3个工作日内到账，但遇到提现高峰、法定节假日、微信平台或第三方提现服务提供者的特殊情况可能导致提现到账时间延长。5.用户理解并同意，用户进行提现应符合微信支付平台和第三方提现服务提供者的要求，按照提现页面的提示进行规范操作，如因用户原因（如不符合微信平台的要求等)导致无法进行提现的，用户理解并同意本产品无需承担任何责任。五、联系方式用户对于本平台任何活动规则存在疑问时，可随时通过意见反馈咨询平台客服。六、重要提示1.在参与本活动及奖励领取过程中，如用户存在违规行为（包括但不限于恶意套现、机器作弊、刷信誉、提供虚假信息等)，我们将取消违规用户的领取资格，并有权撤销相关违规交易，收回奖品（包括已使用的及未使用的)，必要时追究法律责任。2.如出现不可抗力或情势变更的情况（包括但不限于重大灾害事件、活动受政府机关指令需要停止举办或调整的、活动遭受严重网络攻击或因系统故障需要暂停举办的)，我们可依照相关法律法规的规定主张免责。3.我国部分地区，以及部分国家的法律法规对参与和举办以随机性的方法决定用户可能获得奖励的活动（例如抢红包、抽奖、抢特定优惠秒杀商品等）有限制性规定，故此类活动只限于位于此类地区以及此类国家外的消费者参与。主办方提醒居住于中国香港、澳门、台湾等地区，以及其他受限制国家的消费者（包括但不限于新加坡，马来西亚等地消费者)请勿参与此类活动。4.本产品保留在法律法规允许的范围内对上述规则解释的权利。5.用户参与本活动，即表示用户已经理解并同意活动规则，每位用户需严格遵守活动规则。用户理解并知悉，活动规则会适时调整，届时会通知用户，请适用最新的活动规则。6.用户理解并同意本活动，请用户理性参与本活动，本产品对于恶意投诉、举报、诋毁的行为将采取法律手段。
+            </p>
 
+          </div>
+          <div class="button" @click="ruleLayer=false">我知道了</div>
+        </div>
+      </div>
+    </layer>
 
   </div>
 </template>
@@ -229,7 +246,8 @@ export default {
             checked:false
         }
 
-      ]
+      ],
+      ruleLayer:false
     }
   },
   mounted() {
