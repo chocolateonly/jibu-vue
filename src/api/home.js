@@ -40,10 +40,6 @@ const homeApi = {
     qiandao(data) {
         return http.get('/step_counting/sign_in_record')
     },
-    // 勋章
-    xunzhang(data) {
-        return http.get('/step_counting/medal')
-    },
     //获取视频解锁进度
     getVideoProgress(){
         return http.get('/step_counting/video_task/video_state')
@@ -67,6 +63,9 @@ const homeApi = {
     //提现抽奖
     getRaffleOptions(){
         return http.get('/step_counting/video_task/turntable')
+    },
+    yaoyiyaoUserInfo(){
+        return http.get('/step_counting/shake_one_shake/user_game_state')
     },
 
 }

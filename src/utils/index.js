@@ -22,7 +22,7 @@ export default {
                 params.functionName = func
                 window.webkit.messageHandlers.appObserver.postMessage(params)
             } else {
-                if(Object.keys(params).length==0){
+                if(Object.keys(params).length==0&&typeof params!='number'){
                     window.Android[func]()
                 }else{
                     window.Android[func](JSON.stringify(params))

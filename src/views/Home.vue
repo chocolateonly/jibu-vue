@@ -145,7 +145,7 @@
         热门活动
       </div>
       <div class="list">
-        <div class="card">
+        <div class="card" @click="jumpPage(1)">
           <div class="cardTitle">红包摇一摇</div>
           <div class="cardTip">
             <img src="//img.ibestfanli.com/sign_static_quick4/cardBanner_redIcon.png" class="imgIcon">
@@ -153,12 +153,12 @@
           </div>
         </div>
 
-        <div class="card">
+        <div class="card" @click="jumpPage(2)">
           <div class="cardTitle">成就勋章墙</div>
           <div class="subCardTitle">大量金币和红包</div>
         </div>
 
-        <div class="card">
+        <div class="card" @click="jumpPage(0)">
           <div class="cardTitle">限时红包雨</div>
           <div class="cardTip">
             <img src="//img.ibestfanli.com/sign_static_quick4/cardBanner_redIcon.png" class="imgIcon">
@@ -166,7 +166,7 @@
           </div>
         </div>
 
-        <div class="card">
+        <div class="card" @click="jumpPage(3)">
           <div class="cardTitle">幸运大转盘</div>
           <div class="cardTip">
             <img src="//img.ibestfanli.com/sign_static_quick4/cardBanner_redIcon.png" class="imgIcon">
@@ -569,6 +569,10 @@ export default {
       }catch (e) {
 
       }
+    },
+    //跳转
+    jumpPage(type){
+      this.utils.webDataToApp('setJumpAreaType',type)
     },
     //去回答问题
     openQuestionContent(){
