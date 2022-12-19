@@ -71,6 +71,10 @@ const homeApi = {
     //摇一摇奖励触发
     yaoyiyaoShakeReward(){
         return http.get('/step_counting/shake_one_shake/play_game')
+    },
+    //每日提现
+    yaoyiyaoDayReward(){
+        return http.get('/step_counting/shake_one_shake')
     }
 
 }

@@ -16,7 +16,7 @@
           </div>
           <span class="divShowBottomSpan">个</span>
         </div>
-        <div class="button" @click="showDuihuanLayer = true">
+        <div class="button" @click="goReward">
           <span>兑换</span>
         </div>
       </div>
@@ -24,7 +24,7 @@
         <div class="divShowTop">
           <img src="//img.ibestfanli.com/shakeEnvelopeActivity/shakeEnvelope/cashIcon.png">
           <span class="divShowTopSpan1">现金</span>
-          <span class="divShowTopSpan2">({{$store.state.yaoyiyao.end_time}}小时后过期)</span>
+          <span class="divShowTopSpan2">(<count-num :end-time="$store.state.yaoyiyao.end_time" /> 后过期)</span>
         </div>
         <div class="divShowBottom">
           <div class="moneyCount">
@@ -82,16 +82,18 @@
     >
       <div class="cash-currency-page">
         <text-scroll :dataList="noticeList"></text-scroll>
-        <div class="top"><div class="flex-s"><img src="//img.ibestfanli.com/shakeEnvelopeActivity/currency.png?v=1629280360384" alt="currency" class="top__icon"><p class="top__title">我的现金币</p></div><div class="top__cash"><span class="money">0</span> 个≈0元</div><img src="//img.ibestfanli.com/shakeEnvelopeActivity/close-white.png?v=1629280360384" alt="close" class="top__close" @click="showDuihuanLayer = false"></div>
+        <div class="top"><div class="flex-s"><img src="//img.ibestfanli.com/shakeEnvelopeActivity/currency.png?v=1629280360384" alt="currency" class="top__icon"><p class="top__title">我的现金币</p></div><div class="top__cash"><span class="money">{{$store.state.yaoyiyao.cash_currency}}</span> 个≈{{$store.state.yaoyiyao.cash_currency/10000}}元</div><img src="//img.ibestfanli.com/shakeEnvelopeActivity/close-white.png?v=1629280360384" alt="close" class="top__close" @click="showDuihuanLayer = false"></div>
 
         <div class="bottom">
           <div class="bottom__title">每日提现</div>
-          <div class="bottom__item flex-s">
-            <div class="tag">第1天</div>
-            <span class="txt flex-1">0.3元提现红包</span>
-            <button class="button">提现</button>
+          <div class="bottom__item flex-s" v-for="(item,index) in $store.state.yaoyiyao.days_reward" :key="index">
+            <div class="tag">第{{item.days}}天</div>
+            <span class="txt flex-1">{{item.reward}}元提现红包</span>
+            <button class="button" v-if="item.state==1">提现</button>
+            <button class="button button--disabled" v-else-if="item.state==2">提现</button>
+            <button class="button button--disabled" v-else>提现</button>
           </div>
-          <div class="bottom__item flex-s">
+<!--          <div class="bottom__item flex-s">
             <div class="tag">第2天</div>
             <span class="txt flex-1">随机提现金额</span>
             <button class="button">提现</button>
@@ -104,8 +106,8 @@
           <div class="bottom__item flex-s">
             <div class="tag">第4天</div>
             <span class="txt flex-1">3元兑换现金</span>
-            <button class="button button--disabled">兑换</button>
-          </div>
+            <button class="button button&#45;&#45;disabled">兑换</button>
+          </div>-->
         </div>
 
       </div>
@@ -128,12 +130,12 @@
         </div>
         <div class="top__cash flex-sb">
           <div class="left">
-            <span class="left__money">80.45</span>
-            <span class="left__unit">元<span class="count">13:17:12后清零</span></span>
+            <span class="left__money">{{ $store.state.yaoyiyao.cash }}</span>
+            <span class="left__unit">元<span class="count"><count-num :end-time="$store.state.yaoyiyao.end_time" />后清零</span></span>
           </div>
-          <div class="right align-self-e flex-center">奖励明细
+<!--          <div class="right align-self-e flex-center">奖励明细
             <img src="//img.ibestfanli.com/shakeEnvelopeActivity/arrow-samll.png?v=1629280360384" alt="arrow" class="right__icon">
-          </div>
+          </div>-->
         </div>
           <img src="//img.ibestfanli.com/shakeEnvelopeActivity/close-white.png?v=1629280360384" alt="close" class="top__close" @click="showXianjingLayer=false">
         </div>
@@ -235,9 +237,10 @@
 import Shake from 'shake.js'
 
 import TextScroll from "@/components/text-scroll.vue"
+import CountNum from "@/components/countNum";
 export default {
   name: "yaoyiyao",
-  components: {TextScroll},
+  components: {CountNum, TextScroll},
   data() {
     return {
       showDuihuanLayer: false, // 现金币兑换弹框
@@ -263,8 +266,20 @@ export default {
       ruleLayer:false
     }
   },
+  computed:{
+    money1(){
+      return this.$store.state.yaoyiyao.money1
+    }
+  },
+  watch:{
+    money1(){
+      this.xiangjinPrice[0].price = this.$store.state.yaoyiyao.money1
+      this.xiangjinPrice[1].price = this.$store.state.yaoyiyao.money2
+    }
+  },
   mounted() {
-    this.showRewardFn()
+    // this.showRewardFn()
+    this.$store.dispatch('yaoyiyaoUserInfo')
   },
   beforeDestroy() {
         this.myShakeEvent.stop();
@@ -302,6 +317,10 @@ export default {
             navigator.vibrate(500);
         }
         audio.play()
+    },
+    goReward(){
+       this.$store.dispatch('yaoyiyaoDayReward')
+      this.showDuihuanLayer = true
     },
     ios13granted() {
         if (typeof DeviceMotionEvent.requestPermission === 'function') {

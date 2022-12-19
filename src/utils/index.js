@@ -12,9 +12,10 @@ export default {
         return ''
     },
     // 将web数据出给app
-    webDataToApp (func, params ) {
-        console.log('调用Android方法：',func,window)
+    webDataToApp (func, params,callback ) {
+        console.log('调用Android方法：',func,this.phonePlatform())
         if (this.phonePlatform() == ''){
+           // if(callback) callback()
             return;
         }
         try {
@@ -22,7 +23,9 @@ export default {
                 params.functionName = func
                 window.webkit.messageHandlers.appObserver.postMessage(params)
             } else {
-                if(Object.keys(params).length==0&&typeof params!='number'){
+                if(typeof params=='number'){
+                    window.Android[func](params)
+                }else if(Object.keys(params).length==0){
                     window.Android[func]()
                 }else{
                     window.Android[func](JSON.stringify(params))
@@ -57,5 +60,5 @@ export default {
     },
     hidePag(){
         document.getElementById('pag').style['display'] = 'none'
-    }
+    },
 }

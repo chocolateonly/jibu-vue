@@ -32,8 +32,13 @@ export default new Vuex.Store({
             end_time:0,
             additional_num:0,
             num:0,
+            money1:0,
+            money2:0,
+            headimgurl:'',
+            nickname:'',
             reward:0,
             state:1, //现金1，金币2
+            days_reward:[],
 
         }
     },
@@ -62,16 +67,23 @@ export default new Vuex.Store({
             state.yaoyiyao.cash = data.cash
             state.yaoyiyao.cash_currency = data.cash_currency
             state.yaoyiyao.game_num = data.game_num
-            state.yaoyiyao.end_time = data.end_time / (60*60)
+            state.yaoyiyao.end_time = this.utils.countDown(data.end_time)
             state.yaoyiyao.additional_num = data.additional_num
             state.yaoyiyao.num = data.num
+            state.yaoyiyao.money1 = data.money1
+            state.yaoyiyao.money2 = data.money2
+            state.yaoyiyao.headimgurl = data.headimgurl
+            state.yaoyiyao.nickname = data.nickname
         },
         setYaoyiyaoShakeReward(state,data){
             state.yaoyiyao.reward = data.reward
             state.yaoyiyao.state = data.state
             state.yaoyiyao.additional_num = data.additional_num
             state.yaoyiyao.num = data.num
-        }
+        },
+        setYaoyiyaoDayReward(state,data){
+            state.yaoyiyao.days_reward = data.list
+        },
     },
     actions: {
         getBaseData(context, data) {
@@ -136,6 +148,14 @@ export default new Vuex.Store({
             try {
                 let resData = await homeApi.yaoyiyaoShakeReward()
                 context.commit('setYaoyiyaoShakeReward', resData.data)
+            } catch (e) {
+
+            }
+        },
+      async yaoyiyaoDayReward(context, data) {
+            try {
+                let resData = await homeApi.yaoyiyaoDayReward()
+                context.commit('setYaoyiyaoDayReward', resData.data)
             } catch (e) {
 
             }

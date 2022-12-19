@@ -278,10 +278,10 @@
     <layer v-model="addedBonusModalLayer" styles="background-color:transparent;width:100%;
     max-width:100%;"
            className="addedBonusModal"
-           @click="closeBonus"
     >
-      <div class="content">
-        <img class="close"  @click="addedBonusModalLayer=false" src="//img.ibestfanli.com/sign_static_quick3/addedBonusModalClose.png" >
+      <div class="content"  @click="closeBonus"
+      >
+        <img class="close" src="//img.ibestfanli.com/sign_static_quick3/addedBonusModalClose.png" >
         <div id="btn" class="btn">
         </div>
       </div>
@@ -572,7 +572,9 @@ export default {
     },
     //跳转
     jumpPage(type){
-      this.utils.webDataToApp('setJumpAreaType',type)
+      this.utils.webDataToApp('setJumpAreaType',type,()=>{
+        this.onRewardVerify()
+      })
     },
     //去回答问题
     openQuestionContent(){
@@ -598,7 +600,9 @@ export default {
     },
     //打开红包现金翻倍
     openDoublePackageLayer(){
-      this.utils.webDataToApp('setAtNativeAdViewGONE',{})
+      this.utils.webDataToApp('setAtNativeAdViewGONE',{},()=>{
+        this.onRewardVerify()
+      })
       this.appParms={
         mPlacementId:'p638ee41b803cb',
         adType:1
@@ -606,7 +610,9 @@ export default {
       this.playVideoOrInsertAdFn()
     },
     closeMoneyPackageLayer(){
-      this.utils.webDataToApp('setAtNativeAdViewGONE',{})
+      this.utils.webDataToApp('setAtNativeAdViewGONE',{},()=>{
+        this.onRewardVerify()
+      })
       this.appParms={
         mPlacementId:'p638ef5cd435bf',
         adType:3
@@ -615,12 +621,15 @@ export default {
     },
     //关闭红包现金红包翻倍
     closeDoublePackageLayer(){
-      this.utils.webDataToApp('setAtNativeAdViewGONE',{})
+      this.utils.webDataToApp('setAtNativeAdViewGONE',{},()=>{
+        this.onRewardVerify()
+      })
       this.$store.state.reward_money = this.$store.state.video_lock.reward
       this.$refs['moneyTip'].showModal('onlyShow')
     },
     //继续提现 多乐计步-提现后继续提现激励视频
     continueTixian(){
+      this.tixianSuccessLayer = false
       this.appParms={
         mPlacementId:'p638ee3ca69bc2',
         adType:1
@@ -630,11 +639,14 @@ export default {
     },
     //关闭提现成功弹窗 - 多乐计步-关闭提现成功弹窗插屏
     closeTiXianSuccessBox(){
-      this.utils.webDataToApp('setAtNativeAdViewGONE',{})
+      this.utils.webDataToApp('setAtNativeAdViewGONE',{},()=>{
+        this.onRewardVerify()
+      })
       this.appParms={
         mPlacementId:'p638ef5a6f0a1b',
         adType:3
       }
+      this.tixianSuccessLayer = false
       this.playVideoOrInsertAdFn()
     },
     // 点击微信提现按钮
@@ -666,7 +678,9 @@ export default {
     },
     // 点击签到奖励
     viewVideoAndQiandao() {
-      this.utils.webDataToApp('setAtNativeAdViewGONE',{})
+      this.utils.webDataToApp('setAtNativeAdViewGONE',{},()=>{
+        this.onRewardVerify()
+      })
       this.appParms ={
         mPlacementId: 'p638ee4c644efd',
         adType: 1
@@ -677,7 +691,9 @@ export default {
 
     // 播放视频或显示信息流方法
     playVideoOrInsertAdFn() {
-      this.utils.webDataToApp('loadAd',this.appParms)
+      this.utils.webDataToApp('loadAd',this.appParms,()=>{
+        this.onRewardVerify()
+      })
     },
 
     // 新人看视频翻倍红包
@@ -697,7 +713,9 @@ export default {
 
     // 点击翻倍红包按钮
     fanbeiHongBaoFn() {
-      this.utils.webDataToApp('setAtNativeAdViewGONE',{})
+      this.utils.webDataToApp('setAtNativeAdViewGONE',{},()=>{
+        this.onRewardVerify()
+      })
       // 跳转到看视频,看完视频后金额翻倍
       // 加载播放视频loading
       this.appParms = {
@@ -731,7 +749,9 @@ export default {
           this.xinrenConfig.timeNum = 0
           this.showXinrenHongbaoLayer = false
           this.showWchatLayer = true
-          this.utils.webDataToApp('setAtNativeAdViewGONE',{})
+          this.utils.webDataToApp('setAtNativeAdViewGONE',{},()=>{
+            this.onRewardVerify()
+          })
           clearInterval(this.timerNum)
           // clearTimeout(this.xinrenTimer)
 
@@ -805,6 +825,8 @@ export default {
     },
     //关闭百分百提现弹窗
     closeBonus(){
+      this.addedBonusModalLayer=false
+
       this.appParms = {
         mPlacementId: 'p638ef0b19d95f',
         adType: 1
@@ -837,7 +859,9 @@ export default {
     // 提现方法
     tixianFn(flag) {
       if(flag === 'close') {
-        this.utils.webDataToApp('setAtNativeAdViewGONE',{})
+        this.utils.webDataToApp('setAtNativeAdViewGONE',{},()=>{
+          this.onRewardVerify()
+        })
 
         // 说明点击了直接关闭微信弹框
         if(this.xinrenConfig.clickNum === 1) {
@@ -860,6 +884,7 @@ export default {
             }
           }
           this.playVideoOrInsertAdFn()
+          this.showWchatLayer = false
         }
       }
     },
@@ -874,6 +899,7 @@ export default {
         adType: 3,
       }
       this.playVideoOrInsertAdFn()
+      this.againLayer = false
     },
     //支付宝提现
     zfbTixianFn(){
@@ -885,6 +911,8 @@ export default {
         product_id:this.$store.state.base_data.productId,
         withdraw_id:this.tixianData.priceList[this.tixianData.checkIndex].id,
         desc:''
+      },()=>{
+        this.onRewardVerify()
       })
 
     },
@@ -924,6 +952,7 @@ export default {
         adType: 3
       }
       this.playVideoOrInsertAdFn()
+      this.showHongbaoLayer = false
     },
     //打开无门槛弹窗
     openHongbao(){
@@ -1015,7 +1044,9 @@ export default {
     },
     //关闭签到
     closeQiandaoLayer(){
-      this.utils.webDataToApp('setAtNativeAdViewGONE',{})
+      this.utils.webDataToApp('setAtNativeAdViewGONE',{},()=>{
+        this.onRewardVerify()
+      })
       this.appParms={
         mPlacementId: 'p638ef716b548f',
         adType: 3
@@ -1024,7 +1055,9 @@ export default {
     },
     //签到的提示
     closeTipQiandaoLayer(){
-      this.utils.webDataToApp('setAtNativeAdViewGONE',{})
+      this.utils.webDataToApp('setAtNativeAdViewGONE',{},()=>{
+        this.onRewardVerify()
+      })
       this.appParms={
         mPlacementId: 'p638ef71dc03b6',
         adType: 3
@@ -1068,36 +1101,6 @@ export default {
     // 关闭广告
     onAdDismiss(params) {
       console.log('调用了关闭广告：'+params)
-
-
-      //新人红包微信提现关闭 新人红包微信提现翻倍关闭
-      if(this.appParms.mPlacementId=='p638ef3868dfbe'||this.appParms.mPlacementId=='p638ef37c27027'){
-        this.showWchatLayer = false
-      }
-      //无门槛红包弹窗关闭
-      if(this.appParms.mPlacementId=='p638ef5b19b098'){
-        this.showHongbaoLayer = false
-      }
-
-      //明日再来弹窗关闭
-      if(this.appParms.mPlacementId=='p638ef6ffbb627'){
-        this.againLayer = false
-      }
-
-      //关闭 多乐计步-提现后继续提现激励视频 多乐计步-关闭提现成功弹窗插屏
-      if(this.appParms.mPlacementId=='p638ee3ca69bc2'||
-          this.appParms.mPlacementId=='p638ef5a6f0a1b'){
-          this.tixianSuccessLayer = false
-      }
-
-      //视频解锁 激励视频关闭
-      if(this.appParms.mPlacementId=='p638ef0b19d95f'){
-        this.addedBonusModalLayer=false
-        //获取视频解锁进度及状态
-        this.$store.dispatch('getVideoProgress')
-
-        this.openAgainLayer()
-      }
     },
     // 点击广告
     onAdClicked(params) {
@@ -1222,6 +1225,13 @@ export default {
         })
       }
 
+
+      //视频解锁 激励视频关闭
+      if(this.appParms.mPlacementId=='p638ef0b19d95f'){
+        //获取视频解锁进度及状态
+        this.$store.dispatch('getVideoProgress')
+        this.openAgainLayer()
+      }
     }
     // #End Region
 
