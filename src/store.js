@@ -25,6 +25,17 @@ export default new Vuex.Store({
             reward:'', //奖励金额
         },
         reward_money:0 ,//抽奖金额
+        yaoyiyao:{
+            cash:0,
+            cash_currency:0,
+            game_num:0,
+            end_time:0,
+            additional_num:0,
+            num:0,
+            reward:0,
+            state:1, //现金1，金币2
+
+        }
     },
     mutations: {
         setBaseData(state, data) {
@@ -46,6 +57,20 @@ export default new Vuex.Store({
         },
         setRewardInfo(state,data){
             state.reward_money = data
+        },
+        setYaoyiyaoUserInfo(state,data){
+            state.yaoyiyao.cash = data.cash
+            state.yaoyiyao.cash_currency = data.cash_currency
+            state.yaoyiyao.game_num = data.game_num
+            state.yaoyiyao.end_time = data.end_time / (60*60)
+            state.yaoyiyao.additional_num = data.additional_num
+            state.yaoyiyao.num = data.num
+        },
+        setYaoyiyaoShakeReward(state,data){
+            state.yaoyiyao.reward = data.reward
+            state.yaoyiyao.state = data.state
+            state.yaoyiyao.additional_num = data.additional_num
+            state.yaoyiyao.num = data.num
         }
     },
     actions: {
@@ -95,6 +120,22 @@ export default new Vuex.Store({
             try {
                 let resData = await homeApi.getVideoLockInfo()
                 context.commit('setVideoLockInfo', resData.data)
+            } catch (e) {
+
+            }
+        },
+       async yaoyiyaoUserInfo(context, data) {
+            try {
+                let resData = await homeApi.yaoyiyaoUserInfo()
+                context.commit('setYaoyiyaoUserInfo', resData.data)
+            } catch (e) {
+
+            }
+        },
+      async yaoyiyaoShakeReward(context, data) {
+            try {
+                let resData = await homeApi.yaoyiyaoShakeReward()
+                context.commit('setYaoyiyaoShakeReward', resData.data)
             } catch (e) {
 
             }

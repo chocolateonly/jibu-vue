@@ -281,7 +281,7 @@
            @click="closeBonus"
     >
       <div class="content">
-        <img class="close" src="//img.ibestfanli.com/sign_static_quick3/addedBonusModalClose.png" >
+        <img class="close"  @click="addedBonusModalLayer=false" src="//img.ibestfanli.com/sign_static_quick3/addedBonusModalClose.png" >
         <div id="btn" class="btn">
         </div>
       </div>

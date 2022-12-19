@@ -64,9 +64,14 @@ const homeApi = {
     getRaffleOptions(){
         return http.get('/step_counting/video_task/turntable')
     },
+    //摇一摇信息
     yaoyiyaoUserInfo(){
         return http.get('/step_counting/shake_one_shake/user_game_state')
     },
+    //摇一摇奖励触发
+    yaoyiyaoShakeReward(){
+        return http.get('/step_counting/shake_one_shake/play_game')
+    }
 
 }
 export default homeApi
