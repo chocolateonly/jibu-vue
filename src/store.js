@@ -67,7 +67,7 @@ export default new Vuex.Store({
             state.yaoyiyao.cash = data.cash
             state.yaoyiyao.cash_currency = data.cash_currency
             state.yaoyiyao.game_num = data.game_num
-            state.yaoyiyao.end_time = this.utils.countDown(data.end_time)
+            state.yaoyiyao.end_time = data.end_time
             state.yaoyiyao.additional_num = data.additional_num
             state.yaoyiyao.num = data.num
             state.yaoyiyao.money1 = data.money1
@@ -148,6 +148,7 @@ export default new Vuex.Store({
             try {
                 let resData = await homeApi.yaoyiyaoShakeReward()
                 context.commit('setYaoyiyaoShakeReward', resData.data)
+                if(data.callback) data.callback()
             } catch (e) {
 
             }
@@ -155,6 +156,14 @@ export default new Vuex.Store({
       async yaoyiyaoDayReward(context, data) {
             try {
                 let resData = await homeApi.yaoyiyaoDayReward()
+                context.commit('setYaoyiyaoDayReward', resData.data)
+            } catch (e) {
+
+            }
+        },
+      async yaoyiyaoDayRewardSet(context, data) {
+            try {
+                let resData = await homeApi.yaoyiyaoDayRewardSet()
                 context.commit('setYaoyiyaoDayReward', resData.data)
             } catch (e) {
 

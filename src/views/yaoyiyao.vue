@@ -24,7 +24,7 @@
         <div class="divShowTop">
           <img src="//img.ibestfanli.com/shakeEnvelopeActivity/shakeEnvelope/cashIcon.png">
           <span class="divShowTopSpan1">现金</span>
-          <span class="divShowTopSpan2">(<count-num :end-time="$store.state.yaoyiyao.end_time" /> 后过期)</span>
+          <span class="divShowTopSpan2">(<count-num :end-time="$store.state.yaoyiyao.end_time" @endTimeFn="endTimeFn"/>后过期)</span>
         </div>
         <div class="divShowBottom">
           <div class="moneyCount">
@@ -82,15 +82,24 @@
     >
       <div class="cash-currency-page">
         <text-scroll :dataList="noticeList"></text-scroll>
-        <div class="top"><div class="flex-s"><img src="//img.ibestfanli.com/shakeEnvelopeActivity/currency.png?v=1629280360384" alt="currency" class="top__icon"><p class="top__title">我的现金币</p></div><div class="top__cash"><span class="money">{{$store.state.yaoyiyao.cash_currency}}</span> 个≈{{$store.state.yaoyiyao.cash_currency/10000}}元</div><img src="//img.ibestfanli.com/shakeEnvelopeActivity/close-white.png?v=1629280360384" alt="close" class="top__close" @click="showDuihuanLayer = false"></div>
+        <div class="top"><div class="flex-s"><img src="//img.ibestfanli.com/shakeEnvelopeActivity/currency.png?v=1629280360384" alt="currency" class="top__icon"><p class="top__title">我的现金币</p></div><div class="top__cash"><span class="money">{{$store.state.yaoyiyao.cash_currency}}</span> 个≈{{$store.state.yaoyiyao.cash_currency/10000}}元</div><img src="//img.ibestfanli.com/shakeEnvelopeActivity/close-white.png?v=1629280360384" alt="close" class="top__close" @click="closeDuihuanLayer"></div>
 
         <div class="bottom">
           <div class="bottom__title">每日提现</div>
-          <div class="bottom__item flex-s" v-for="(item,index) in $store.state.yaoyiyao.days_reward" :key="index">
+          <div class="bottom__item flex-s"
+               v-for="(item,index) in $store.state.yaoyiyao.days_reward" :key="index">
             <div class="tag">第{{item.days}}天</div>
-            <span class="txt flex-1">{{item.reward}}元提现红包</span>
-            <button class="button" v-if="item.state==1">提现</button>
-            <button class="button button--disabled" v-else-if="item.state==2">提现</button>
+            <span class="txt flex-1">
+              <div>{{item.reward}}元提现红包</div>
+              <div>
+                <count-num :end-time="item.end_time" @endTimeFn="getDayReward" />失效
+              </div>
+            </span>
+            <button class="button" v-if="item.state==1" @click="goDayTixian(item)" >提现</button>
+            <template v-else-if="item.state==2">
+            <button class="button" v-if="item.days==2||item.days==3"  @click="goDayTixian(item)" >提现</button>
+            <button class="button button--disabled">已领取</button>
+            </template>
             <button class="button button--disabled" v-else>提现</button>
           </div>
 <!--          <div class="bottom__item flex-s">
@@ -131,7 +140,7 @@
         <div class="top__cash flex-sb">
           <div class="left">
             <span class="left__money">{{ $store.state.yaoyiyao.cash }}</span>
-            <span class="left__unit">元<span class="count"><count-num :end-time="$store.state.yaoyiyao.end_time" />后清零</span></span>
+            <span class="left__unit">元<span class="count"><count-num @endTimeFn="endTimeFn" :end-time="$store.state.yaoyiyao.end_time" />后清零</span></span>
           </div>
 <!--          <div class="right align-self-e flex-center">奖励明细
             <img src="//img.ibestfanli.com/shakeEnvelopeActivity/arrow-samll.png?v=1629280360384" alt="arrow" class="right__icon">
@@ -143,8 +152,9 @@
             <div class="bottom__account flex-sb">
               <span class="bottom__label">收款账户</span>
               <span class="flex-center">
-                <img src="//img.ibestfanli.com/shakeEnvelopeActivity/user-icon.png" alt="defaultUser" class="headimg">
-                <span class="user">未登录</span>
+                <img v-if="$store.state.yaoyiyao.headimgurl" :src="$store.state.yaoyiyao.headimgurl" alt="defaultUser" class="headimg" />
+                <img v-else src="//img.ibestfanli.com/shakeEnvelopeActivity/user-icon.png" alt="defaultUser" class="headimg" />
+                <span class="user">{{$store.state.yaoyiyao.nickname||'未登录'}}</span>
               </span>
             </div>
             <label class="bottom__label">提现金额</label>
@@ -153,7 +163,7 @@
                 <span class="item__num">{{item.price}}</span>元
               </div>
               </div>
-              <button class="bottom__paybtn flex-center">
+              <button class="bottom__paybtn flex-center" @click="goTixian">
                 <img src="//img.ibestfanli.com/shakeEnvelopeActivity/wechat-icon.png?v=1629280360384" alt="pay">立即提现
               </button>
               <div class="text-center" @click="ruleLayer=true">
@@ -167,14 +177,15 @@
     max-width:100%;"
     className="yaojiangModal"
     >
-    <div class="shakeEnvelopeModal" v-if="flag === 'zhongjiang'">
+    <div class="shakeEnvelopeModal" v-if="flag === 'zhongjiang'" @click="openZhongjiangLayerFn">
        <div class="shakeEnvelopeModal preShow">
         <span class="font1">恭喜发财，大吉大利</span>
-        <img src="//img.ibestfanli.com/shakeEnvelopeActivity/shakeEnvelope/closeIcon.png" class="closeIcon" @click="closeZhongjianLayerFn">
+        <img v-if="zhangjiangtime==0" src="//img.ibestfanli.com/shakeEnvelopeActivity/shakeEnvelope/closeIcon.png" class="closeIcon" @click.prevent="closeZhongjianLayerFn">
         </div>
+        <span v-if="zhangjiangtime!=0" class="zhangjiang-time">{{zhangjiangtime}}</span>
     </div>
     <div class="shakeLoading" v-if="flag === 'loading'">
-        loading...
+      <canvas class="canvas" id="shake"></canvas>
     </div>
 
     <div class="unFullnessProgressModal" v-if="flag === 'ProgressModal'">
@@ -183,7 +194,7 @@
             <div class="bar" style="width: 0%;"></div>
         </div>
         <img src="//img.ibestfanli.com/shakeEnvelopeActivity/shakeEnvelope/barEnvelopeSmall.png" class="barEnvelopeSmall">
-        <span class="font1">再摇2次，现金立即到账</span>
+        <span class="font1">再摇{{$store.state.yaoyiyao.additional_num-$store.state.yaoyiyao.num}}次，现金立即到账</span>
         <div class="unFullnessProgressModalBtn">
             <span>继续摇红包</span>
         </div>
@@ -230,7 +241,8 @@
         </div>
       </div>
     </layer>
-
+   <money-time-layer ref="MoneyTimeLayer"/>
+    <money-no-text-layer ref="MoneyNoTextLayer" @closeLayer="closeMoneyNoTextLayer"/>
   </div>
 </template>
 <script>
@@ -238,15 +250,26 @@ import Shake from 'shake.js'
 
 import TextScroll from "@/components/text-scroll.vue"
 import CountNum from "@/components/countNum";
+import MoneyTip from "@/components/moneyTip";
+import MoneyTimeLayer from "@/components/modalLayer/moneyTimeLayer";
+import MoneyNoTextLayer from "@/components/modalLayer/moneyNoTextLayer";
+import homeApi from "@/api/home";
+
 export default {
   name: "yaoyiyao",
-  components: {CountNum, TextScroll},
+  components: {MoneyNoTextLayer, MoneyTimeLayer, MoneyTip, CountNum, TextScroll},
   data() {
     return {
+      // app需要的参数
+      appParms: {
+        mPlacementId:'', // 广告id
+        adType:0, // 类型
+        returnScale:0, // 占比 10为最高
+      },
       showDuihuanLayer: false, // 现金币兑换弹框
       showXianjingLayer: false, // 现金兑换弹框
-      kaihongbaoLayer:false, // 中奖弹框
-      activityEndLayer:true, // 活动结束弹框
+      kaihongbaoLayer:true, // 中奖弹框
+      activityEndLayer:false, // 活动结束弹框
       flag:'loading',
       showRewardClass:'', // 左侧中奖提示
       noticeList:['大龙龙妈已提现100元','wfe妈已提现10元'],
@@ -263,7 +286,10 @@ export default {
         }
 
       ],
-      ruleLayer:false
+      ruleLayer:false,
+      zhangjiangtime:3,
+      zhangjiangtimer:null,
+
     }
   },
   computed:{
@@ -275,11 +301,46 @@ export default {
     money1(){
       this.xiangjinPrice[0].price = this.$store.state.yaoyiyao.money1
       this.xiangjinPrice[1].price = this.$store.state.yaoyiyao.money2
-    }
+    },
+    flag(){
+      if(this.kaihongbaoLayer&&this.flag=='loading'){
+        this.utils.onPag('./pag/shake-loading.pag','shake')
+      }else if(this.kaihongbaoLayer&&this.flag=='zhongjiang'){
+        this.zhangjiangtime = 3
+        this.zhangjiangtimer = setInterval(()=>{
+          this.zhangjiangtime--;
+          if(this.zhangjiangtime==0){
+            clearInterval(this.zhangjiangtimer)
+          }
+        },1000)
+      }else{
+        this.utils.hidePag('shake')
+      }
+    },
+    kaihongbaoLayer(){
+      if(this.kaihongbaoLayer&&this.flag=='loading'){
+        this.utils.onPag('./pag/shake-loading.pag','shake')
+      }else if(this.kaihongbaoLayer&&this.flag=='zhongjiang'){
+        this.zhangjiangtime = 3
+        this.zhangjiangtimer = setInterval(()=>{
+          this.zhangjiangtime--;
+          if(this.zhangjiangtime==0){
+            clearInterval(this.zhangjiangtimer)
+          }
+        },1000)
+      }else{
+        this.utils.hidePag('shake')
+      }
+    },
+
   },
   mounted() {
     // this.showRewardFn()
     this.$store.dispatch('yaoyiyaoUserInfo')
+    this.getDayReward()
+
+    //todo mock
+    // this.$refs['MoneyNoTextLayer'].showModalFn(0.3)
   },
   beforeDestroy() {
         this.myShakeEvent.stop();
@@ -318,9 +379,59 @@ export default {
         }
         audio.play()
     },
+    //现金-提现
     goReward(){
-       this.$store.dispatch('yaoyiyaoDayReward')
       this.showDuihuanLayer = true
+    },
+    //立即提现
+    goTixian(){
+        this.$layer.msg('现金不足，先去摇红包攒现金吧～')
+    },
+    getDayReward(){
+      this.$store.dispatch('yaoyiyaoDayReward')
+    },
+    closeDuihuanLayer(){
+      this.showDuihuanLayer = false
+      //插屏广告
+      this.appParms ={
+        mPlacementId: 'p638ef72486bc8',
+        adType: 3
+      }
+      this.playVideoOrInsertAdFn()
+    },
+    closeMoneyNoTextLayer(){
+      //插屏广告
+      this.appParms ={
+        mPlacementId: 'p638ef72486bc8',
+        adType: 3
+      }
+      this.playVideoOrInsertAdFn()
+    },
+    // 播放视频或显示信息流方法
+    playVideoOrInsertAdFn() {
+      this.utils.webDataToApp('loadAd',this.appParms,()=>{
+        this.onRewardVerify()
+      })
+    },
+    goDayTixian(item){
+       if(item.days==1){
+         if(item.reward<0.3){
+           this.$layer.msg('金额小于0.3,不支持微信提现')
+         }else{
+           this.utils.webDataToApp('setVxChatWithdrawal',{
+             uid:this.$store.state.base_data.userId,
+             product_id:this.$store.state.base_data.productId,
+             withdraw_id:item.id,
+             desc:''
+           })
+         }
+       }else if(item.days==2||item.days==3){
+         this.$store.commit('setRewardInfo',item.reward)
+         this.$refs['MoneyTimeLayer'].showModalFn()
+       }else{
+         this.$store.dispatch('yaoyiyaoDayRewardSet')
+         this.$refs['MoneyNoTextLayer'].showModalFn(item.money)
+       }
     },
     ios13granted() {
         if (typeof DeviceMotionEvent.requestPermission === 'function') {
@@ -351,8 +462,15 @@ export default {
     // 点击摇一摇按钮事件
     yaoyiyaoBtnFn() {
         this.kaihongbaoLayer = true
-        let timer = setTimeout(()=> {
-            this.flag = 'zhongjiang'
+
+        let timer = setTimeout(async ()=> {
+          this.$store.dispatch('yaoyiyaoShakeReward',{callback:()=>{
+              if(this.$store.state.yaoyiyao.game_num==0){
+                this.$refs['MoneyNoTextLayer'].showModalFn()
+              }else{
+                this.flag = 'zhongjiang'
+              }
+            }})
             clearTimeout(timer)
         }, 2000)
     },
@@ -360,6 +478,20 @@ export default {
     closeZhongjianLayerFn() {
        this.kaihongbaoLayer = false
        this.flag = 'loading'
+      this.appParms={
+        mPlacementId: 'p638ef72486bc8',
+        adType: 3
+      }
+      this.playVideoOrInsertAdFn()
+    },
+    //开奖
+    openZhongjiangLayerFn(){
+      this.appParms={
+        mPlacementId:'p638ee4cd28b88',
+        adType: 1
+      }
+      this.playVideoOrInsertAdFn()
+
     },
     // 显示额外奖金弹框
     showProgressModal() {
@@ -379,7 +511,54 @@ export default {
                 item.checked = true
             }
         })
+    },
+    //倒计时结束
+    endTimeFn(){
+       this.$store.dispatch('yaoyiyaoUserInfo')
+    },
+    // #Region 以下是app的回调相关方法
+    //微信提现成功返回
+    OnVxChatWithdrawalSuccess(){
+
+    },
+    //微信提现失败返回
+    OnVxChatWithdrawalFail(){
+
+    },
+    // 关闭广告
+    onAdDismiss(params) {
+      console.log('调用了关闭广告：'+params)
+    },
+    // 点击广告
+    onAdClicked(params) {
+      console.log('调用了点击广告：'+params)
+    },
+    // 加载广告失败
+    onAdLoadFail(params) {
+      console.log('加载广告失败：'+params)
+      this.onAdDismiss(params)
+    },
+    // 加载广告成功
+    onAdLoadSuccess(params) {
+      console.log('加载广告成功：'+params)
+    },
+    // 加载广告超时
+    onAdLoadTimeout(params) {
+      console.log('加载广告超时：'+params)
+      this.onAdDismiss(params)
+    },
+    // 查看广告
+    onAdShow(params) {
+      console.log('查看广告：'+params)
+    },
+    // 奖励激励
+    onRewardVerify(params) {
+      console.log('调用了奖励激励：'+params)
+      if(this.appParms.mPlacementId=='p638ee4cd28b88'){
+        this.$refs['MoneyNoTextLayer'].showModalFn()
+      }
     }
+    // #End Region
 
   }
 }
@@ -983,7 +1162,7 @@ export default {
 }
 .cash-currency-page .bottom__item {
     position:relative;
-    width:100%;
+    //width:100%;
     background:#fff;
     border-radius:15px;
     border:1px solid #ffecc5;
@@ -1191,7 +1370,15 @@ export default {
 /**摇奖弹框 */
 .yaojiangModal {
     .shakeLoading {
-        background:#fff;
+      width: 500px;
+      height: 500px;
+      margin: 0 auto 0 auto;
+      position: relative;
+      text-align: center;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .shakeEnvelopeModal {
@@ -1428,5 +1615,16 @@ export default {
     background-color:transparent !important;
     padding:0 !important;
   }
+}
+.zhangjiang-time{
+  position: absolute;
+  bottom: -30px;
+  color: #fff;
+  border: 1px solid #fff;
+  width: 20px;
+  height: 20px;
+  text-align: center;
+  line-height: 20px;
+  border-radius: 50%;
 }
 </style>

@@ -35,7 +35,7 @@ export default {
             console.log('报错-调用Android方法：',JSON.stringify(e))
         }
     },
-    async onPag(url) {
+    async onPag(url,id) {
         try {
             // 实例化 PAG
         const PAG = await window.libpag.PAGInit();
@@ -44,7 +44,7 @@ export default {
         // 加载 PAG 素材为 PAGFile 对象
         const pagFile = await PAG.PAGFile.load(buffer);
         // 将画布尺寸设置为 PAGFile的尺寸
-        const canvas = document.getElementById('pag');
+        const canvas = document.getElementById(id?id:'pag');
         canvas.width = pagFile.width();
         canvas.height = pagFile.height();
         // 实例化 PAGView 对象
@@ -58,7 +58,7 @@ export default {
         }catch (e) {
         }
     },
-    hidePag(){
-        document.getElementById('pag').style['display'] = 'none'
+    hidePag(id){
+       if(document.getElementById(id?id:'pag')) document.getElementById(id?id:'pag').style['display'] = 'none'
     },
 }

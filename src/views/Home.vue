@@ -516,7 +516,7 @@ export default {
     this.$store.dispatch('getVideoProgress')
 
     //todo mock
-    // this.$refs['tipQianDaoLayer'].showModal()
+    // this.$refs['moneyDoubleLayer'].showModalFn()
   },
   destroyed () {
     clearInterval(this.ggRoll.interval)

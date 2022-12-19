@@ -13,8 +13,8 @@ export default {
     }
   },
   props:{//接收父组件的数据
-    endTime:{type:String,default:''},
-    endText:{type:String,default:'活动已结束'},
+    endTime:{type:[String,Number],default:''},
+    endText:{type:String,default:'0秒'},
   },
   watch: {//监听时间的变化
     endTime() {
@@ -41,10 +41,11 @@ export default {
           sec = sec < 10 ? "0" + sec : sec;
           let format = '';
           if(day > 0){
-            format = `${day}天${hour}小时${min}分${sec}秒`;
+            format = `${day}天${hour}时`;
+            // format = `${day}天${hour}小时${min}分${sec}秒`;
           }
           if(day <= 0 && hour > 0 ){
-            format = `${hour}小时${min}分${sec}秒`;
+            format = `${hour}时${min}分`;
           }
           if(day <= 0 && hour <= 0){
             format =`${min}分${sec}秒`;
@@ -53,6 +54,7 @@ export default {
         }else{
           clearInterval(timer);
           self.content = self.endText;
+          self.$emit('endTimeFn')
         }
       },1000);
     }

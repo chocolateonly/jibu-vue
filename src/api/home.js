@@ -75,7 +75,16 @@ const homeApi = {
     //每日提现
     yaoyiyaoDayReward(){
         return http.get('/step_counting/shake_one_shake')
-    }
+    },
+    //每日提现-触发
+    yaoyiyaoDayRewardSet(){
+        return http.get('/step_counting/shake_one_shake/receive_task_reward')
+    },
+   //额外奖励-触发
+    yaoyiyaoAddtionalReward(){
+        return http.get('/step_counting/shake_one_shake/additional_reward')
+    },
+
 
 }
 export default homeApi
