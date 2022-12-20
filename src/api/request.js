@@ -14,17 +14,17 @@ service.interceptors.request.use(
         // config.headers['Authorization'] = store.state.user.token
         //my {"userId":"4055029","productId":"10012","channel":"other","versions":"1.0.0",
         // "Authorization":"eyJhbGciOiJIUzI1NiJ9.eyJ1aWQiOjQwNTUwMjksImV4cCI6MTY3MjAzNDY1OH0.Cv5ipbB8uj4WV9gWIs8RoAK_Vf6MO8l_Rnas11uQRqk"}
-        config.headers['userId'] = '4055029'
-        config.headers['productId'] = '10012'
-        config.headers['channel'] = 'other'
-        config.headers['versions'] = '1.0.0'
+        // config.headers['userId'] = '4055029'
+        // config.headers['productId'] = '10012'
+        // config.headers['channel'] = 'other'
+        // config.headers['versions'] = '1.0.0'
 
 //test {"userId":"4055134","productId":"10012","channel":"other","versions":"1.0.0",
 // "Authorization":"eyJhbGciOiJIUzI1NiJ9.eyJ1aWQiOjQwNTUxMzQsImV4cCI6MTY3MjA0MjQ4MX0.DwyUQm5bRS_tdJ-_Al5CA55-mtwG0XwVR_ZLYFHZPiw"}
-        config.headers['userId'] = '4055134'
-        config.headers['productId'] = '10012'
-        config.headers['channel'] = 'other'
-        config.headers['versions'] = '1.0.0'
+//         config.headers['userId'] = '4055134'
+//         config.headers['productId'] = '10012'
+//         config.headers['channel'] = 'other'
+//         config.headers['versions'] = '1.0.0'
 
 
 
