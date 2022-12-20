@@ -223,6 +223,21 @@
 
 </layer>
 
+<!--    超过次数限制弹窗-->
+    <layer v-model="showOverTimeLayer"  styles="background-color:transparent; width:100%;
+    max-width:100%;"
+           className="activityEndModal aaaannnn"
+    >
+      <div class="activityEndModal over-time-moddal">
+        <span class="activityEndModalFont1">你今天已经摇了10次红包了休息一下</span>
+        <span class="activityEndModalFont2 over-time">{{ next_game_time }}</span>
+        <span class="activityEndModalFont2">下次摇红包开启时间</span>
+        <div class="activityEndModalBtn"><span>明天再来</span>
+        </div>
+        <img src="//img.ibestfanli.com/shakeEnvelopeActivity/shakeEnvelope/closeIcon.png" class="closeIcon" @click="showOverTimeLayer = false">
+      </div>
+    </layer>
+
     <!--      活动规则-->
     <layer v-model="ruleLayer" styles="background-color:transparent;width:100%;
     max-width:100%;"
@@ -254,10 +269,11 @@ import MoneyTip from "@/components/moneyTip";
 import MoneyTimeLayer from "@/components/modalLayer/moneyTimeLayer";
 import MoneyNoTextLayer from "@/components/modalLayer/moneyNoTextLayer";
 import homeApi from "@/api/home";
+import Layer from "@/components/vue2-layer-mobile/src/layer";
 
 export default {
   name: "yaoyiyao",
-  components: {MoneyNoTextLayer, MoneyTimeLayer, MoneyTip, CountNum, TextScroll},
+  components: {Layer, MoneyNoTextLayer, MoneyTimeLayer, MoneyTip, CountNum, TextScroll},
   data() {
     return {
       // app需要的参数
@@ -268,7 +284,7 @@ export default {
       },
       showDuihuanLayer: false, // 现金币兑换弹框
       showXianjingLayer: false, // 现金兑换弹框
-      kaihongbaoLayer:true, // 中奖弹框
+      kaihongbaoLayer:false, // 中奖弹框
       activityEndLayer:false, // 活动结束弹框
       flag:'loading',
       showRewardClass:'', // 左侧中奖提示
@@ -286,15 +302,18 @@ export default {
         }
 
       ],
-      ruleLayer:false,
+      ruleLayer:true,
       zhangjiangtime:3,
       zhangjiangtimer:null,
-
+      showOverTimeLayer:false,//超次数弹窗
     }
   },
   computed:{
     money1(){
       return this.$store.state.yaoyiyao.money1
+    },
+    next_game_time(){
+      return this.utils.timeStampTurnTime(this.$store.state.yaoyiyao.next_game_time)
     }
   },
   watch:{
@@ -378,6 +397,7 @@ export default {
             navigator.vibrate(500);
         }
         audio.play()
+        this.yaoyiyaoBtnFn()
     },
     //现金-提现
     goReward(){
@@ -461,6 +481,11 @@ export default {
     },
     // 点击摇一摇按钮事件
     yaoyiyaoBtnFn() {
+       //todo 判断是否超过十次
+        if(this.$store.state.yaoyiyao.game_num>=10){
+          this.showOverTimeLayer = true
+          return;
+        }
         this.kaihongbaoLayer = true
 
         let timer = setTimeout(async ()=> {
@@ -1606,9 +1631,6 @@ export default {
           right: -20px;
     }
 
-</style>
-
-<style lang="scss">
 .jingbiModal,.xianjinModal,.yaojiangModal {
   bottom:0 !important;
   .layui-m-layercont {
@@ -1626,5 +1648,11 @@ export default {
   text-align: center;
   line-height: 20px;
   border-radius: 50%;
+}
+.over-time-moddal{
+  .over-time{
+    color:#ED4433;
+    font-size: 50px;
+  }
 }
 </style>

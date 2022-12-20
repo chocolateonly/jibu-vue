@@ -7,7 +7,7 @@
     <div class="content">
       <img class="close" src="../../assets/images/icon_close_yell.png" @click="close">
 <!--金币-->
-      <div class="top-box" v-if="$store.state.yaoyiyao.state==2">
+      <div class="top-box" v-if="$store.state.yaoyiyao.state==2&&!money">
         <div class="title">
           <img class="t-left-img" src="../../assets/images/dtxxtc_icon_hongbao.png" alt="">
           <span>获得现金币</span>
@@ -39,7 +39,7 @@
 
 
       <div id="btn" class="btn" @click="getIt">
-        开心收下
+        {{$store.state.yaoyiyao.state==2?'马上去提现':'开心收下'}}
       </div>
       <div class="tip footer-tip" v-if="money" >活动红包将于72小时后过期</div>
     </div>

@@ -30,6 +30,7 @@ export default new Vuex.Store({
             cash_currency:0,
             game_num:0,
             end_time:0,
+            next_game_time:0,
             additional_num:0,
             num:0,
             money1:0,
@@ -68,6 +69,7 @@ export default new Vuex.Store({
             state.yaoyiyao.cash_currency = data.cash_currency
             state.yaoyiyao.game_num = data.game_num
             state.yaoyiyao.end_time = data.end_time
+            state.yaoyiyao.next_game_time = data.next_game_time
             state.yaoyiyao.additional_num = data.additional_num
             state.yaoyiyao.num = data.num
             state.yaoyiyao.money1 = data.money1
