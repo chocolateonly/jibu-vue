@@ -445,6 +445,7 @@ export default {
       this.playVideoOrInsertAdFn()
     },
     openNewPackage(){
+      this.activityEndLayer = false
       this.yaoyiyaoBtnFn()
     },
     // 播放视频或显示信息流方法
