@@ -2044,7 +2044,7 @@ export default {
   .addedBonusModal .content>.close {
     z-index:10;
     position:absolute;
-    top:280px;
+    //top:280px;
     right:100px;
     width:70px;
     height:70px;
