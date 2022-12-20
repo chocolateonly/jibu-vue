@@ -100,5 +100,7 @@ export default {
     transform: translate3d(-30%, 0, 0);
   }
 }
-
+.layui-m-layer-footer .layui-m-layercont{
+  background: transparent !important;
+}
 </style>
