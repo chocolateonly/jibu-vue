@@ -124,7 +124,7 @@ export default {
     right:-12vw;
   }
   .congrua{
-    width: 400px;
+    width: 300px;
   }
 }
 </style>

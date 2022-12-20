@@ -140,7 +140,7 @@ export default {
   font-size:90px;
 }
 .congrua{
-  width: 400px;
+  width: 300px;
 }
 .tip{
   font-size: 25px;

@@ -38,7 +38,8 @@
 
         <!--人行走-->
         <div class="person">
-          <img :src="personImg" class="personImg"/>
+<!--          <img :src="personImg" class="personImg"/>-->
+          <img src="../assets/images/renwu_walk00.gif" class="personImg"/>
         </div>
 
         <!-- 领红包 领现金 人物右侧-->
@@ -192,7 +193,7 @@
           <div class="btn" id="btn" @click="showXinrenHongbaoLayer=false;showWchatLayer=true">
           </div>
           <div class="tips">{{xinrenConfig.timeNum}}秒后自动领取</div>
-          <canvas class="canvas" id="xinrenhongbao" />
+<!--          <canvas class="canvas" id="xinrenhongbao" />-->
         </div>
       </div>
     </layer>
@@ -510,7 +511,7 @@ export default {
   },
   mounted() {
     this.quanPingGGInit()
-    this.personRun()
+    // this.personRun()
     // 获取新人红包信息
     this.getNewUserInfo()
     //获取视频解锁进度及状态
@@ -735,7 +736,7 @@ export default {
     showNewUserLayer() {
       // 显示新人红包
       this.showXinrenHongbaoLayer = true
-      this.utils.onPag('./pag/xinrenhongbao.pag','xinrenhongbao')
+      // this.utils.onPag('./pag/xinrenhongbao.pag','xinrenhongbao')
       // 显示信息流 多乐计步-新人红包信息流
       this.appParms = {
         mPlacementId:'p638ee19b87519',
@@ -749,7 +750,7 @@ export default {
         if(this.xinrenConfig.timeNum<=0) {
           this.xinrenConfig.timeNum = 0
           this.showXinrenHongbaoLayer = false
-          this.utils.hidePag('xinrenhongbao')
+          // this.utils.hidePag('xinrenhongbao')
           this.showWchatLayer = true
           this.utils.webDataToApp('setAtNativeAdViewGONE',{},()=>{
             this.onRewardVerify()
@@ -1853,8 +1854,8 @@ export default {
     .openRedPacketMain {
       width: 100%;
       height: 950px;
-      //background: url('../assets/images/xinrenhongbao.gif') no-repeat;
-      //background-size: 100% 100%;
+      background: url('../assets/images/xinrenhongbao.gif') no-repeat;
+      background-size: 100% 100%;
       border-radius: 0.38rem;
       display: -webkit-box;
       display: -webkit-flex;
