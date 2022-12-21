@@ -83,7 +83,7 @@ export default {
   background-size:contain;
   background-position: center;
   .top-box{
-    padding-top: 14.333vw;
+    padding-top: 4.333vw;
     padding-right: 5vw;
   }
   .t-left-img{
