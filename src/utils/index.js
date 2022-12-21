@@ -15,7 +15,7 @@ export default {
     webDataToApp (func, params,callback ) {
         console.log('调用Android方法：',func,this.phonePlatform())
         if (this.phonePlatform() == ''){
-           // if(callback) callback()
+           if(callback) callback()
             return;
         }
         try {

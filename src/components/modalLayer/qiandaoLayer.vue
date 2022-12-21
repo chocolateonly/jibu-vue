@@ -122,7 +122,7 @@ export default {
     qiandaoJiangliFn() {
       this.hideModalFn()
         // 播放激励视频
-        this.$emit('viewVideoAndQiandao')
+        this.$emit('viewVideoAndQiandao',qiandaoInfo.check_in_day+1)
     },
     closeQiandaoLayer(){
           this.hideModalFn()

@@ -12,8 +12,11 @@
                 <span class="wechatTitle">连续签到7天得150元</span>
               </div>
               <div class="content-tip">
-<!--                todo:等图-->
-
+                   <div class="current-day-price">{{qiandao.reward}}元</div>
+                   <div class="seven-day-price">150元</div>
+                   <img class="content-img" src='../../assets/images/qiandao-7.png'>
+                   <div class="current-day">第{{qiandao.day}}天</div>
+                   <div class="seven-day">第7天</div>
               </div>
               <div class="wechatBody">
                 <div class="fbBtn" @click="close">我知道了</div>
@@ -27,11 +30,16 @@
 export default {
     data() {
         return {
-            rePqiandaoPayLayer:false
+            rePqiandaoPayLayer:false,
+            qiandao:{
+              day:1,
+              reward:0
+            },
         }
     },
   methods:{
-    showModal(){
+    showModal(qiandaoInfo){
+      if(qiandaoInfo)  this.qiandao = qiandaoInfo
       this.rePqiandaoPayLayer = true
     },
     close(){
@@ -127,5 +135,37 @@ export default {
             }
         } 
         }
+}
+
+.content-tip{
+  position: relative;
+.current-day-price{
+  position: absolute;
+  color: #E15534;
+  font-size: 3vw;
+  top: 8vw;
+  left: 30vw;
+}
+  .seven-day-price{
+    position: absolute;
+    color: #E15534;
+    font-size: 3vw;
+    top: 6vw;
+    left: 48vw;
+
+  }
+.content-img{
+  width:300px;
+}
+.current-day{
+  position: absolute;
+  color: #C9B2A8;
+  left:30vw;
+}
+  .seven-day{
+    position: absolute;
+    color: #C9B2A8;
+    left:48vw;
+  }
 }
 </style>

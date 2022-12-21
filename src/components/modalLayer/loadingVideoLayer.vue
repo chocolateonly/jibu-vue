@@ -56,7 +56,8 @@ export default {
 .loadingModal {
     .loadingBox {
       .loadingText {
-        font-size:32px;
+        font-size:26px;
+        line-height: 28px;
         color:#fff;
       }
       .footerTip {

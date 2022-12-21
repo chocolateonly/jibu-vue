@@ -54,7 +54,7 @@ export default {
         }else{
           clearInterval(timer);
           self.content = self.endText;
-          self.$emit('endTimeFn')
+         if(timestamp) self.$emit('endTimeFn')
         }
       },1000);
     }

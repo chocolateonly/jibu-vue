@@ -108,6 +108,7 @@ export default new Vuex.Store({
             try {
                 let resData = await homeApi.setVideoProgressDouble({state:data.state})
                 context.commit('setVideoReward',resData.data)
+                if(data.callback) data.callback()
             }catch (e) {
 
             }

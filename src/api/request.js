@@ -20,12 +20,13 @@ service.interceptors.request.use(
         // config.headers['versions'] = '1.0.0'
 
 //test {"userId":"4055134","productId":"10012","channel":"other","versions":"1.0.0",
-// "Authorization":"eyJhbGciOiJIUzI1NiJ9.eyJ1aWQiOjQwNTUxMzQsImV4cCI6MTY3MjA0MjQ4MX0.DwyUQm5bRS_tdJ-_Al5CA55-mtwG0XwVR_ZLYFHZPiw"}
 //         config.headers['userId'] = '4055134'
-//         config.headers['productId'] = '10012'
-//         config.headers['channel'] = 'other'
-//         config.headers['versions'] = '1.0.0'
 
+//  cs       {"userId":"4055162","productId":"10012","channel":"other","versions":"1.0.0",
+        config.headers['userId'] = '4055162'
+        config.headers['productId'] = '10012'
+        config.headers['channel'] = 'other'
+        config.headers['versions'] = '1.0.0'
 
 
         if(localStorage.getItem('base_data')){

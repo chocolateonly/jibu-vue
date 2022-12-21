@@ -508,6 +508,7 @@ export default {
           return;
         }
         this.kaihongbaoLayer = true
+        this.flag = 'loading'
 
       let timer = setTimeout(async ()=> {
         this.$store.dispatch('yaoyiyaoShakeReward',{callback:()=>{
@@ -521,6 +522,7 @@ export default {
       }, 2000)
     },
     continueProgressModal(){
+      this.kaihongbaoLayer = false
       this.yaoyiyaoBtnFn()
     },
     // 关闭中奖弹框
@@ -535,6 +537,7 @@ export default {
     },
     //开奖
     openZhongjiangLayerFn(){
+      this.kaihongbaoLayer = false
       this.appParms={
         mPlacementId:'p638ee4cd28b88',
         adType: 1

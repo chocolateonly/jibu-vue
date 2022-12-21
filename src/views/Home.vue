@@ -451,7 +451,12 @@ export default {
         tixian_price:150, //要提现金额
         status:true,//提现状态 成功 失败
       },
-      againLayer:false //明日再来提示 弹窗
+      againLayer:false, //明日再来提示 弹窗
+      qiandao:{
+        day:1,
+        reward:0
+      },
+      new_flag:false //控制新人红包出来一次即可
     }
   },
   components: {
@@ -518,7 +523,7 @@ export default {
     this.$store.dispatch('getVideoProgress')
 
     //todo mock
-    // this.$refs['moneyDoubleLayer'].showModalFn()
+    // this.$refs['tipQianDaoLayer'].showModal()
   },
   destroyed () {
     clearInterval(this.ggRoll.interval)
@@ -563,7 +568,8 @@ export default {
       this.getWithdrawList()
 
       this.ecpm = resData.data.state
-      if(resData.data.new_user_state) {
+      if(resData.data.new_user_state&&!this.new_flag) {
+        this.new_flag = true
         // 说明是个新用户,弹出新人红包
         this.showNewUserLayer()
       }
@@ -679,7 +685,8 @@ export default {
       this.playVideoOrInsertAdFn()
     },
     // 点击签到奖励
-    viewVideoAndQiandao() {
+    viewVideoAndQiandao(qiandao_day) {
+      this.qiandao.day = qiandao_day
       this.utils.webDataToApp('setAtNativeAdViewGONE',{},()=>{
         this.onRewardVerify()
       })
@@ -806,6 +813,9 @@ export default {
     },
     // 显示提现弹框
     showTixianPayler() {
+      this.showWchatLayer = false
+      this.xinrenConfig.isViewVideo = false
+      this.utils.webDataToApp('setAtNativeAdViewGONE',{})
       this.getLoginUserInfo()
 
       this.$refs['payLayer'].isShowPayLayer=true
@@ -1043,7 +1053,7 @@ export default {
         returnScale: 2
       }
       this.playVideoOrInsertAdFn()
-      this.$refs['tipQianDaoLayer'].showModal()
+      this.$refs['tipQianDaoLayer'].showModal(this.qiandao)
     },
     //关闭签到
     closeQiandaoLayer(){
@@ -1176,6 +1186,7 @@ export default {
           this.getWithdrawList()
           this.$store.dispatch('addVideoProgress',{
             callback:()=>{
+              console.log( 'ssxxxx')
               this.getNewUserInfo()
 
               //判断奇偶
@@ -1221,7 +1232,8 @@ export default {
       if(this.appParms.mPlacementId=='p638ee4c644efd'){
         homeApi.qiandao().then((resData)=>{
           this.$store.state.reward_money = resData.data.reward
-          this.$refs['moneyTip'].showModal('onlyShow')
+          this.qiandao.reward = resData.data.reward
+          this.$refs['moneyTip'].showModal('onlyShow-Qiandao')
           this.getNewUserInfo()
         }).catch(err=>{
           this.$layer.msg(err.message)

@@ -40,9 +40,15 @@ export default {
       if(type=='onlyShow'){
         this.timer = setTimeout(()=>{
           this.isOpen = false
+        },2000)
+      }
+      if(type=='onlyShow-Qiandao'){
+        this.timer = setTimeout(()=>{
+          this.isOpen = false
           this.$emit('onlyShowCallback')
         },2000)
       }
+
       this.isOpen = true
       this.utils.onPag('./pag/package-sunshine.pag')
     },
