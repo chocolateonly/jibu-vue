@@ -5,8 +5,8 @@ const commonApi = {
     /**
      * 获取当前登录用户信息
      */
-    getLoginUserInfo() {
-     return http.post('/step_counting/wechat_user')
+    getLoginUserInfo(data) {
+     return http.post('/step_counting/wechat_user',data)
     },
 
 }

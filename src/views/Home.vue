@@ -340,7 +340,7 @@
            className="modal withdrawRuleBacground "
     >
       <div class="modal-content ">
-        <div class="withdrawRuleMain">
+        <div class="withdrawRuleMain tomorrow-box">
           <div class="title">明日提现5元</div>
           <div class="tip">
             <p>明日5元生效到账，记得来领取哦！</p>
@@ -534,7 +534,8 @@ export default {
     // 获取当前登录的用户信息
     async getLoginUserInfo() {
       try{
-        let resData = await commonApi.getLoginUserInfo()
+        const useObj =localStorage.getItem('base_data')? JSON.parse(localStorage.getItem('base_data')):{"userId":"4055162","productId":"10012","channel":"other","versions":"1.0.0"}
+        let resData = await commonApi.getLoginUserInfo({uid:useObj.userId,product_id:useObj.productId})
         this.tixianData.price = resData.data.reward
       }catch (e) {
 
@@ -2675,6 +2676,13 @@ export default {
     background-color:transparent !important;
     padding:0 !important;
   }
+}
+.withdrawRuleMain{
+.tomorrow-box{
+  .tip{
+    font-size: 30px;
+  }
+}
 }
 </style>
 
