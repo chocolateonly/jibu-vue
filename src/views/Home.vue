@@ -32,7 +32,7 @@
           <div class="headerTitle">今日步数</div>
         </div>
         <div class="step">
-          <span class="stepValue">30000</span>
+          <span class="stepValue">{{ steps }}</span>
           <span class="stepUnit">步</span>
         </div>
 
@@ -456,7 +456,10 @@ export default {
         day:1,
         reward:0
       },
-      new_flag:false //控制新人红包出来一次即可
+      new_flag:false, //控制新人红包出来一次即可
+      stepInterval:null,
+      steps:0,
+
     }
   },
   components: {
@@ -510,9 +513,13 @@ export default {
     window.OnVxChatWithdrawalFail = this.OnVxChatWithdrawalFail
     window.OnAlipayWithdrawalSuccess = this.OnAlipayWithdrawalSuccess
     window.OnAlipayWithdrawalFail = this.OnAlipayWithdrawalFail
-
+    window.setStep = this.setStep
     // 获取当前登录的用户信息
     this.getLoginUserInfo()
+    //获取当日步数
+    this.stepInterval = setInterval(()=>{
+      this.utils.webDataToApp('getStep')
+    },5000)
   },
   mounted() {
     this.quanPingGGInit()
@@ -523,14 +530,17 @@ export default {
     this.$store.dispatch('getVideoProgress')
 
     //todo mock
-    // this.$refs['tipQianDaoLayer'].showModal()
+    // this.$refs['questionContentLayer'].showModalFn()
   },
   destroyed () {
     clearInterval(this.ggRoll.interval)
     clearInterval(this.persionTimer)
+    clearInterval(this.stepInterval)
   },
   methods: {
-
+    setStep(steps){
+      this.steps = steps
+    },
     // 获取当前登录的用户信息
     async getLoginUserInfo() {
       try{
@@ -688,9 +698,7 @@ export default {
     // 点击签到奖励
     viewVideoAndQiandao(qiandao_day) {
       this.qiandao.day = qiandao_day
-      this.utils.webDataToApp('setAtNativeAdViewGONE',{},()=>{
-        this.onRewardVerify()
-      })
+      this.utils.webDataToApp('setAtNativeAdViewGONE',{})
       this.appParms ={
         mPlacementId: 'p638ee4c644efd',
         adType: 1
@@ -749,7 +757,7 @@ export default {
       this.appParms = {
         mPlacementId:'p638ee19b87519',
         adType:2,
-        returnScale:2
+        returnScale:1
       }
       this.playVideoOrInsertAdFn()
 
@@ -770,7 +778,7 @@ export default {
           this.appParms = {
             mPlacementId:'p638ee1a5b89e8',
             adType:2,
-            returnScale:2
+            returnScale:1
           }
           this.playVideoOrInsertAdFn()
 
@@ -987,7 +995,7 @@ export default {
       this.appParms={
         mPlacementId: 'p638ee31d979f2',
         adType: 2,
-        returnScale: 2
+        returnScale:1
       }
       this.playVideoOrInsertAdFn()
       this.$refs['qianDaoModal'].showModalFn()
@@ -1051,7 +1059,7 @@ export default {
       this.appParms={
         mPlacementId: 'p638ee328a46c4',
         adType: 2,
-        returnScale: 2
+        returnScale:1
       }
       this.playVideoOrInsertAdFn()
       this.$refs['tipQianDaoLayer'].showModal(this.qiandao)
@@ -1085,7 +1093,7 @@ export default {
       this.appParms={
         mPlacementId:'p638ee1ece33ff',
         adType:2,
-        returnScale:2
+        returnScale:1
       }
       this.playVideoOrInsertAdFn()
       this.tixianSuccessLayer = true
@@ -1102,7 +1110,7 @@ export default {
       this.appParms={
         mPlacementId:'p638ee1ece33ff',
         adType:2,
-        returnScale:2
+        returnScale:1
       }
       this.playVideoOrInsertAdFn()
       this.tixianData.status = true
@@ -1159,7 +1167,7 @@ export default {
         this.appParms ={
           mPlacementId: 'p638ee1ae400e5',
           adType: 2,
-          returnScale: 2
+          returnScale:1
         }
       this.playVideoOrInsertAdFn()
       this.xinrenConfig.isViewVideo = true
@@ -1199,7 +1207,7 @@ export default {
                 this.appParms = {
                   mPlacementId: 'p638ee22d967ba',
                   adType: 2,
-                  returnScale: 2
+                  returnScale:1
                 }
                 this.playVideoOrInsertAdFn()
                 this.$refs['moneyLayer'].showModalFn()
@@ -1217,7 +1225,7 @@ export default {
               this.appParms = {
                 mPlacementId: 'p638ee239d518c',
                 adType: 2,
-                returnScale: 2
+                returnScale:1
               }
               this.playVideoOrInsertAdFn()
               this.$refs['moneyDoubleLayer'].showModalFn()

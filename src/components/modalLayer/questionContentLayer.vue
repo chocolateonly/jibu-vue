@@ -20,8 +20,8 @@
         </div>
 
         <div class="answer">
-<!--          todo： 答案只返回了一个-->
-          <div class="answer-item" @click="answer">{{question.answer}}</div>
+          <div class="answer-item" @click="answer">{{question.answer_a}}</div>
+          <div class="answer-item" @click="answer">{{question.answer_b}}</div>
         </div>
 
       </div>

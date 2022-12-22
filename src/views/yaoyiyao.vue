@@ -718,7 +718,7 @@ export default {
   margin-left:10px;
 }
 .shakeEnvelope .moneyShow .divShow .divShowTop .divShowTopSpan2 {
-  font-size:26px;
+  font-size:22px;
   margin-left:10px;
   color:#8f2210;
 }

@@ -32,6 +32,11 @@ export default new Router({
       path: '/demo',
       name: 'demo',
       component: () => import('./views/demo.vue') //摇一摇
+    },
+    {
+      path: '/question',
+      name: 'question',
+      component: () => import('./views/question.vue') //
     }
   ]
 })
