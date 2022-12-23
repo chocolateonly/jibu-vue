@@ -62,18 +62,23 @@
 
         <!-- 漂浮金币 -->
         <div class="task-list-icon">
-<!--          <div class="task-item task-item0 task-item-style1">-->
-<!--            <div class="coin">?</div>-->
-<!--            <div class="reward-name">支付红包</div>-->
+<!--          <div class="task-item task-item0 task-item-style1" @click="openFloatLayer" v-if="$store.state.float.reward">-->
+<!--            <div class="coin">{{$store.state.float.reward}}</div>-->
+<!--            <div class="reward-name">漂浮红包</div>-->
 <!--          </div>-->
-          <div class="task-item task-item1 task-item-style1" @click="openJindouLayer" v-if="$store.state.jinbi_reward">
+<!--          <div class="task-item task-item1 task-item-style1" @click="openJindouLayer" v-if="$store.state.step_reward">-->
+<!--            <div class="coin">{{ $store.state.step_reward }}</div>-->
+<!--            <div class="reward-name">步数转化</div>-->
+<!--          </div>-->
+          <div class="task-item task-item2 task-item-style1" @click="openJindouLayer" v-if="$store.state.jinbi_reward">
             <div class="coin">{{ $store.state.jinbi_reward }}</div>
-            <div class="reward-name">领金豆</div>
+            <div class="reward-name">限时奖励</div>
           </div>
-<!--          <div class="task-item task-item2 task-item-style1 task-item1-animation">-->
-<!--            <div class="coin">20</div>-->
-<!--            <div class="reward-name">限时奖励</div>-->
+<!--          <div class="task-item task-item3 task-item-style1" v-if="$store.state.medal_reward">-->
+<!--            <div class="coin">{{$store.state.medal_reward}}</div>-->
+<!--            <div class="reward-name">勋章</div>-->
 <!--          </div>-->
+
         </div>
 
 
@@ -356,7 +361,8 @@
 <!--    观看视频进度-->
     <video-step-layer ref="videoStepLayer" @viewTixian="viewTixian"></video-step-layer>
 <!--    漂浮金币-->
-    <piao-fu-jin-bi-layer ref="piaoFuJinBiLayer"></piao-fu-jin-bi-layer>
+    <piao-fu-jin-bi-layer ref="piaoFuJinBiLayer" @continueJindouLayer="continueJindouLayer"
+    @closeJindouLayer="closeJindouLayer"></piao-fu-jin-bi-layer>
     <!-- 看视频加载loading -->
     <loading-video-layer ref="loadingVideoLayer" @playVideoFn="playVideoOrInsertAdFn"></loading-video-layer>
     <!-- 第二天签到提示 连续签到7天得50元-->
@@ -382,23 +388,6 @@
     <raffle-res-layer  ref="raffleResLayer" @showRaffleResVideo="showRaffleResVideo" @hideRaffleResVideo="hideRaffleResVideo"/>
 <!--    单有 金额提示-->
     <money-tip ref="moneyTip" @onlyShowCallback="onlyShowCallback"/>
-<!--    金豆弹窗-->
-    <layer v-model="showJindouLayer" styles="background-color:transparent;width:100%;
-    max-width:100%;"
-           className="tixianSuccessModal"
-    >
-      <img class="closeIcon" @click="closeJindouLayer" src="//img.ibestfanli.com/sign_static_quick/closeIcon.png"/>
-
-      <div class="tixianErrorBox">
-        <div class="msgText">恭喜获得 <span>{{$store.state.jinbi_reward}}现金豆</span></div>
-<!--        <div class="msgDesc">-->
-<!--          我的现金豆：90135=9.01元-->
-<!--        </div>-->
-        <div class="FingerMain">
-          <div class="button3" @click="continueJindouLayer">再领200</div>
-        </div>
-      </div>
-    </layer>
     <!--    兑换超限-->
 <!--    <layer v-model="showJindouLayer" styles="background-color:transparent;width:100%;-->
 <!--    max-width:100%;"-->
@@ -413,6 +402,10 @@
 <!--      </div>-->
 <!--    </layer>-->
 
+<!--幸运红包-->
+<LuckLayer ref="LuckLayer" @continueLuckLayer="continueLuckLayer" @closeLuckLayer="closeLuckLayer"/>
+<!--幸运金币-->
+<LuckResLayer ref="LuckResLayer"  @closeLayer="closeLuckResLayer" />
 
   </div>
 </template>
@@ -437,6 +430,9 @@ import raffleLayer from "@/components/modalLayer/raffleLayer";
 import raffleMoneyLayer from "@/components/modalLayer/raffleMoneyLayer";
 import raffleResLayer from "@/components/modalLayer/raffleResLayer";
 import MoneyTip from "@/components/moneyTip";
+import LuckLayer from "@/components/modalLayer/LuckLayer";
+import LuckResLayer from "@/components/modalLayer/LuckResLayer";
+
 export default {
   name: "home",
   data() {
@@ -491,7 +487,6 @@ export default {
       new_flag:false, //控制新人红包出来一次即可
       stepInterval:null,
       steps:0,
-      showJindouLayer:false //金豆弹窗
     }
   },
   components: {
@@ -512,6 +507,8 @@ export default {
     raffleLayer,
     raffleMoneyLayer,
     raffleResLayer,
+    LuckLayer,
+    LuckResLayer,
 
   },
   computed:{
@@ -554,6 +551,9 @@ export default {
     },5000)
 
     this.$store.dispatch('jinbiRewardGet')
+    this.$store.dispatch('floatPackageRewardGet')
+    this.$store.dispatch('stepReward')
+    this.$store.dispatch('medalReward')
   },
   mounted() {
     this.quanPingGGInit()
@@ -563,8 +563,10 @@ export default {
     //获取视频解锁进度及状态
     this.$store.dispatch('getVideoProgress')
 
+    this.floatwindow()
+
     //todo mock
-    // this.$refs['questionContentLayer'].showModalFn()
+    this.$refs['LuckLayer'].showModalFn()
   },
   destroyed () {
     clearInterval(this.ggRoll.interval)
@@ -572,13 +574,45 @@ export default {
     clearInterval(this.stepInterval)
   },
   methods: {
+    async floatwindow(){
+      let res = await homeApi.floatwindow()
+      if(res.data==1){
+        this.showHongbaoLayer = true
+      }
+    },
+    closeLuckResLayer(){
+      this.appParms={
+        mPlacementId: 'p638ef6c7ea748',
+        adType: 3
+      }
+      this.playVideoOrInsertAdFn()
+
+    },closeLuckLayer(){
+      this.appParms={
+        mPlacementId: 'p638ef6bbef00e',
+        adType: 3
+      }
+      this.playVideoOrInsertAdFn()
+
+    },
+    continueLuckLayer(){
+      this.$store.dispatch('floatPackageRewardSet')
+      this.$refs['LuckResLayer'].showModalFn()
+      this.appParms={
+        mPlacementId: 'p638ee4b9d3440',
+        adType: 1
+      }
+      this.playVideoOrInsertAdFn()
+    },
+    openFloatLayer(){
+        this.$refs['LuckLayer'].showModalFn()
+    },
     closeJindouLayer(){
       this.appParms={
         mPlacementId: 'p638ef67593efb',
         adType: 3
       }
       this.playVideoOrInsertAdFn()
-      this.showJindouLayer = false
 
     },
     continueJindouLayer(){
@@ -587,11 +621,9 @@ export default {
         adType: 1
       }
       this.playVideoOrInsertAdFn()
-      this.showJindouLayer = false
     },
     openJindouLayer(){
-
-      this.showJindouLayer = true
+      this.$refs['piaoFuJinBiLayer'].showModalFn()
     },
     setStep(steps){
       this.steps = JSON.parse(steps).step
@@ -1570,6 +1602,10 @@ export default {
             right:65px;
             -webkit-animation-delay:.5s;
             animation-delay:.5s;
+            .coin{
+              background: url("../assets/images/dtxxtc_icon_hongbao.png") no-repeat;
+              background-size:cover;
+            }
           }
           &.task-item1 {
             top:200px;
@@ -1583,11 +1619,15 @@ export default {
             -webkit-animation-delay:1.5s;
             animation-delay:1.5s;
           }
-          .task-item3 {
-            top:4.7rem;
-            left:8.78rem;
+          &.task-item3 {
+            top:150px;
+            right:200px;
             -webkit-animation-delay:1.5s;
             animation-delay:1.5s;
+            .coin{
+              background: url("../assets/images/xunzhang-icon.png") no-repeat;
+              background-size:cover;
+            }
           }
 
 

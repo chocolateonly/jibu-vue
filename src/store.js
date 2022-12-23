@@ -42,7 +42,13 @@ export default new Vuex.Store({
             days_reward:[],
 
         },
-        jinbi_reward:0
+        jinbi_reward:0,
+        float:{
+            reward:0,
+            gold_ingot:0
+        },
+        medal_reward:0,
+        step_reward:0,
     },
     mutations: {
         setBaseData(state, data) {
@@ -89,7 +95,17 @@ export default new Vuex.Store({
         },
         setJinbiReward(state,data){
             state.jinbi_reward = data.gold_ingot
-        }
+        },
+        setFloatReward(state,data){
+            state.float.reward = data.reward
+            state.float.gold_ingot = data.gold_ingot
+        },
+        setMedalReward(state,data){
+            state.medal_reward = data.reward
+        },
+        setStepReward(state,data){
+            state.step_reward = data.reward
+        },
     },
     actions: {
         getBaseData(context, data) {
@@ -184,6 +200,38 @@ export default new Vuex.Store({
 
             }
       },
+      async floatPackageRewardGet(context,data){
+            try{
+                let resData = await homeApi.floatReward()
+                context.commit('setFloatReward', resData.data)
+            }catch (e) {
+
+            }
+      },
+        async medalReward(context,data){
+            try{
+                let resData = await homeApi.medalReward()
+                context.commit('setMedalReward', resData.data)
+            }catch (e) {
+
+            }
+      },
+        async stepReward(context,data){
+            try{
+                let resData = await homeApi.stepReward()
+                context.commit('setStepReward', resData.data)
+            }catch (e) {
+
+            }
+      },
+    async floatPackageRewardSet(context,data){
+    try{
+        let resData = await homeApi.floatRewardSet()
+        context.commit('setFloatReward', resData.data)
+    }catch (e) {
+
+    }
+},
 
     }
 })

@@ -84,19 +84,33 @@ const homeApi = {
     yaoyiyaoAddtionalReward(){
         return http.get('/step_counting/shake_one_shake/additional_reward')
     },
-    //漂浮金豆
+    //限时金豆
     jindouReward(){
         return http.get('/step_counting/limit_reward')
     },
-        //漂浮金豆-领取
+    //限时金豆-领取
     jindouRewardSet(){
         return http.post('/step_counting/limit_reward')
     },
-
-    //漂浮金币
-    jinbiReward(){
-        return http.get('/step_counting/float_reward/float_coin')
-    }
-
+    //漂浮红包
+    floatReward(){
+        return http.get('/step_counting/float_reward')
+    },
+    //漂浮红包
+    floatRewardSet(){
+        return http.get('/step_counting/float_reward/float_red_reward')
+    },
+        //步数转化
+    stepReward(){
+        return http.get('/step_counting/walk_exchange/step_exchange')
+    },
+        //勋章
+    medalReward(){
+        return http.get('/step_counting/walk_exchange/medal_info')
+    },
+        //弹窗接口
+    floatwindow(){
+        return http.get('/step_counting/video_task/show_floatwindow')
+    },
 }
 export default homeApi

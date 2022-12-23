@@ -4,16 +4,10 @@
         className="piaofujinbiModal"
     >
         <div class="modal-content ">
-            <div class="piaofujinbiBox">
+            <div class="shakeEnvelopeModal">
                 <img class="closeIcon"  @click="closeJindouLayer" src="//img.ibestfanli.com/sign_static_quick3/failToDrawModal_closeIcon.png"/>
                 <div class="contentbox">
-                    <div class="messText">
-                        <span>恭喜获得</span>
-                        <span class="dou">{{$store.state.jinbi_reward}}现金豆</span>
-                    </div>
-<!--                    <div class="messtip">我的现金豆：</div>-->
-
-                    <div class="button" @click="continueJindouLayer">再领200</div>
+                   <div class="messText">大量金币 和 现金</div>
                 </div>
             </div>
         </div>
@@ -35,11 +29,11 @@ export default {
         },
       continueJindouLayer(){
           this.hideModalFn()
-          this.$emit('continueJindouLayer')
+          this.$emit('continueLuckLayer')
       },
       closeJindouLayer(){
           this.hideModalFn()
-          this.$emit('closeJindouLayer')
+          this.$emit('closeLuckLayer')
       }
     }
 }
@@ -51,9 +45,24 @@ export default {
     animation: modal-scale-in .3s cubic-bezier(.5,0,.2,1.5) 1;
   }
 
-  .piaofujinbiBox {
-        position: relative;
-        padding:0 50px;
+
+  .shakeEnvelopeModal {
+    height:700px;
+    width:550px;
+    margin:0 auto;
+    background:url(//img.ibestfanli.com/shakeEnvelopeActivity/shakeEnvelope/shakeEnvelopeModalBg.png) no-repeat;
+    background-size:100% 100%;
+    display:-webkit-box;
+    display:-webkit-flex;
+    display:flex;
+    -webkit-box-orient:vertical;
+    -webkit-box-direction:normal;
+    -webkit-flex-direction:column;
+    flex-direction:column;
+    -webkit-box-align:center;
+    -webkit-align-items:center;
+    align-items:center;
+    position:relative;
         .closeIcon {
             position: absolute;
             height: 70px;
@@ -63,12 +72,10 @@ export default {
         }
 
         .contentbox {
-            background:#444444;
-            padding:20px 30px;
-            border-radius: 20px;
+
             .messText {
-                color: #fff;
-                font-size:32px;
+                color: #FBECB8;
+                font-size:40px;
                 .dou {
                     color:yellow;
                     margin-left:10px;
@@ -106,4 +113,5 @@ export default {
     padding:0;
   }
 }
+
 </style>

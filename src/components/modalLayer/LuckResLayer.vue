@@ -5,15 +5,14 @@
     >
         <div class="modal-content ">
             <div class="piaofujinbiBox">
-                <img class="closeIcon"  @click="closeJindouLayer" src="//img.ibestfanli.com/sign_static_quick3/failToDrawModal_closeIcon.png"/>
+                <img class="closeIcon"  @click="closeLayer" src="//img.ibestfanli.com/sign_static_quick3/failToDrawModal_closeIcon.png"/>
                 <div class="contentbox">
                     <div class="messText">
                         <span>恭喜获得</span>
-                        <span class="dou">{{$store.state.jinbi_reward}}现金豆</span>
+                        <span class="dou">{{$store.state.float.reward}}现金+{{$store.state.float.gold_ingot}}现币</span>
                     </div>
-<!--                    <div class="messtip">我的现金豆：</div>-->
 
-                    <div class="button" @click="continueJindouLayer">再领200</div>
+                    <div class="button" @click="closeLayer">开心收下</div>
                 </div>
             </div>
         </div>
@@ -33,13 +32,9 @@ export default {
         hideModalFn() {
             this.isShowModal = false
         },
-      continueJindouLayer(){
+      closeLayer(){
           this.hideModalFn()
-          this.$emit('continueJindouLayer')
-      },
-      closeJindouLayer(){
-          this.hideModalFn()
-          this.$emit('closeJindouLayer')
+          this.$emit('closeLayer')
       }
     }
 }
