@@ -84,9 +84,12 @@ export default {
   data() {
     return {
         qiandaoPayLayer:false,
-        qiandaoInfo:null, // 签到数据
+        qiandaoInfo: {
+          check_in_day:0,
+          state:0,
+        }, // 签到数据
         ruleLayer:false,
-        options:[]
+        options:[],
     }
   },
   methods: {
@@ -122,7 +125,7 @@ export default {
     qiandaoJiangliFn() {
       this.hideModalFn()
         // 播放激励视频
-        this.$emit('viewVideoAndQiandao',qiandaoInfo.check_in_day+1)
+        this.$emit('viewVideoAndQiandao',this.qiandaoInfo.check_in_day+1)
     },
     closeQiandaoLayer(){
           this.hideModalFn()

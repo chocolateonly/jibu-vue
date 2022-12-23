@@ -84,7 +84,19 @@ const homeApi = {
     yaoyiyaoAddtionalReward(){
         return http.get('/step_counting/shake_one_shake/additional_reward')
     },
+    //漂浮金豆
+    jindouReward(){
+        return http.get('/step_counting/limit_reward')
+    },
+        //漂浮金豆-领取
+    jindouRewardSet(){
+        return http.post('/step_counting/limit_reward')
+    },
 
+    //漂浮金币
+    jinbiReward(){
+        return http.get('/step_counting/float_reward/float_coin')
+    }
 
 }
 export default homeApi

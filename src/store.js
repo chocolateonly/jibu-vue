@@ -41,7 +41,8 @@ export default new Vuex.Store({
             state:1, //现金1，金币2
             days_reward:[],
 
-        }
+        },
+        jinbi_reward:0
     },
     mutations: {
         setBaseData(state, data) {
@@ -86,6 +87,9 @@ export default new Vuex.Store({
         setYaoyiyaoDayReward(state,data){
             state.yaoyiyao.days_reward = data.list
         },
+        setJinbiReward(state,data){
+            state.jinbi_reward = data.gold_ingot
+        }
     },
     actions: {
         getBaseData(context, data) {
@@ -172,6 +176,14 @@ export default new Vuex.Store({
 
             }
         },
+      async jinbiRewardGet(context,data){
+            try{
+                let resData = await homeApi.jindouReward()
+                context.commit('setJinbiReward', resData.data)
+            }catch (e) {
+
+            }
+      },
 
     }
 })

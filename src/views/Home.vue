@@ -62,18 +62,18 @@
 
         <!-- 漂浮金币 -->
         <div class="task-list-icon">
-          <div class="task-item task-item0 task-item-style1">
-            <div class="coin">?</div>
-            <div class="reward-name">支付红包</div>
-          </div>
-          <div class="task-item task-item1 task-item-style1">
-            <div class="coin">41</div>
+<!--          <div class="task-item task-item0 task-item-style1">-->
+<!--            <div class="coin">?</div>-->
+<!--            <div class="reward-name">支付红包</div>-->
+<!--          </div>-->
+          <div class="task-item task-item1 task-item-style1" @click="openJindouLayer" v-if="$store.state.jinbi_reward">
+            <div class="coin">{{ $store.state.jinbi_reward }}</div>
             <div class="reward-name">领金豆</div>
           </div>
-          <div class="task-item task-item2 task-item-style1 task-item1-animation">
-            <div class="coin">20</div>
-            <div class="reward-name">限时奖励</div>
-          </div>
+<!--          <div class="task-item task-item2 task-item-style1 task-item1-animation">-->
+<!--            <div class="coin">20</div>-->
+<!--            <div class="reward-name">限时奖励</div>-->
+<!--          </div>-->
         </div>
 
 
@@ -382,6 +382,38 @@
     <raffle-res-layer  ref="raffleResLayer" @showRaffleResVideo="showRaffleResVideo" @hideRaffleResVideo="hideRaffleResVideo"/>
 <!--    单有 金额提示-->
     <money-tip ref="moneyTip" @onlyShowCallback="onlyShowCallback"/>
+<!--    金豆弹窗-->
+    <layer v-model="showJindouLayer" styles="background-color:transparent;width:100%;
+    max-width:100%;"
+           className="tixianSuccessModal"
+    >
+      <img class="closeIcon" @click="closeJindouLayer" src="//img.ibestfanli.com/sign_static_quick/closeIcon.png"/>
+
+      <div class="tixianErrorBox">
+        <div class="msgText">恭喜获得 <span>{{$store.state.jinbi_reward}}现金豆</span></div>
+<!--        <div class="msgDesc">-->
+<!--          我的现金豆：90135=9.01元-->
+<!--        </div>-->
+        <div class="FingerMain">
+          <div class="button3" @click="continueJindouLayer">再领200</div>
+        </div>
+      </div>
+    </layer>
+    <!--    兑换超限-->
+<!--    <layer v-model="showJindouLayer" styles="background-color:transparent;width:100%;-->
+<!--    max-width:100%;"-->
+<!--           className="tixianSuccessModal"-->
+<!--    >-->
+<!--      <div class="tixianErrorBox">-->
+<!--        <div class="msgText">兑换的步数奖励已超本日额度</div>-->
+<!--        <div class="FingerMain">-->
+<!--          <div class="button3" @click="">看视频完成兑换</div>-->
+<!--          <div class="" @click="">放弃兑换</div>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </layer>-->
+
+
   </div>
 </template>
 
@@ -459,7 +491,7 @@ export default {
       new_flag:false, //控制新人红包出来一次即可
       stepInterval:null,
       steps:0,
-
+      showJindouLayer:false //金豆弹窗
     }
   },
   components: {
@@ -518,8 +550,10 @@ export default {
     this.getLoginUserInfo()
     //获取当日步数
     this.stepInterval = setInterval(()=>{
-      this.utils.webDataToApp('getStep')
+      this.utils.webDataToApp('getStep',{})
     },5000)
+
+    this.$store.dispatch('jinbiRewardGet')
   },
   mounted() {
     this.quanPingGGInit()
@@ -538,8 +572,29 @@ export default {
     clearInterval(this.stepInterval)
   },
   methods: {
+    closeJindouLayer(){
+      this.appParms={
+        mPlacementId: 'p638ef67593efb',
+        adType: 3
+      }
+      this.playVideoOrInsertAdFn()
+      this.showJindouLayer = false
+
+    },
+    continueJindouLayer(){
+      this.appParms={
+        mPlacementId: 'p638ee48037f81',
+        adType: 1
+      }
+      this.playVideoOrInsertAdFn()
+      this.showJindouLayer = false
+    },
+    openJindouLayer(){
+
+      this.showJindouLayer = true
+    },
     setStep(steps){
-      this.steps = steps
+      this.steps = JSON.parse(steps).step
     },
     // 获取当前登录的用户信息
     async getLoginUserInfo() {
@@ -1256,7 +1311,23 @@ export default {
         this.$store.dispatch('getVideoProgress')
         this.openAgainLayer()
       }
+      //限时奖励
+      if(this.appParms.mPlacementId=='p638ee48037f81'){
+            homeApi.jindouRewardSet()
+                .then(res=>{
+                  if(res.status==200){
+                    this.$store.dispatch('jinbiRewardGet')
+                  }else{
+                    this.$layer.msg(res.message)
+                  }
+                }).catch(e=>{
+
+            })
+      }
+
     }
+
+
     // #End Region
 
 
