@@ -51,7 +51,7 @@ export default {
         const pagView = await PAG.PAGView.init(pagFile, canvas);
 
         // 播放 PAGView
-        document.getElementById('pag').style['display'] = 'block'
+        document.getElementById(id?id:'pag').style['display'] = 'block'
         //持续播放循环
         pagView.setRepeatCount(0)
         await pagView.play();

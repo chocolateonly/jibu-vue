@@ -24,6 +24,7 @@
                                     <div class="money" style="color: rgb(255, 255, 255);" v-if="index!=6">{{ options[index].reward }}<div class="unit">元</div>
                                     </div>
                                 </div>
+                                <img class="yiling" src="../../assets/images/qd_icon_yilingqu.png" alt="">
                             </div>
 
                             <div class="item" :key="'b'+index" v-for="(item,index) in 7 - qiandaoInfo.check_in_day">
@@ -38,6 +39,7 @@
                                     <img class="redpackLight" src="//img.ibestfanli.com/sign_static_quick3/redpack_bg_light.png" alt="红包光">
                                     <div class="days">7天</div>
                                     <div class="signinRedpack" style="background: url(&quot;//img.ibestfanli.com/sign_static_quick3/redpack.png&quot;);"></div>
+
                                 </template>
                             </div>
                         </template>
@@ -408,5 +410,11 @@ export default {
     }
 }
 
+}
+.yiling{
+  position: absolute;
+  top: 0;
+  left: 0;
+  width:100%;
 }
 </style>

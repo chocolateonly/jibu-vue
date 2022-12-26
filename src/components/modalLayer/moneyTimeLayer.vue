@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import MoneyTip from "@/components/moneyTip";
+import MoneyTip from "@/components/modalLayer/moneyTip";
 import CountNum from "@/components/countNum";
 
 export default {

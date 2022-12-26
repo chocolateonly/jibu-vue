@@ -15,7 +15,7 @@
 
 <script>
 import homeApi from "@/api/home";
-import MoneyTip from "@/components/moneyTip";
+import MoneyTip from "@/components/modalLayer/moneyTip";
 
 export default {
   name: "raffleMoneyLayer",

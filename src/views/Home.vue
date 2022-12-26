@@ -429,7 +429,7 @@ import questionContentLayer from "@/components/modalLayer/questionContentLayer";
 import raffleLayer from "@/components/modalLayer/raffleLayer";
 import raffleMoneyLayer from "@/components/modalLayer/raffleMoneyLayer";
 import raffleResLayer from "@/components/modalLayer/raffleResLayer";
-import MoneyTip from "@/components/moneyTip";
+import MoneyTip from "@/components/modalLayer/moneyTip";
 import LuckLayer from "@/components/modalLayer/LuckLayer";
 import LuckResLayer from "@/components/modalLayer/LuckResLayer";
 
@@ -567,7 +567,7 @@ export default {
     this.floatwindow()
 
     //todo mock
-    // this.$refs['piaoFuJinBiLayer'].showModalFn()
+    // this.$refs['moneyTip'].showModal('onlyShow-Qiandao')
   },
   destroyed () {
     clearInterval(this.ggRoll.interval)
@@ -602,9 +602,10 @@ export default {
       this.utils.webDataToApp('setAtNativeAdViewGONE',{})
       this.appParms={
         mPlacementId: 'p638ee4b9d3440',
-        adType: 1
+        adType:1
       }
-      this.playVideoOrInsertAdFn()
+      // 加载播放视频loading
+      this.$refs['loadingVideoLayer'].showModalFn()
     },
     openFloatLayer(){
       this.$refs['LuckLayer'].showModalFn()
@@ -626,9 +627,10 @@ export default {
     continueJindouLayer(){
       this.appParms={
         mPlacementId: 'p638ee48037f81',
-        adType: 1
+        adType:1
       }
-      this.playVideoOrInsertAdFn()
+      // 加载播放视频loading
+      this.$refs['loadingVideoLayer'].showModalFn()
     },
     openJindouLayer(){
       this.rewrad_type = 'xianshi'
@@ -713,7 +715,7 @@ export default {
     openMoneyPackage(){
       this.appParms={
         mPlacementId: 'p638ee426abcca',
-        adType: 1
+        adType:1
       }
       this.$refs['loadingVideoLayer'].showModalFn('getMoney')
 
@@ -725,7 +727,8 @@ export default {
         mPlacementId:'p638ee41b803cb',
         adType:1
       }
-      this.playVideoOrInsertAdFn()
+      // 加载播放视频loading
+      this.$refs['loadingVideoLayer'].showModalFn()
     },
     closeMoneyPackageLayer(){
       this.utils.webDataToApp('setAtNativeAdViewGONE',{},()=>{
@@ -782,17 +785,17 @@ export default {
         adType:1
       }
       // 加载播放视频loading
-      this.playVideoOrInsertAdFn()
+      this.$refs['loadingVideoLayer'].showModalFn()
     },
 
     //立即赚钱
     receiveMoney(){
       this.appParms={
         mPlacementId: 'p6399488176bea',
-        adType: 1
+        adType:1
       }
       // 加载播放视频loading
-      this.playVideoOrInsertAdFn()
+      this.$refs['loadingVideoLayer'].showModalFn()
     },
     // 点击签到奖励
     viewVideoAndQiandao(qiandao_day) {
@@ -800,7 +803,7 @@ export default {
       this.utils.webDataToApp('setAtNativeAdViewGONE',{})
       this.appParms ={
         mPlacementId: 'p638ee4c644efd',
-        adType: 1
+        adType:1
       }
       // 加载播放视频loading
       this.$refs['loadingVideoLayer'].showModalFn()
@@ -839,7 +842,8 @@ export default {
         mPlacementId:'p638ee3b03599f',
         adType:1
       }
-      this.playVideoOrInsertAdFn()
+      // 加载播放视频loading
+      this.$refs['loadingVideoLayer'].showModalFn()
     },
 
     // 点击微信提现显示提现方法
@@ -950,9 +954,10 @@ export default {
 
       this.appParms = {
         mPlacementId: 'p638ef0b19d95f',
-        adType: 1
+        adType:1
       }
-      this.playVideoOrInsertAdFn()
+      // 加载播放视频loading
+      this.$refs['loadingVideoLayer'].showModalFn()
     },
     // 显示百分百可提现弹框
     showAddedBonuseModal(type) {
@@ -1047,7 +1052,8 @@ export default {
         mPlacementId: 'p638ef0c28007c',//次日提现视频任务激励视频
         adType:1
       }
-     this.playVideoOrInsertAdFn()
+      // 加载播放视频loading
+      this.$refs['loadingVideoLayer'].showModalFn()
     },
     //视频进度去完成
     viewProgressToFinish(){
@@ -1055,7 +1061,8 @@ export default {
         mPlacementId: 'p638ee3dc917ab',//提现页完成视频任务激励视频
         adType:1
       }
-      this.playVideoOrInsertAdFn()
+      // 加载播放视频loading
+      this.$refs['loadingVideoLayer'].showModalFn()
     },
     //领现金
     openPersonReceiveMoney(){
@@ -1079,7 +1086,7 @@ export default {
     openHongbao(){
       this.appParms={
         mPlacementId: 'p638ee3d3a3b75', //视频任务-弹窗开红包激励视频
-        adType: 1
+        adType:1
       }
       // 加载播放视频loading
       this.$refs['loadingVideoLayer'].showModalFn('getMoney')
@@ -1124,9 +1131,10 @@ export default {
       }else{
         this.appParms={
           mPlacementId: 'p638ee431c8037',
-          adType: 1
+          adType:1
         }
-        this.playVideoOrInsertAdFn()
+        // 加载播放视频loading
+        this.$refs['loadingVideoLayer'].showModalFn()
       }
     },
     //红包金额-提现提示-激励视频
@@ -1134,16 +1142,17 @@ export default {
       if(this.$store.state.reward_money==0){
         this.appParms={
           mPlacementId: 'p638ee474e3500',
-          adType: 1
+          adType:1
         }
       }else{
         //不足0.3
         this.appParms={
           mPlacementId: 'p638ee464b8c7c',
-          adType: 1
+          adType:1
         }
       }
-      this.playVideoOrInsertAdFn()
+      // 加载播放视频loading
+      this.$refs['loadingVideoLayer'].showModalFn()
     },
     //关闭
     hideRaffleResVideo(){

@@ -265,7 +265,7 @@ import Shake from 'shake.js'
 
 import TextScroll from "@/components/text-scroll.vue"
 import CountNum from "@/components/countNum";
-import MoneyTip from "@/components/moneyTip";
+import MoneyTip from "@/components/modalLayer/moneyTip";
 import MoneyTimeLayer from "@/components/modalLayer/moneyTimeLayer";
 import MoneyNoTextLayer from "@/components/modalLayer/moneyNoTextLayer";
 import homeApi from "@/api/home";

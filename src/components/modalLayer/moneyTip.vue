@@ -1,8 +1,11 @@
 <template>
-<div v-if="isOpen">
+<layer  v-model="isOpen" styles="background-color:transparent;width:100%;
+    max-width:100%;"
+        className="qiandaoModal"
+>
   <!--恭喜获得0.2元-->
   <div  class="congrua">
-    <img src="../assets/images/xzlqhb_biaoti.png" alt="">
+    <img src="../../assets/images/xzlqhb_biaoti.png" alt="">
     <i>{{$store.state.reward_money}}元</i>
   </div>
 
@@ -10,11 +13,11 @@
       <div class="package">
         <div class="package-num">{{ $store.state.reward_money }}元</div>
       </div>
-    <canvas class="canvas" id="pag"></canvas>
 
   </div>
+  <canvas class="canvas" id="money_tip"></canvas>
 
-</div>
+</layer>
 </template>
 
 <script>
@@ -31,12 +34,13 @@ export default {
     isOpen(){
       if(!this.isOpen){
         if(this.timer) clearTimeout(this.timer)
-        this.utils.hidePag()
       }
     }
   },
   methods:{
     showModal(type){
+      this.isOpen = true
+
       if(type=='onlyShow'){
         this.timer = setTimeout(()=>{
           this.isOpen = false
@@ -48,9 +52,6 @@ export default {
           this.$emit('onlyShowCallback')
         },2000)
       }
-
-      this.isOpen = true
-      this.utils.onPag('./pag/package-sunshine.pag')
     },
   },
   beforeDestroy() {
@@ -84,10 +85,13 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
+  background: url("../../assets/images/jindou_line.png") no-repeat;
+  background-size: contain;
+  background-position: center;
   .package{
     width: 200px;
     height: 200px;
-    background: url('../assets/images/package-bg.png') no-repeat;
+    background: url('../../assets/images/package-bg.png') no-repeat;
     background-size: contain;
     background-position: center;
     position: relative;
@@ -103,5 +107,12 @@ export default {
   }
 }
 
+
+#money_tip{
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 999;
+}
 
 </style>
