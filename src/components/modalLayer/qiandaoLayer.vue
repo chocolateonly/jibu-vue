@@ -50,7 +50,7 @@
                     <img src="//fasthuyitool.jidiandian.cn/web_static_assets/sign_static_quick4/index/sign_button_play.png" class="playIcon">
                     <div class="buttonText">立即领取</div>
                 </div>
-                <div class="disableBtn" v-else>
+                <div class="disableBtn" v-else @click="closeQiandaoLayer">
                     <div class="buttonText">明天再来</div>
                 </div>
             </div>
@@ -127,7 +127,9 @@ export default {
     qiandaoJiangliFn() {
       this.hideModalFn()
         // 播放激励视频
-        this.$emit('viewVideoAndQiandao',this.qiandaoInfo.check_in_day+1)
+        const next_day = this.qiandaoInfo.check_in_day+2>=7?7:this.qiandaoInfo.check_in_day
+        const next_reward =next_day==7?150: this.options[next_day-1].reward
+        this.$emit('viewVideoAndQiandao',{next_day,next_reward})
     },
     closeQiandaoLayer(){
           this.hideModalFn()
@@ -416,5 +418,11 @@ export default {
   top: 0;
   left: 0;
   width:100%;
+}
+.withdrawRuleMain .tip p {
+  font-size: 8.067vw !important;
+  line-height: 9.067vw !important;
+  font-weight: 400;
+  color: #666;
 }
 </style>

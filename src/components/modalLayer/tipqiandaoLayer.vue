@@ -12,8 +12,8 @@
                 <span class="wechatTitle">连续签到7天得150元</span>
               </div>
               <div class="content-tip">
-                   <div class="current-day-price">{{qiandao.reward}}元</div>
-                   <div class="seven-day-price">150元</div>
+                   <div class="current-day-price"><span>{{qiandao.reward}}</span>元</div>
+                   <div class="seven-day-price"><span>150</span>元</div>
                    <img class="content-img" src='../../assets/images/qiandao-7.png'>
                    <div class="current-day">第{{qiandao.day}}天</div>
                    <div class="seven-day">第7天</div>
@@ -145,14 +145,22 @@ export default {
   font-size: 3vw;
   top: 8vw;
   left: 30vw;
+  span{
+    font-size: 40px;
+    font-weight: bold;
+  }
 }
   .seven-day-price{
     position: absolute;
     color: #E15534;
     font-size: 3vw;
     top: 6vw;
-    left: 48vw;
+    left: 46vw;
 
+    span{
+      font-size: 40px;
+      font-weight: bold;
+    }
   }
 .content-img{
   width:300px;
