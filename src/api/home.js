@@ -104,6 +104,14 @@ const homeApi = {
     stepReward(){
         return http.get('/step_counting/walk_exchange/step_exchange')
     },
+    //步数转化
+    stepRewardSet(){
+        return http.post('/step_counting/walk_exchange')
+    },
+    //步数转化200
+    stepRewardSetContinue(){
+        return http.get('/step_counting/walk_exchange')
+    },
         //勋章
     medalReward(){
         return http.get('/step_counting/walk_exchange/medal_info')

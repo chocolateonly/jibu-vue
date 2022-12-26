@@ -98,10 +98,10 @@ export default new Vuex.Store({
         },
         setFloatReward(state,data){
             state.float.reward = data.reward
-            state.float.gold_ingot = data.gold_ingot
+            state.float.gold_ingot = data.gold_ingot||0
         },
         setMedalReward(state,data){
-            state.medal_reward = data.reward
+            state.medal_reward = data||0
         },
         setStepReward(state,data){
             state.step_reward = data.reward
@@ -220,6 +220,22 @@ export default new Vuex.Store({
             try{
                 let resData = await homeApi.stepReward()
                 context.commit('setStepReward', resData.data)
+            }catch (e) {
+
+            }
+      },
+        async stepRewardSet(context,data){
+            try{
+                let resData = await homeApi.stepRewardSet()
+                context.commit('setJinbiReward', resData.data)
+            }catch (e) {
+
+            }
+      },
+        async stepRewardSetContinue(context,data){
+            try{
+                let resData = await homeApi.stepRewardSetContinue()
+                context.commit('setJinbiReward', resData.data)
             }catch (e) {
 
             }

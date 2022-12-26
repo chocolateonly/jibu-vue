@@ -5,6 +5,9 @@
     >
         <div class="modal-content ">
             <div class="piaofujinbiBox">
+              <div class="jindou">
+                <img src="../../assets/images/jindou_icon.png">
+              </div>
                 <img class="closeIcon"  @click="closeJindouLayer" src="//img.ibestfanli.com/sign_static_quick3/failToDrawModal_closeIcon.png"/>
                 <div class="contentbox">
                     <div class="messText">
@@ -66,6 +69,7 @@ export default {
             background:#444444;
             padding:20px 30px;
             border-radius: 20px;
+            padding-top: 100px;
             .messText {
                 color: #fff;
                 font-size:32px;
@@ -104,6 +108,22 @@ export default {
 .piaofujinbiModal {
   .layui-m-layercont {
     padding:0;
+  }
+}
+.jindou{
+  background: url("../../assets/images/jindou_line.png") no-repeat;
+  background-size: contain;
+  width: 200px;
+  height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  left: 35vw;
+  top: -15vw;
+  img{
+    width: 70px;
+    height: 70px;
   }
 }
 </style>

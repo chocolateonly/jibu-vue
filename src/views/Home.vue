@@ -62,22 +62,22 @@
 
         <!-- 漂浮金币 -->
         <div class="task-list-icon">
-<!--          <div class="task-item task-item0 task-item-style1" @click="openFloatLayer" v-if="$store.state.float.reward">-->
-<!--            <div class="coin">{{$store.state.float.reward}}</div>-->
-<!--            <div class="reward-name">漂浮红包</div>-->
-<!--          </div>-->
-<!--          <div class="task-item task-item1 task-item-style1" @click="openJindouLayer" v-if="$store.state.step_reward">-->
-<!--            <div class="coin">{{ $store.state.step_reward }}</div>-->
-<!--            <div class="reward-name">步数转化</div>-->
-<!--          </div>-->
+          <div class="task-item task-item0 task-item-style1" @click="openFloatLayer" v-if="$store.state.float.reward">
+            <div class="coin">{{$store.state.float.reward}}</div>
+            <div class="reward-name">漂浮红包</div>
+          </div>
+          <div class="task-item task-item1 task-item-style1" @click="openStepChangeLayer" v-if="$store.state.step_reward">
+            <div class="coin">{{ $store.state.step_reward }}</div>
+            <div class="reward-name">步数转化</div>
+          </div>
           <div class="task-item task-item2 task-item-style1" @click="openJindouLayer" v-if="$store.state.jinbi_reward">
             <div class="coin">{{ $store.state.jinbi_reward }}</div>
             <div class="reward-name">限时奖励</div>
           </div>
-<!--          <div class="task-item task-item3 task-item-style1" v-if="$store.state.medal_reward">-->
-<!--            <div class="coin">{{$store.state.medal_reward}}</div>-->
-<!--            <div class="reward-name">勋章</div>-->
-<!--          </div>-->
+          <div class="task-item task-item3 task-item-style1" v-if="$store.state.medal_reward" @click="jumpPage(2)">
+            <div class="coin">{{$store.state.medal_reward}}</div>
+            <div class="reward-name">勋章</div>
+          </div>
 
         </div>
 
@@ -487,6 +487,7 @@ export default {
       new_flag:false, //控制新人红包出来一次即可
       stepInterval:null,
       steps:0,
+      rewrad_type:'',//xianshi 限时奖励  step 步数转换 pck 漂浮红包 medal 勋章
     }
   },
   components: {
@@ -566,7 +567,7 @@ export default {
     this.floatwindow()
 
     //todo mock
-    this.$refs['LuckLayer'].showModalFn()
+    // this.$refs['piaoFuJinBiLayer'].showModalFn()
   },
   destroyed () {
     clearInterval(this.ggRoll.interval)
@@ -576,11 +577,12 @@ export default {
   methods: {
     async floatwindow(){
       let res = await homeApi.floatwindow()
-      if(res.data==1){
+      if(res.data.show_floatwindow==1){
         this.showHongbaoLayer = true
       }
     },
     closeLuckResLayer(){
+      this.utils.webDataToApp('setAtNativeAdViewGONE',{})
       this.appParms={
         mPlacementId: 'p638ef6c7ea748',
         adType: 3
@@ -588,6 +590,7 @@ export default {
       this.playVideoOrInsertAdFn()
 
     },closeLuckLayer(){
+      this.utils.webDataToApp('setAtNativeAdViewGONE',{})
       this.appParms={
         mPlacementId: 'p638ef6bbef00e',
         adType: 3
@@ -596,8 +599,7 @@ export default {
 
     },
     continueLuckLayer(){
-      this.$store.dispatch('floatPackageRewardSet')
-      this.$refs['LuckResLayer'].showModalFn()
+      this.utils.webDataToApp('setAtNativeAdViewGONE',{})
       this.appParms={
         mPlacementId: 'p638ee4b9d3440',
         adType: 1
@@ -605,7 +607,13 @@ export default {
       this.playVideoOrInsertAdFn()
     },
     openFloatLayer(){
-        this.$refs['LuckLayer'].showModalFn()
+      this.$refs['LuckLayer'].showModalFn()
+      this.appParms={
+        mPlacementId: 'p638ee30052ceb',
+        adType: 2,
+        returnScale: 1
+      }
+      this.playVideoOrInsertAdFn()
     },
     closeJindouLayer(){
       this.appParms={
@@ -623,6 +631,12 @@ export default {
       this.playVideoOrInsertAdFn()
     },
     openJindouLayer(){
+      this.rewrad_type = 'xianshi'
+      this.$refs['piaoFuJinBiLayer'].showModalFn()
+    },
+    openStepChangeLayer(){
+      this.rewrad_type = 'step'
+      this.$store.dispatch('stepRewardSet')
       this.$refs['piaoFuJinBiLayer'].showModalFn()
     },
     setStep(steps){
@@ -706,9 +720,7 @@ export default {
     },
     //打开红包现金翻倍
     openDoublePackageLayer(){
-      this.utils.webDataToApp('setAtNativeAdViewGONE',{},()=>{
-        this.onRewardVerify()
-      })
+      this.utils.webDataToApp('setAtNativeAdViewGONE',{})
       this.appParms={
         mPlacementId:'p638ee41b803cb',
         adType:1
@@ -1345,6 +1357,11 @@ export default {
       }
       //限时奖励
       if(this.appParms.mPlacementId=='p638ee48037f81'){
+            if(this.rewrad_type=='step'){
+              this.$store.dispatch('stepReward')
+              this.$store.dispatch('stepRewardSetContinue')
+              return;
+            }
             homeApi.jindouRewardSet()
                 .then(res=>{
                   if(res.status==200){
@@ -1357,8 +1374,20 @@ export default {
             })
       }
 
-    }
+      //幸运红包
+      if(this.appParms.mPlacementId=='p638ee4b9d3440'){
 
+        this.$store.dispatch('floatPackageRewardSet')
+        this.$refs['LuckResLayer'].showModalFn()
+        this.appParms={
+          mPlacementId: 'p638ee30ea3c4d',
+          adType: 2,
+          returnScale: 1
+        }
+        this.playVideoOrInsertAdFn()
+      }
+
+    }
 
     // #End Region
 
