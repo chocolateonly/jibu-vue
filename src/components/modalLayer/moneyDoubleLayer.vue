@@ -118,8 +118,9 @@ export default {
     top:-8vw;
     right:-12vw;
   }
-  .congrua{
-    width: 300px;
-  }
+}
+
+.congrua{
+  width: 400px;
 }
 </style>

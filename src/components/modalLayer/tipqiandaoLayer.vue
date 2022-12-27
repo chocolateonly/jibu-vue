@@ -142,38 +142,40 @@ export default {
 .current-day-price{
   position: absolute;
   color: #E15534;
-  font-size: 3vw;
-  top: 8vw;
-  left: 30vw;
+  font-size: 4vw;
+  top: 14vw;
+  left: 24vw;
   span{
-    font-size: 40px;
+    font-size: 50px;
     font-weight: bold;
   }
 }
   .seven-day-price{
     position: absolute;
     color: #E15534;
-    font-size: 3vw;
-    top: 6vw;
-    left: 46vw;
+    font-size: 4vw;
+    top: 10vw;
+    left: 53vw;
 
     span{
-      font-size: 40px;
+      font-size: 50px;
       font-weight: bold;
     }
   }
 .content-img{
-  width:300px;
+  width:500px;
 }
 .current-day{
   position: absolute;
   color: #C9B2A8;
-  left:30vw;
+  left:24vw;
+  font-size: 30px;
 }
   .seven-day{
     position: absolute;
     color: #C9B2A8;
-    left:48vw;
+    left:53vw;
+    font-size: 30px;
   }
 }
 </style>

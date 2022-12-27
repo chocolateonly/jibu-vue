@@ -66,15 +66,15 @@ export default {
         }
 
         .contentbox {
-            background:#444444;
+            background:#fff;
             padding:20px 30px;
             border-radius: 20px;
             padding-top: 100px;
             .messText {
-                color: #fff;
+                color: #333;
                 font-size:32px;
                 .dou {
-                    color:yellow;
+                    color:#F28B3C;
                     margin-left:10px;
                 }
             }

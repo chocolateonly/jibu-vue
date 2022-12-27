@@ -69,7 +69,7 @@ export default {
   font-weight: bolder;
   text-shadow: 2px 2px #e47338;
   img{
-    width: 300px;
+    width: 400px;
     vertical-align: middle;
   }
 }

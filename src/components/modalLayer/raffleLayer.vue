@@ -12,6 +12,10 @@
         <div class="option-item" v-for="(item,index) in 9" :key="index" :class="item==5?'center':index==selected?'selected':''">
            {{options[index].value=='center'?'':options[index].value}}
 <!--          <span v-if="options[index].value!='center'">元</span>-->
+          <div class="tixian-icon" v-if="item!=5">
+            <img src="../../assets/images/gksprwtc_icon_weixinzhifu.png" alt="">
+            <span>提现</span>
+          </div>
         </div>
       </div>
 
@@ -101,6 +105,7 @@ export default {
     justify-content: space-around;
   }
   .option-item{
+    position: relative;
      flex:32% 0;
      height: 130px;
     line-height: 130px;
@@ -121,6 +126,20 @@ export default {
       background: url("../../assets/images/raffle-block-active.png") no-repeat;
       background-size: cover;
     }
+    .tixian-icon{
+      position: absolute;
+      bottom:-40px;
+      width: 100%;
+      text-align: center;
+      img{
+        width:30px;
+        vertical-align: middle;
+      }
+      span{
+        color:#57BD49;
+        font-size: 20px;
+      }
+    }
   }
 }
 .addedBonusModal .content>.close {
@@ -140,7 +159,7 @@ export default {
   font-size:90px;
 }
 .congrua{
-  width: 300px;
+  width: 400px;
 }
 .tip{
   font-size: 25px;

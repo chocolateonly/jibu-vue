@@ -49,6 +49,7 @@ export default new Vuex.Store({
         },
         medal_reward:0,
         step_reward:0,
+        shake_mobile:0
     },
     mutations: {
         setBaseData(state, data) {
@@ -104,7 +105,8 @@ export default new Vuex.Store({
             state.medal_reward = data||0
         },
         setStepReward(state,data){
-            state.step_reward = data.reward
+            state.step_reward = data.gold_ingot
+            state.shake_mobile = data.shake_mobile
         },
     },
     actions: {

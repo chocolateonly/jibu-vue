@@ -130,7 +130,7 @@ export default {
   }
 }
 .congrua{
-  width:300px;
+  width:400px;
 }
 #luckRes{
   position: absolute;
@@ -152,9 +152,10 @@ export default {
     right:-10vw;
     line-height: 5vw;
   }
-  .congrua{
-    width: 300px;
-  }
+}
+
+.congrua{
+  width: 400px;
 }
 .modal-title{
   color: #E26734;

@@ -84,10 +84,10 @@
 
         <div class="bigButton" @click="indexVideoBtnFn">观看视频领150元</div>
 
-        <div class="feedback">
-          <img class="feedbackIcon" src="//fasthuyitool.jidiandian.cn/web_static_assets/sign_static_quick4/index/index_feelback.png" alt />
-          <div class="feedbackText">留言</div>
-        </div>
+<!--        <div class="feedback">-->
+<!--          <img class="feedbackIcon" src="//fasthuyitool.jidiandian.cn/web_static_assets/sign_static_quick4/index/index_feelback.png" alt />-->
+<!--          <div class="feedbackText">留言</div>-->
+<!--        </div>-->
       </div>
     </section>
 
@@ -394,18 +394,18 @@
 <!--    单有 金额提示-->
     <money-tip ref="moneyTip" @onlyShowCallback="onlyShowCallback"/>
     <!--    兑换超限-->
-<!--    <layer v-model="showJindouLayer" styles="background-color:transparent;width:100%;-->
-<!--    max-width:100%;"-->
-<!--           className="tixianSuccessModal"-->
-<!--    >-->
-<!--      <div class="tixianErrorBox">-->
-<!--        <div class="msgText">兑换的步数奖励已超本日额度</div>-->
-<!--        <div class="FingerMain">-->
-<!--          <div class="button3" @click="">看视频完成兑换</div>-->
-<!--          <div class="" @click="">放弃兑换</div>-->
-<!--        </div>-->
-<!--      </div>-->
-<!--    </layer>-->
+    <layer v-model="showExchangeLayer" styles="background-color:transparent;width:100%;
+    max-width:100%;"
+           className="tixianSuccessModal exchangeModal"
+    >
+      <div class="tixianErrorBox">
+        <div class="msgText">兑换的步数奖励已超本日额度</div>
+        <div class="FingerMain">
+          <div class="button3" @click="continueExchangeLayer">看视频完成兑换</div>
+          <div class="" @click="giveupExchange">放弃兑换</div>
+        </div>
+      </div>
+    </layer>
 
 <!--幸运红包-->
 <LuckLayer ref="LuckLayer" @continueLuckLayer="continueLuckLayer" @closeLuckLayer="closeLuckLayer"/>
@@ -493,6 +493,7 @@ export default {
       stepInterval:null,
       steps:0,
       rewrad_type:'',//xianshi 限时奖励  step 步数转换 pck 漂浮红包 medal 勋章
+      showExchangeLayer:false,
     }
   },
   components: {
@@ -643,8 +644,29 @@ export default {
     },
     openStepChangeLayer(){
       this.rewrad_type = 'step'
+      if(this.$store.state.shake_mobile==1){
+        //已超过兑换次数
+        this.showExchangeLayer = true
+        return;
+      }
       this.$store.dispatch('stepRewardSet')
       this.$refs['piaoFuJinBiLayer'].showModalFn()
+    },
+    continueExchangeLayer(){
+      this.showExchangeLayer = false
+      this.appParms={
+        mPlacementId: 'p638ee48f19aa9',
+        adType: 1
+      }
+      this.$refs['loadingVideoLayer'].showModalFn()
+    },
+    giveupExchange(){
+      this.appParms={
+        mPlacementId: 'p638ef655491e2',
+        adType: 3
+      }
+      this.playVideoOrInsertAdFn()
+      this.showExchangeLayer = false
     },
     setStep(steps){
       this.steps = JSON.parse(steps).step
@@ -1401,6 +1423,14 @@ export default {
         this.playVideoOrInsertAdFn()
       }
 
+      //看视频兑换
+      if(this.appParms.mPlacementId=='p638ee48f19aa9'){
+
+        this.$store.dispatch('stepRewardSet')
+        this.$refs['piaoFuJinBiLayer'].showModalFn()
+
+      }
+
     }
 
     // #End Region
@@ -1420,7 +1450,7 @@ export default {
     .bannerBox {
       position: relative;
       width: 100%;
-      height: 780px;
+      height: 820px;
       padding: 80px 0 0 0;
       background: url('../assets/images/beijing-1.png') no-repeat;
       background-size: 100% 100%;
@@ -1722,7 +1752,7 @@ export default {
         width: 460px;
         height: 140px;
         position: relative;
-        top: 50px;
+        top: 100px;
         left: 50%;
         -webkit-transform: translateX(-50%);
         transform: translateX(-50%);
@@ -1843,19 +1873,19 @@ export default {
         background: url(//fasthuyitool.jidiandian.cn/web_static_assets/sign_static_quick4/fiveMoney/five_Button0.png) no-repeat;
         // background: url('../assets/images/btn_renwu.png') no-repeat;
         background-size: 100% 100%;
-        height: 100px;
-        line-height: 95px;
+        height: 80px;
+        line-height: 75px;
         text-align: center;
         font-size: 32px;
         font-weight: 600;
         color: #fff;
         margin-right: 10px;
         &.btn1{
-          width: 220px;
+          width: 200px;
         }
         &.btn2 {
           background-size: 100% 100%;
-          width: 220px;
+          width: 200px;
         }
       }
     }
@@ -2900,11 +2930,22 @@ export default {
   }
 }
 .withdrawRuleMain{
-.tomorrow-box{
+&.tomorrow-box{
+  height: auto;
   .tip{
-    font-size: 30px;
+    height: auto;
+    p{
+      font-size: 40px !important;
+      line-height: 40px !important;
+    }
   }
 }
+}
+
+.exchangeModal{
+  .msgText{
+    padding: 40px 0;
+  }
 }
 </style>
 

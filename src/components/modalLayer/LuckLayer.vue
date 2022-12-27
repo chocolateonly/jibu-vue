@@ -130,7 +130,7 @@ export default {
   }
 }
 .congrua{
-  width:300px;
+  width:400px;
 }
 #luck{
   position: absolute;
@@ -153,7 +153,7 @@ export default {
     line-height: 5vw;
   }
   .congrua{
-    width: 300px;
+    width: 400px;
   }
 }
 </style>
