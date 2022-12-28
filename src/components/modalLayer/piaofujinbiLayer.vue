@@ -16,7 +16,9 @@
                     </div>
 <!--                    <div class="messtip">我的现金豆：</div>-->
 
-                    <div class="button" @click="continueJindouLayer">再领200</div>
+                    <div class="button" v-if="rewrad_type=='step'" @click="continueJindouLayer">再领200</div>
+                    <div class="button" v-else-if="rewrad_type=='xianshi'"  @click="continueJindouLayer">奖励翻倍</div>
+                    <div class="button" v-else @click="continueJindouLayer">奖励翻倍</div>
                 </div>
             </div>
         </div>
@@ -24,6 +26,12 @@
 </template>
 <script>
 export default {
+  props:{
+    rewrad_type:{
+      type:String,
+      default:''
+    }
+  },
     data() {
         return {
             isShowModal:false

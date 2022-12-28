@@ -127,7 +127,7 @@ export default {
     qiandaoJiangliFn() {
       this.hideModalFn()
         // 播放激励视频
-        const next_day = this.qiandaoInfo.check_in_day+2>=7?7:this.qiandaoInfo.check_in_day
+        const next_day = this.qiandaoInfo.check_in_day+2>=7?7:this.qiandaoInfo.check_in_day+2
         const next_reward =next_day==7?150: this.options[next_day-1].reward
         this.$emit('viewVideoAndQiandao',{next_day,next_reward})
     },

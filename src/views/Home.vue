@@ -211,7 +211,7 @@
       <div class="xinrenhongbao modal-content ">
         <!-- 新人红包弹框 -->
         <div class="openRedPacketMain openRedPacketMain-bg" >
-          <img class="closeIcon" @click="closeHongbao" src="//img.ibestfanli.com/sign_static_quick/closeIcon.png"/>
+          <img class="closeIcon" @click.prevent="closeHongbao" src="//img.ibestfanli.com/sign_static_quick/closeIcon.png"/>
           <div class="btn" id="btn" @click="openHongbao">
             <div class="circle" style="bottom: -0.2rem; right: -0.12rem;">
               <i class="circle1"></i>
@@ -367,7 +367,7 @@
     <video-step-layer ref="videoStepLayer" @viewTixian="viewTixian"></video-step-layer>
 <!--    漂浮金币-->
     <piao-fu-jin-bi-layer ref="piaoFuJinBiLayer" @continueJindouLayer="continueJindouLayer"
-    @closeJindouLayer="closeJindouLayer"></piao-fu-jin-bi-layer>
+    @closeJindouLayer="closeJindouLayer" :rewrad_type="rewrad_type"></piao-fu-jin-bi-layer>
     <!-- 看视频加载loading -->
     <loading-video-layer ref="loadingVideoLayer" @playVideoFn="playVideoOrInsertAdFn"></loading-video-layer>
     <!-- 第二天签到提示 连续签到7天得50元-->
@@ -623,6 +623,7 @@ export default {
       this.playVideoOrInsertAdFn()
     },
     closeJindouLayer(){
+      this.utils.webDataToApp('setAtNativeAdViewGONE',{})
       this.appParms={
         mPlacementId: 'p638ef67593efb',
         adType: 3
@@ -631,6 +632,7 @@ export default {
 
     },
     continueJindouLayer(){
+      this.utils.webDataToApp('setAtNativeAdViewGONE',{})
       this.appParms={
         mPlacementId: 'p638ee48037f81',
         adType:1
@@ -641,6 +643,12 @@ export default {
     openJindouLayer(){
       this.rewrad_type = 'xianshi'
       this.$refs['piaoFuJinBiLayer'].showModalFn()
+      this.appParms={
+        mPlacementId: 'p638ee2cf214b7',
+        adType:2,
+        returnScale:1
+      }
+      this.playVideoOrInsertAdFn()
     },
     openStepChangeLayer(){
       this.rewrad_type = 'step'

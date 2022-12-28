@@ -144,7 +144,7 @@ export default {
   color: #E15534;
   font-size: 4vw;
   top: 14vw;
-  left: 24vw;
+  left: 20vw;
   span{
     font-size: 50px;
     font-weight: bold;

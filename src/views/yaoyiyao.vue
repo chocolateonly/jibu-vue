@@ -184,7 +184,7 @@
           <span class="font1">恭喜发财，大吉大利</span>
           <img v-if="zhangjiangtime==0" src="//img.ibestfanli.com/shakeEnvelopeActivity/shakeEnvelope/closeIcon.png" class="closeIcon" @click.prevent="closeZhongjianLayerFn">
         </div>
-        <span v-if="zhangjiangtime!=0" class="zhangjiang-time">{{zhangjiangtime}}</span>
+<!--        <span v-if="zhangjiangtime!=0" class="zhangjiang-time">{{zhangjiangtime}}</span>-->
       </div>
       <div class="shakeLoading" v-if="flag === 'loading'">
         <canvas class="canvas" id="shake"></canvas>
