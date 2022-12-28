@@ -16,8 +16,8 @@ const homeApi = {
     /**
      * 提现展示
      */
-    getWithdrawOptions() {
-     return http.get('/step_counting/withdraw')
+    getWithdrawOptions(params) {
+     return http.get('/step_counting/withdraw',{params})
     },
     //随机金额 - 展示/触发视频任务 state 0展示看了多少视频，1触发一次看视频
     getVideoLockInfo(data){

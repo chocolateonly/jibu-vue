@@ -1388,7 +1388,8 @@ export default {
       //视频解锁 激励视频关闭
       if(this.appParms.mPlacementId=='p638ef0b19d95f'){
         //获取视频解锁进度及状态
-        this.$store.dispatch('getVideoProgress')
+        this.$store.dispatch('getVideoProgress',{lock_status:2})
+
         this.openAgainLayer()
       }
       //限时奖励
@@ -1752,7 +1753,7 @@ export default {
         width: 460px;
         height: 140px;
         position: relative;
-        top: 100px;
+        top: 50px;
         left: 50%;
         -webkit-transform: translateX(-50%);
         transform: translateX(-50%);

@@ -128,7 +128,7 @@ export default {
     }
     .tixian-icon{
       position: absolute;
-      bottom:-40px;
+      bottom:-50px;
       width: 100%;
       text-align: center;
       img{

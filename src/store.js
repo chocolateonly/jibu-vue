@@ -115,7 +115,7 @@ export default new Vuex.Store({
         },
         getVideoProgress(context, data) {
             context.dispatch('getVideoNum',data)
-            context.dispatch('getWithdraw')
+            context.dispatch('getWithdraw',data)
         },
         async addVideoProgress(context,data){
             try {
@@ -145,9 +145,10 @@ export default new Vuex.Store({
 
             }
         },
-        async getWithdraw(context, data) {
+        async getWithdraw(context, data) {console.log('vvvvv',data)
             try {
-                let resData = await homeApi.getWithdrawOptions()
+                let resData = await homeApi.getWithdrawOptions({lock_status:data.lock_status})
+                if(data.lock_status) resData.data.lock_status = data.lock_status
                 context.commit('setWithdraw', resData.data)
             } catch (e) {
 
