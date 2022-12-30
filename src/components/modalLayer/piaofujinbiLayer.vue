@@ -16,8 +16,9 @@
                     </div>
 <!--                    <div class="messtip">我的现金豆：</div>-->
 
-                    <div class="button" v-if="rewrad_type=='step'" @click="continueJindouLayer">再领200</div>
+                    <div class="button" v-if="rewrad_type=='step'" @click="continueStepLayer">再领200</div>
                     <div class="button" v-else-if="rewrad_type=='xianshi'"  @click="continueJindouLayer">奖励翻倍</div>
+                    <div class="" v-else-if="rewrad_type=='xianshi_double'"  ></div>
                     <div class="button" v-else @click="continueJindouLayer">奖励翻倍</div>
                 </div>
             </div>
@@ -44,6 +45,10 @@ export default {
         hideModalFn() {
             this.isShowModal = false
         },
+      continueStepLayer(){
+          this.hideModalFn()
+          this.$emit('continueStepLayer')
+      },
       continueJindouLayer(){
           this.hideModalFn()
           this.$emit('continueJindouLayer')

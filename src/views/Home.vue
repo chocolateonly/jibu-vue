@@ -367,6 +367,7 @@
     <video-step-layer ref="videoStepLayer" @viewTixian="viewTixian"></video-step-layer>
 <!--    漂浮金币-->
     <piao-fu-jin-bi-layer ref="piaoFuJinBiLayer" @continueJindouLayer="continueJindouLayer"
+                          @continueStepLayer="continueStepLayer"
     @closeJindouLayer="closeJindouLayer" :rewrad_type="rewrad_type"></piao-fu-jin-bi-layer>
     <!-- 看视频加载loading -->
     <loading-video-layer ref="loadingVideoLayer" @playVideoFn="playVideoOrInsertAdFn"></loading-video-layer>
@@ -631,10 +632,19 @@ export default {
       this.playVideoOrInsertAdFn()
 
     },
-    continueJindouLayer(){
+    continueStepLayer(){
       this.utils.webDataToApp('setAtNativeAdViewGONE',{})
       this.appParms={
         mPlacementId: 'p638ee48037f81',
+        adType:1
+      }
+      // 加载播放视频loading
+      this.$refs['loadingVideoLayer'].showModalFn()
+    },
+    continueJindouLayer(){
+      this.utils.webDataToApp('setAtNativeAdViewGONE',{})
+      this.appParms={
+        mPlacementId: 'p638ee4a513c3f',
         adType:1
       }
       // 加载播放视频loading
@@ -1400,7 +1410,7 @@ export default {
 
         this.openAgainLayer()
       }
-      //限时奖励
+      //步数转化
       if(this.appParms.mPlacementId=='p638ee48037f81'){
             if(this.rewrad_type=='step'){
               this.$store.dispatch('stepReward')
@@ -1438,6 +1448,19 @@ export default {
         this.$store.dispatch('stepRewardSet')
         this.$refs['piaoFuJinBiLayer'].showModalFn()
 
+      }
+      //限时翻倍
+      if(this.appParms.mPlacementId=='p638ee4a513c3f'){
+        //todo：翻倍接口
+        this.rewrad_type = 'xianshi_double'
+        this.$refs['piaoFuJinBiLayer'].showModalFn()
+
+        this.appParms={
+          mPlacementId: 'p638ee2cf214b7',
+          adType:2,
+          returnScale:1
+        }
+        this.playVideoOrInsertAdFn()
       }
 
     }
