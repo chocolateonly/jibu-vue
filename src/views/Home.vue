@@ -20,7 +20,8 @@
               <img class="coinIcon" src="../assets/images/icon_qiandao.png" alt />
               <span class="signTitle">签到</span>
             </div>
-            <div class="play flex-center">
+<!--            test-->
+            <div class="play flex-center" @click="openZhongjiangLayerFn">
               <img class="playIcon" src="../assets/images/icon_shengyin.png" alt />
               <!-- <img class="playIcon" src="//img.ibestfanli.com/sign_static_quick4/play_openIcon.png" alt /> -->
               <!-- <img class="playIcon" src="//img.ibestfanli.com/sign_static_quick4/play_closeIcon.png" alt /> -->
@@ -476,7 +477,7 @@ export default {
         winH: 0,
         interval:0
       },
-      personImg:require('../assets/images/renwuzoudong/renwu_walk00.png'),
+      // personImg:require('../assets/images/renwuzoudong/renwu_walk00.png'),
       // 提现弹框数据
       tixianData: {
         checkIndex:0, // 当前价格选中的索引
@@ -587,6 +588,14 @@ export default {
       if(res.data.show_floatwindow==1){
         this.showHongbaoLayer = true
       }
+    },
+    openZhongjiangLayerFn(){
+      // this.appParms={
+      //   mPlacementId:'p638ee4cd28b88',
+      //   adType: 1
+      // }
+      // this.playVideoOrInsertAdFn()
+
     },
     closeLuckResLayer(){
       this.utils.webDataToApp('setAtNativeAdViewGONE',{})
@@ -954,21 +963,21 @@ export default {
       if (this.ggRoll.y > this.ggRoll.winH) { this.ggRoll.statusY = 1 }
     },
     // 人物行走动画
-    personRun() {
-      this.persionImgArr = []
-      for(let i=0;i<30;i++) {
-        let imgNum = i<10?'0'+i:i
-        this.persionImgArr.push(require('../assets/images/renwuzoudong/renwu_walk'+imgNum +'.png'))
-      }
-      let num = 0
-      this.persionTimer = setInterval(()=>{
-        num = num+1
-        if(num>=30) {
-          num = 0
-        }
-        this.personImg = this.persionImgArr[num]
-      }, 35)
-    },
+    // personRun() {
+    //   this.persionImgArr = []
+    //   for(let i=0;i<30;i++) {
+    //     let imgNum = i<10?'0'+i:i
+    //     this.persionImgArr.push(require('../assets/images/renwuzoudong/renwu_walk'+imgNum +'.png'))
+    //   }
+    //   let num = 0
+    //   this.persionTimer = setInterval(()=>{
+    //     num = num+1
+    //     if(num>=30) {
+    //       num = 0
+    //     }
+    //     this.personImg = this.persionImgArr[num]
+    //   }, 35)
+    // },
     // 显示提现弹框
     showTixianPayler() {
       this.showWchatLayer = false
@@ -1154,8 +1163,8 @@ export default {
     },
     //显示红包金额
     openRaffleMoneyLayer(){
-      if(this.$store.state.reward_money<0.3){
-        //遗憾未中奖  不足0.3
+      if(this.$store.state.reward_money==0){
+        //遗憾未中奖
         this.$refs['raffleResLayer'].showModalFn()
       }else{
         this.$refs['raffleMoneyLayer'].showModalFn()
@@ -1171,17 +1180,14 @@ export default {
     },
     //红包金额-立即提现
     fromRaffleMoneyToTixian(){
-      if(this.$store.state.reward_money<0.3){
-        //微信不能提现
-        this.$refs['raffleResLayer'].showModalFn()
-      }else{
+
         this.appParms={
           mPlacementId: 'p638ee431c8037',
           adType:1
         }
         // 加载播放视频loading
         this.$refs['loadingVideoLayer'].showModalFn()
-      }
+
     },
     //红包金额-提现提示-激励视频
     showRaffleResVideo(){
@@ -1277,6 +1283,18 @@ export default {
     // 关闭广告
     onAdDismiss(params) {
       console.log('调用了关闭广告：'+params)
+
+      //签到完领奖励  看完视频后，重新查看奖励
+      if(this.appParms.mPlacementId=='p638ee4c644efd'){
+        homeApi.qiandao().then((resData)=>{
+          this.$store.state.reward_money = resData.data.reward
+          this.$refs['moneyTip'].showModal('onlyShow-Qiandao')
+          this.getNewUserInfo()
+        }).catch(err=>{
+          this.$layer.msg(err.message)
+        })
+      }
+
     },
     // 点击广告
     onAdClicked(params) {
@@ -1388,19 +1406,15 @@ export default {
       }
       //红包金额去提现
       if(this.appParms.mPlacementId=='p638ee431c8037'){
-        this.showTixianPayler()
+        if(this.$store.state.reward_money<0.3){
+          //微信不能提现
+          this.$refs['raffleResLayer'].showModalFn()
+        }else {
+          this.showTixianPayler()
+        }
       }
 
-      //签到完领奖励  看完视频后，重新查看奖励
-      if(this.appParms.mPlacementId=='p638ee4c644efd'){
-        homeApi.qiandao().then((resData)=>{
-          this.$store.state.reward_money = resData.data.reward
-          this.$refs['moneyTip'].showModal('onlyShow-Qiandao')
-          this.getNewUserInfo()
-        }).catch(err=>{
-          this.$layer.msg(err.message)
-        })
-      }
+
 
 
       //视频解锁 激励视频关闭

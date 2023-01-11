@@ -187,7 +187,7 @@
 <!--        <span v-if="zhangjiangtime!=0" class="zhangjiang-time">{{zhangjiangtime}}</span>-->
       </div>
       <div class="shakeLoading" v-if="flag === 'loading'">
-        <canvas class="canvas" id="shake"></canvas>
+        <canvas class="canvas" id="shakeCan"></canvas>
       </div>
 
       <div class="unFullnessProgressModal" v-if="flag === 'ProgressModal'">
@@ -260,6 +260,8 @@
     </layer>
     <money-time-layer ref="MoneyTimeLayer"/>
     <money-no-text-layer ref="MoneyNoTextLayer" @closeLayer="closeMoneyNoTextLayer"/>
+    <!-- 看视频加载loading -->
+    <loading-video-layer ref="loadingVideoLayer" @playVideoFn="playVideoOrInsertAdFn"></loading-video-layer>
   </div>
 </template>
 <script>
@@ -271,10 +273,11 @@ import MoneyTip from "@/components/modalLayer/moneyTip";
 import MoneyTimeLayer from "@/components/modalLayer/moneyTimeLayer";
 import MoneyNoTextLayer from "@/components/modalLayer/moneyNoTextLayer";
 import homeApi from "@/api/home";
+import LoadingVideoLayer from "@/components/modalLayer/loadingVideoLayer";
 
 export default {
   name: "yaoyiyao",
-  components: {MoneyNoTextLayer, MoneyTimeLayer, MoneyTip, CountNum, TextScroll},
+  components: {LoadingVideoLayer, MoneyNoTextLayer, MoneyTimeLayer, MoneyTip, CountNum, TextScroll},
   data() {
     return {
       // app需要的参数
@@ -324,7 +327,7 @@ export default {
     },
     flag(){
       if(this.kaihongbaoLayer&&this.flag=='loading'){
-        this.utils.onPag('./pag/shake-loading.pag','shake')
+        this.utils.onPag('./pag/shake-loading.pag','shakeCan')
       }else if(this.kaihongbaoLayer&&this.flag=='zhongjiang'){
         this.zhangjiangtime = 3
         this.zhangjiangtimer = setInterval(()=>{
@@ -334,12 +337,13 @@ export default {
           }
         },1000)
       }else{
-        this.utils.hidePag('shake')
+        console.log('f关闭摇一摇动画～～～')
+        this.utils.hidePag('shakeCan')
       }
     },
     kaihongbaoLayer(){
       if(this.kaihongbaoLayer&&this.flag=='loading'){
-        this.utils.onPag('./pag/shake-loading.pag','shake')
+        this.utils.onPag('./pag/shake-loading.pag','shakeCan')
       }else if(this.kaihongbaoLayer&&this.flag=='zhongjiang'){
         this.zhangjiangtime = 3
         this.zhangjiangtimer = setInterval(()=>{
@@ -349,7 +353,8 @@ export default {
           }
         },1000)
       }else{
-        this.utils.hidePag('shake')
+        console.log('k关闭摇一摇动画～～～')
+        this.utils.hidePag('shakeCan')
       }
     },
 
@@ -521,7 +526,7 @@ export default {
             }
           }})
         clearTimeout(timer)
-      }, 2000)
+      }, 5000)
     },
     continueProgressModal(){
       this.kaihongbaoLayer = false
@@ -539,12 +544,14 @@ export default {
     },
     //开奖
     openZhongjiangLayerFn(){
-      this.kaihongbaoLayer = false
+      if(this.zhangjiangtimer) clearInterval(this.zhangjiangtimer)
+      console.log('~~~开奖啦~~~')
       this.appParms={
         mPlacementId:'p638ee4cd28b88',
         adType: 1
       }
-      this.playVideoOrInsertAdFn()
+      // 加载播放视频loading
+      this.$refs['loadingVideoLayer'].showModalFn()
 
     },
     // 显示额外奖金弹框
@@ -626,6 +633,7 @@ export default {
     onRewardVerify(params) {
       console.log('调用了奖励激励：'+params)
       if(this.appParms.mPlacementId=='p638ee4cd28b88'){
+        this.kaihongbaoLayer = false
         this.$refs['MoneyNoTextLayer'].showModalFn()
       }
     }
