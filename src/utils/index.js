@@ -1,3 +1,4 @@
+import {PAGInit} from 'libpag'
 export default {
     phonePlatform () {
         let u = navigator.userAgent
@@ -38,7 +39,7 @@ export default {
     async onPag(url,id) {
         try {
             // 实例化 PAG
-        const PAG = await window.libpag.PAGInit();
+        const PAG = await PAGInit();
         // 获取 PAG 素材数据
         const buffer = await fetch(url).then((response) => response.arrayBuffer());
         // 加载 PAG 素材为 PAGFile 对象

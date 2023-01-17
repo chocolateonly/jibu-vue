@@ -1,6 +1,6 @@
 <template>
   <div class="shakeEnvelope">
-    <img src="//img.ibestfanli.com/shakeEnvelopeActivity/shakeEnvelope/newCloseIcon.png" class="backIcon">
+    <img src="../assets/images/newCloseIcon.png" class="backIcon">
     <audio src="//img.ibestfanli.com/ecpm_battery/envelopeComing2.mp3" ref="envelopeComing2" hidden></audio>
     <div class="moneyShow">
       <div class="cashCoinShow divShow">
@@ -327,6 +327,7 @@ export default {
     },
     flag(){
       if(this.kaihongbaoLayer&&this.flag=='loading'){
+        console.log('aaaaa')
         this.utils.onPag('./pag/shake-loading.pag','shakeCan')
       }else if(this.kaihongbaoLayer&&this.flag=='zhongjiang'){
         this.zhangjiangtime = 3
@@ -343,6 +344,7 @@ export default {
     },
     kaihongbaoLayer(){
       if(this.kaihongbaoLayer&&this.flag=='loading'){
+
         this.utils.onPag('./pag/shake-loading.pag','shakeCan')
       }else if(this.kaihongbaoLayer&&this.flag=='zhongjiang'){
         this.zhangjiangtime = 3
@@ -648,7 +650,7 @@ export default {
   min-height: 100vh;
   /* background: #fec189; */
   /* background-image: linear-gradient(to bottom, #e83a38, #fec189); */
-  background:url(//img.ibestfanli.com/shakeEnvelopeActivity/shakeEnvelope/shakeEnvelopeBg.png) #fec189 no-repeat;
+  background:url(../assets/images/shakeEnvelopeBg.png) #fec189 no-repeat;
   background-size:100% auto;
   padding-top: 80px;
   box-sizing: border-box;
@@ -768,7 +770,7 @@ export default {
   width:3.51rem;
   height:1.11rem;
   line-height:1.3rem;
-  background:url(//img.ibestfanli.com/shakeEnvelopeActivity/shakeEnvelope/shadow_b.png) no-repeat;
+  background:url(../assets/images/shadow_b.png) no-repeat;
   background-size:100%;
   background-position:50%;
   font-size:.42rem;
@@ -945,7 +947,7 @@ export default {
 .shakeEnvelope .lookAd {
   width:100%;
   height:250px;
-  background:url(//img.ibestfanli.com/shakeEnvelopeActivity/shakeEnvelope/lookAdBg.png) no-repeat;
+  background:url(../assets/images/lookAdBg.png) no-repeat;
   background-size:100% auto;
   z-index:1;
   position:relative;
@@ -960,7 +962,7 @@ export default {
   -webkit-transform:translate(-50%, -100%);
   transform:translate(-50%, -100%);
   position:absolute;
-  background:url(//img.ibestfanli.com/shakeEnvelopeActivity/shakeEnvelope/showTipsBg.png) no-repeat;
+  background:url(../assets/images/showTipsBg.png) no-repeat;
   background-size:100% 100%;
   display:-webkit-box;
   display:-webkit-flex;
@@ -1038,7 +1040,7 @@ export default {
 .shakeEnvelope .activityArea .activityAreaTitle .leftLine {
   width:150px;
   height:5px;
-  background:url(//img.ibestfanli.com/shakeEnvelopeActivity/shakeEnvelope/leftLine.png) no-repeat;
+  background:url(../assets/images/leftLine.png) no-repeat;
   background-size:100% 100%
 }
 .shakeEnvelope .activityArea .activityAreaTitle span {
@@ -1050,7 +1052,7 @@ export default {
 .shakeEnvelope .activityArea .activityAreaTitle .rightLine {
   width:150px;
   height:5px;
-  background:url(//img.ibestfanli.com/shakeEnvelopeActivity/shakeEnvelope/rightLine.png) no-repeat;
+  background:url(../assets/images/rightLine.png) no-repeat;
   background-size:100% 100%
 }
 .shakeEnvelope .activityArea .shakeOneMore {
@@ -1101,7 +1103,7 @@ export default {
   display:inline-block;
   height:100%;
   width:100%;
-  background:url(//img.ibestfanli.com/shakeEnvelopeActivity/twill.png) repeat-x;
+  background:url(../assets/images/twill.png) repeat-x;
   background-position:0 0;
   background-size:40px 40px;
   -webkit-animation:twill 4s linear infinite;
@@ -1139,7 +1141,7 @@ export default {
   color:#fff;
   text-align:center;
   line-height:.6rem;
-  background:url(//img.ibestfanli.com/shakeEnvelopeActivity/tooltip3.png) no-repeat;
+  background:url(../assets/images/tooltip3.png) no-repeat;
   background-size:100% 100%;
   width:1.74rem;
   height:.66rem
@@ -1418,7 +1420,7 @@ export default {
     line-height:120px;
   }
   .cash-page .bottom__selected .item.select {
-    background:#ffe5d7 url(//img.ibestfanli.com/shakeEnvelopeActivity/selected.png?v=1629280360384) no-repeat 0 0;
+    background:#ffe5d7 url(../assets/images/selected.png) no-repeat 0 0;
     background-size:45px 40px;
     color:#f40
   }
@@ -1474,7 +1476,7 @@ export default {
     height:700px;
     width:550px;
     margin:0 auto;
-    background:url(//img.ibestfanli.com/shakeEnvelopeActivity/shakeEnvelope/shakeEnvelopeModalBg.png) no-repeat;
+    background:url(../assets/images/shakeEnvelopeModalBg.png) no-repeat;
     background-size:100% 100%;
     display:-webkit-box;
     display:-webkit-flex;
@@ -1523,7 +1525,7 @@ export default {
     height:700px;
     width:550px;
     margin:0 auto;
-    background:url(//img.ibestfanli.com/shakeEnvelopeActivity/shakeEnvelope/commonModalBg.png) no-repeat;
+    background:url(../assets/images/commonModalBg.png) no-repeat;
     background-size:100% 100%;
     display:-webkit-box;
     display:-webkit-flex;
@@ -1576,7 +1578,7 @@ export default {
     display:inline-block;
     height:100%;
     width:100%;
-    background:url(//img.ibestfanli.com/shakeEnvelopeActivity/twill.png) repeat-x;
+    background:url(../assets/images/twill.png) repeat-x;
     background-position:0 0;
     background-size:.3rem .5rem;
     -webkit-animation:twill 4s linear infinite;
@@ -1631,7 +1633,7 @@ export default {
   width:600px;
   height:700px;
   margin:0 auto;
-  background:url(//img.ibestfanli.com/shakeEnvelopeActivity/shakeEnvelope/commonModalBg.png) no-repeat;
+  background:url(../assets/images/commonModalBg.png) no-repeat;
   background-size:100% 100%;
   display:-webkit-box;
   display:-webkit-flex;

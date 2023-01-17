@@ -4564,10 +4564,10 @@ lcid@^2.0.0:
   dependencies:
     invert-kv "^2.0.0"
 
-libpag@^4.1.33:
-  version "4.1.33"
-  resolved "https://registry.yarnpkg.com/libpag/-/libpag-4.1.33.tgz#61f9ba8886b27a0acb8cbc5184628458195b903d"
-  integrity sha512-+zkLMJs1D92U98tkTewHuBQ05IauNjI914A+kjy72EhY0zliHKf8FXh3CnYQiMusX5FC8PYRnU0tXUUdJTyB7A==
+libpag@4.1.29:
+  version "4.1.29"
+  resolved "https://registry.yarnpkg.com/libpag/-/libpag-4.1.29.tgz#3682e11213613743f55b0c38e75f1a398dcabc32"
+  integrity sha512-gxHU7YELzS2F3GNXVTIMnYxopGd5WU0gDnBtWgxnFRdD20EWkw3HfjTomHyW9rx74slNdZ3+siRgVKWe2dsTGQ==
 
 load-json-file@^1.0.0:
   version "1.1.0"

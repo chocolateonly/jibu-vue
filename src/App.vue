@@ -23,12 +23,12 @@ export default {
   },
   methods:{
     //pag 使用示例
-    //  pag(){
-    //   this.utils.onPag('./like.pag')
-    //   setTimeout(()=>{
-    //     this.utils.hidePag()
-    //   },2000)
-    // },
+     pag(){
+      this.utils.onPag('https://pag.art/file/like.pag')
+      setTimeout(()=>{
+        this.utils.hidePag()
+      },2000)
+    },
     setBaseData(data){
       this.test = data
       localStorage.setItem('base_data',data)
