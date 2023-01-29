@@ -327,8 +327,7 @@ export default {
     },
     flag(){
       if(this.kaihongbaoLayer&&this.flag=='loading'){
-        console.log('aaaaa')
-        this.utils.onPag('./pag/shake-loading.pag','shakeCan')
+        // this.utils.onPag('./pag/shake-loading.pag','shakeCan')
       }else if(this.kaihongbaoLayer&&this.flag=='zhongjiang'){
         this.zhangjiangtime = 3
         this.zhangjiangtimer = setInterval(()=>{
@@ -344,7 +343,7 @@ export default {
     },
     kaihongbaoLayer(){
       if(this.kaihongbaoLayer&&this.flag=='loading'){
-
+        console.log('aaaaa')
         this.utils.onPag('./pag/shake-loading.pag','shakeCan')
       }else if(this.kaihongbaoLayer&&this.flag=='zhongjiang'){
         this.zhangjiangtime = 3
@@ -608,6 +607,10 @@ export default {
     // 关闭广告
     onAdDismiss(params) {
       console.log('调用了关闭广告：'+params)
+      if(this.appParms.mPlacementId=='p638ee4cd28b88'){
+        this.kaihongbaoLayer = false
+        this.$refs['MoneyNoTextLayer'].showModalFn()
+      }
     },
     // 点击广告
     onAdClicked(params) {
@@ -634,10 +637,7 @@ export default {
     // 奖励激励
     onRewardVerify(params) {
       console.log('调用了奖励激励：'+params)
-      if(this.appParms.mPlacementId=='p638ee4cd28b88'){
-        this.kaihongbaoLayer = false
-        this.$refs['MoneyNoTextLayer'].showModalFn()
-      }
+
     }
     // #End Region
 

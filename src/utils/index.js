@@ -39,7 +39,7 @@ export default {
     async onPag(url,id) {
         try {
             // 实例化 PAG
-        const PAG = await PAGInit();
+        const PAG = await window.libpag.PAGInit();
         // 获取 PAG 素材数据
         const buffer = await fetch(url).then((response) => response.arrayBuffer());
         // 加载 PAG 素材为 PAGFile 对象
