@@ -268,12 +268,12 @@
 import Shake from 'shake.js'
 
 import TextScroll from "@/components/text-scroll.vue"
-import CountNum from "@/components/countNum";
-import MoneyTip from "@/components/modalLayer/moneyTip";
-import MoneyTimeLayer from "@/components/modalLayer/moneyTimeLayer";
-import MoneyNoTextLayer from "@/components/modalLayer/moneyNoTextLayer";
+import CountNum from "@/components/countNum.vue";
+import MoneyTip from "@/components/modalLayer/moneyTip.vue";
+import MoneyTimeLayer from "@/components/modalLayer/moneyTimeLayer.vue";
+import MoneyNoTextLayer from "@/components/modalLayer/moneyNoTextLayer.vue";
 import homeApi from "@/api/home";
-import LoadingVideoLayer from "@/components/modalLayer/loadingVideoLayer";
+import LoadingVideoLayer from "@/components/modalLayer/loadingVideoLayer.vue";
 
 export default {
   name: "yaoyiyao",
@@ -328,7 +328,12 @@ export default {
     flag(){
       if(this.kaihongbaoLayer&&this.flag=='loading'){
         // this.utils.onPag('./pag/shake-loading.pag','shakeCan')
-      }else if(this.kaihongbaoLayer&&this.flag=='zhongjiang'){
+        return;
+      }
+      console.log('close 2')
+      this.utils.hidePag('shakeCan')
+
+      if(this.kaihongbaoLayer&&this.flag=='zhongjiang'){
         this.zhangjiangtime = 3
         this.zhangjiangtimer = setInterval(()=>{
           this.zhangjiangtime--;
@@ -336,16 +341,17 @@ export default {
             clearInterval(this.zhangjiangtimer)
           }
         },1000)
-      }else{
-        console.log('f关闭摇一摇动画～～～')
-        this.utils.hidePag('shakeCan')
       }
     },
     kaihongbaoLayer(){
       if(this.kaihongbaoLayer&&this.flag=='loading'){
-        console.log('aaaaa')
-        this.utils.onPag('./pag/shake-loading.pag','shakeCan')
-      }else if(this.kaihongbaoLayer&&this.flag=='zhongjiang'){
+        console.log('shake')
+       return this.utils.onPag('./pag/shake-loading.pag','shakeCan')
+      }
+      console.log('close 2')
+      this.utils.hidePag('shakeCan')
+
+      if(this.kaihongbaoLayer&&this.flag=='zhongjiang'){
         this.zhangjiangtime = 3
         this.zhangjiangtimer = setInterval(()=>{
           this.zhangjiangtime--;
@@ -353,9 +359,6 @@ export default {
             clearInterval(this.zhangjiangtimer)
           }
         },1000)
-      }else{
-        console.log('k关闭摇一摇动画～～～')
-        this.utils.hidePag('shakeCan')
       }
     },
 
@@ -610,6 +613,7 @@ export default {
     onAdDismiss(params) {
       console.log('调用了关闭广告：'+params)
       if(this.appParms.mPlacementId=='p638ee4cd28b88'){
+        console.log('关闭摇一摇广告')
         this.$refs['MoneyNoTextLayer'].showModalFn()
       }
     },

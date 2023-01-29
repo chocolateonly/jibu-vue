@@ -1,4 +1,5 @@
 import axios from 'axios'
+import utils from '../utils/index.js'
 const service = axios.create({
   baseURL: process.env.VUE_APP_BASE_API,
   // withCredentials: true,
@@ -21,13 +22,15 @@ service.interceptors.request.use(
 
 //test {"userId":"4055134","productId":"10012","channel":"other","versions":"1.0.0",
 //         config.headers['userId'] = '4055134'
-
+const platform = utils.phonePlatform()
+        console.log(platform,'-platform')
+        if(!platform){
 //  cs       {"userId":"4055162","productId":"10012","channel":"other","versions":"1.0.0",
         config.headers['userId'] = '4055162'
         config.headers['productId'] = '10012'
         config.headers['channel'] = 'other'
         config.headers['versions'] = '1.0.0'
-
+        }
 
         if(localStorage.getItem('base_data')){
         const useObj = JSON.parse(localStorage.getItem('base_data'))

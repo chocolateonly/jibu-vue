@@ -82,6 +82,9 @@ export default new Vuex.Store({
             state.yaoyiyao.num = data.num
             state.yaoyiyao.money1 = data.money1
             state.yaoyiyao.money2 = data.money2
+            state.yaoyiyao.money1_id = data.money1_id
+            state.yaoyiyao.money2_id = data.money2_id
+
             state.yaoyiyao.headimgurl = data.headimgurl
             state.yaoyiyao.nickname = data.nickname
         },
