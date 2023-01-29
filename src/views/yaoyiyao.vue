@@ -460,6 +460,7 @@ export default {
     playVideoOrInsertAdFn() {
       this.utils.webDataToApp('loadAd',this.appParms,()=>{
         this.onRewardVerify()
+        this.onAdDismiss()
       })
     },
     goDayTixian(item){
@@ -547,6 +548,7 @@ export default {
     openZhongjiangLayerFn(){
       if(this.zhangjiangtimer) clearInterval(this.zhangjiangtimer)
       console.log('~~~开奖啦~~~')
+      this.kaihongbaoLayer = false
       this.appParms={
         mPlacementId:'p638ee4cd28b88',
         adType: 1
@@ -608,7 +610,6 @@ export default {
     onAdDismiss(params) {
       console.log('调用了关闭广告：'+params)
       if(this.appParms.mPlacementId=='p638ee4cd28b88'){
-        this.kaihongbaoLayer = false
         this.$refs['MoneyNoTextLayer'].showModalFn()
       }
     },
