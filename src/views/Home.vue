@@ -559,7 +559,7 @@ export default {
       this.utils.webDataToApp('getStep',{})
     },5000)
 
-    this.$store.dispatch('jinbiRewardGet')
+    this.$store.dispatch('jinbiRewardGet',{})
     this.$store.dispatch('floatPackageRewardGet')
     this.$store.dispatch('stepReward')
     this.$store.dispatch('medalReward')
@@ -633,6 +633,15 @@ export default {
       this.playVideoOrInsertAdFn()
     },
     closeJindouLayer(){
+
+      if(this.rewrad_type=='xianshi'||this.rewrad_type=='xianshi_double'){
+        this.$store.commit('setJinbiReward',{gold_ingot:0})
+        const timer = setTimeout(()=>{
+          this.$store.dispatch('jinbiRewardGet',{})
+          clearTimeout(timer)
+        },30000)
+      }
+
       this.utils.webDataToApp('setAtNativeAdViewGONE',{})
       this.appParms={
         mPlacementId: 'p638ef67593efb',
@@ -1445,7 +1454,7 @@ export default {
             homeApi.jindouRewardSet()
                 .then(res=>{
                   if(res.status==200){
-                    this.$store.dispatch('jinbiRewardGet')
+                    this.$store.dispatch('jinbiRewardGet',{})
                   }else{
                     this.$layer.msg(res.message)
                   }
@@ -1476,7 +1485,8 @@ export default {
       }
       //限时翻倍
       if(this.appParms.mPlacementId=='p638ee4a513c3f'){
-        //todo：翻倍接口
+        //翻倍接口
+        this.$store.dispatch('jinbiRewardGet',{state:1})
         this.rewrad_type = 'xianshi_double'
         this.$refs['piaoFuJinBiLayer'].showModalFn()
 

@@ -1,6 +1,6 @@
 <template>
   <div class="shakeEnvelope">
-    <img src="../assets/images/newCloseIcon.png" class="backIcon">
+<!--    <img src="../assets/images/newCloseIcon.png" class="backIcon" :click="jumpPage(5)">-->
     <audio src="//img.ibestfanli.com/ecpm_battery/envelopeComing2.mp3" ref="envelopeComing2" hidden></audio>
     <div class="moneyShow">
       <div class="cashCoinShow divShow">
@@ -559,6 +559,10 @@ export default {
       // 加载播放视频loading
       this.$refs['loadingVideoLayer'].showModalFn()
 
+    },
+    //跳转
+    jumpPage(type){
+      this.utils.webDataToApp('setJumpAreaType',type)
     },
     // 显示额外奖金弹框
    async showProgressModal() {

@@ -85,8 +85,8 @@ const homeApi = {
         return http.get('/step_counting/shake_one_shake/additional_reward')
     },
     //限时金豆
-    jindouReward(){
-        return http.get('/step_counting/limit_reward')
+    jindouReward(params){
+        return http.get('/step_counting/limit_reward',{params})
     },
     //限时金豆-领取
     jindouRewardSet(){

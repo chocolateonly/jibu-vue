@@ -200,7 +200,7 @@ export default new Vuex.Store({
         },
       async jinbiRewardGet(context,data){
             try{
-                let resData = await homeApi.jindouReward()
+                let resData = await homeApi.jindouReward(data)
                 context.commit('setJinbiReward', resData.data)
             }catch (e) {
 
